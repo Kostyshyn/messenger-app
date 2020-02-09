@@ -1,5 +1,5 @@
-import axios from "axios";
-import ls from "local-storage";
+import axios from 'axios';
+import ls from 'local-storage';
 
 export const Api = axios.create({
   baseURL: `${process.env.VUE_APP_API_BASE_URL}/api`
@@ -7,13 +7,10 @@ export const Api = axios.create({
 
 // import modules
 
-import * as auth from "./auth";
-import * as user from "./user";
+import * as auth from './auth';
+import * as user from './user';
 
-const modules = [
-  auth,
-  user
-];
+const modules = [auth, user];
 
 const methods = {};
 
@@ -27,14 +24,14 @@ export const initServices = function({ router, store }) {
   });
 
   Api.interceptors.response.use(
-    response => (response.data),
+    response => response.data,
     err => {
       const { response } = err;
       if (response && response.status === 401) {
-        ls.remove(process.env.VUE_APP_LOCALSTORAGE_KEY + ".token");
-        store.dispatch("user/setToken", null);
-        store.dispatch("user/setUser", null);
-        router.push("/login");
+        ls.remove(process.env.VUE_APP_LOCALSTORAGE_KEY + '.token');
+        store.dispatch('user/setToken', null);
+        store.dispatch('user/setUser', null);
+        router.push('/login');
       }
       return Promise.reject(err.response);
     }

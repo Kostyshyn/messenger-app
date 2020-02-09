@@ -8,7 +8,7 @@
 // @ is an alias to /src
 
 export default {
-  name: "Loader",
+  name: 'Loader',
   props: {
     loading: {
       type: Boolean,

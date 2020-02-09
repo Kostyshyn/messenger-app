@@ -6,10 +6,10 @@ export default {
   },
   actions: {
     setToken({ commit }, token) {
-      commit("SET_TOKEN", token);
+      commit('SET_TOKEN', token);
     },
     setUser({ commit }, user) {
-      commit("SET_USER", user);
+      commit('SET_USER', user);
     }
   },
   mutations: {
@@ -21,6 +21,7 @@ export default {
     }
   },
   getters: {
-    loggedId: state => !!(state.token && state.user)
+    loggedId: state => !!(state.token && state.user),
+    user: state => state.user
   }
 };

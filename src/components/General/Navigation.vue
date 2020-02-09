@@ -13,15 +13,16 @@
 
 <script>
 // @ is an alias to /src
-import api from "@/services/api";
+import { mapGetters } from 'vuex';
+import api from '@/services/api';
 
 export default {
-  name: "Navigation",
+  name: 'Navigation',
   components: {},
   computed: {
-    loggedIn() {
-      return this.$store.getters["user/loggedId"];
-    }
+    ...mapGetters({
+      loggedIn: 'user/loggedId'
+    })
   },
   methods: {
     logout() {

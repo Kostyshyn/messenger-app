@@ -10,12 +10,13 @@
 
 <script>
 // @ is an alias to /src
-
-import Navigation from "@/components/General/Navigation.vue";
-import Loader from "@/components/Helpers/Loader.vue";
+import { mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
+import Navigation from '@/components/General/Navigation.vue';
+import Loader from '@/components/Helpers/Loader.vue';
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
     Navigation,
     Loader
@@ -24,13 +25,17 @@ export default {
     return {};
   },
   computed: {
-    loading() {
-      return this.$store.state.app.loading;
-    }
+    ...mapGetters({
+      loading: 'app/loading'
+    })
   },
-  methods: {},
+  methods: {
+    ...mapActions({
+      init: 'app/init'
+    })
+  },
   created() {
-    this.$store.dispatch("app/init");
+    this.init();
   }
 };
 </script>
