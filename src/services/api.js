@@ -26,14 +26,18 @@ export const initServices = function({ router, store }) {
   Api.interceptors.response.use(
     response => response.data,
     err => {
-      const { response } = err;
-      if (response && response.status === 401) {
-        ls.remove(process.env.VUE_APP_LOCALSTORAGE_KEY + '.token');
-        store.dispatch('user/setToken', null);
-        store.dispatch('user/setUser', null);
-        router.push('/login');
+      const { response, message } = err;
+      if (!response && message === 'Network Error') {
+        stop();
+        return Promise.reject({
+          data: 'Network Error'
+        });
       }
-      return Promise.reject(err.response);
+
+      if (response && response.status === 401) {
+        stop();
+      }
+      return Promise.reject(response ? response : false);
     }
   );
 
@@ -44,6 +48,16 @@ export const initServices = function({ router, store }) {
       store,
       ls
     });
+  }
+
+  function stop() {
+    const redirectFrom = window.location.pathname;
+    ls.remove(process.env.VUE_APP_LOCALSTORAGE_KEY + '.token');
+    store.dispatch('user/setToken', null);
+    store.dispatch('user/setUser', null);
+    if (!redirectFrom || redirectFrom !== '/login') {
+      router.push('/login');
+    }
   }
 };
 

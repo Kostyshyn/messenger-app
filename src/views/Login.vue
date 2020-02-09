@@ -1,9 +1,10 @@
 <template>
-  <div class="home">
+  <div class="main-wrapper">
     <h1>Login</h1>
     <input type="text" v-model="username" placeholder="username" />
     <br />
     <input type="password" v-model="password" placeholder="password" />
+    <br />
     <button @click="click">Login</button>
   </div>
 </template>

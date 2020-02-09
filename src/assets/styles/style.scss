@@ -1,0 +1,31 @@
+@import "./reset";
+@import "./variables";
+
+body {
+	font-family: $main-font;
+}
+
+h1 {
+	font-size: 24px;
+	margin-bottom: 15px;
+	font-weight: 600;
+}
+
+input {
+	height: 24px;
+	padding: 0px 5px;
+	font-size: 16px;
+	margin-bottom: 10px;
+}
+
+.main-wrapper {
+  padding: 20px;
+}
+
+.page-enter-active, .page-leave-active {
+  transition: 0.15s cubic-bezier(0.25, 0.8, 0.5, 1);
+}
+.page-enter, .page-leave-to {
+  opacity: 0;
+  // transform: translateY(-20px);
+}

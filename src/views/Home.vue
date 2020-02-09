@@ -1,8 +1,7 @@
 <template>
-  <div class="home">
+  <div class="home main-wrapper">
     <h1>
       Home
-      <span v-if="user">: {{ user.username }}</span>
     </h1>
     <p>Environment: {{ env }}</p>
   </div>
@@ -10,7 +9,6 @@
 
 <script>
 // @ is an alias to /src
-import { mapGetters } from 'vuex';
 
 export default {
   name: 'Home',
@@ -21,9 +19,6 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      user: 'user/user'
-    }),
     env() {
       return process.env.NODE_ENV;
     }

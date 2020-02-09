@@ -35,6 +35,7 @@ export default {
     }
   },
   getters: {
-    loading: state => state.loading
+    loading: state => state.loading,
+    baseUrl: state => state.API_BASE_URL
   }
 };

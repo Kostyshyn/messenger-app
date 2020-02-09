@@ -1,16 +1,13 @@
 <template>
-  <div class="chats">
-    <h1>
-      Chats
-    </h1>
+  <div class="chats main-wrapper">
     <ul v-if="users && users.length" class="chats-list">
       <li v-for="(user, index) in users" :key="index">
         <router-link :to="chatUrl(user)">{{ user.username }}</router-link>
       </li>
     </ul>
     <div v-if="user" class="chat-view">
-      <h3>Active user</h3>
-      <p>Username: {{ user.username }}</p>
+      <img class="image" :src="baseUrl + '/' + user.profile_img" alt="" />
+      <h1>Active: {{ user.username }}</h1>
       <p>Email: {{ user.email }}</p>
     </div>
   </div>
@@ -18,6 +15,7 @@
 
 <script>
 // @ is an alias to /src
+import { mapGetters } from 'vuex';
 import api from '@/services/api';
 
 export default {
@@ -30,6 +28,9 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      baseUrl: 'app/baseUrl'
+    }),
     url() {
       return this.$route.params.url;
     }
@@ -71,3 +72,44 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+.chats {
+  display: flex;
+  flex-direction: row;
+  .chats-list {
+    display: inline-block;
+    width: 200px;
+    li {
+      a {
+        display: inline-block;
+        width: 100%;
+        padding: 12px 10px;
+        cursor: pointer;
+        height: 40px;
+        border: 1px solid rgb(193, 193, 193);
+        border-bottom: none;
+        box-sizing: border-box;
+      }
+      &:last-child {
+        a {
+          border-bottom: 1px solid rgb(193, 193, 193);
+        }
+      }
+    }
+  }
+  .chat-view {
+    display: inline-block;
+    width: calc(100% - 200px);
+    padding: 10px;
+    border: 1px solid rgb(193, 193, 193);
+    box-sizing: border-box;
+    border-left: none;
+    .image {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-bottom: 10px;
+    }
+  }
+}
+</style>

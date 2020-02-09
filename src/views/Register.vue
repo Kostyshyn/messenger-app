@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="main-wrapper">
     <h1>Register</h1>
     <input type="text" v-model="username" placeholder="username" />
     <br />

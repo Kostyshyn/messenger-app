@@ -1,9 +1,11 @@
 <template>
   <div id="app">
-    <Loader v-if="loading" />
-    <div v-else>
+    <Loader :loading="loading" />
+    <div>
       <Navigation />
-      <router-view />
+      <transition name="page" mode="out-in">
+        <router-view />
+      </transition>
     </div>
   </div>
 </template>
