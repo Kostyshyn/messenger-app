@@ -3,8 +3,13 @@ import VueRouter from 'vue-router';
 import { globalGuard, authGuard } from './guards.js';
 import Home from '../views/Home.vue';
 import ErrorPage from '../views/ErrorPage.vue';
+
+// Auth views
 import Login from '../views/Login.vue';
 import Register from '../views/Register.vue';
+
+// Chats views
+import Chats from '../views/Chats.vue';
 
 Vue.use(VueRouter);
 
@@ -13,6 +18,12 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/chats/:url?',
+    name: 'Chats',
+    component: Chats,
     meta: { requiresAuth: true }
   },
   {

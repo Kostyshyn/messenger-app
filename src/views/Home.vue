@@ -11,11 +11,15 @@
 <script>
 // @ is an alias to /src
 import { mapGetters } from 'vuex';
-import api from '@/services/api';
 
 export default {
   name: 'Home',
   components: {},
+  data() {
+    return {
+      users: []
+    };
+  },
   computed: {
     ...mapGetters({
       user: 'user/user'
@@ -24,10 +28,7 @@ export default {
       return process.env.NODE_ENV;
     }
   },
-  methods: {
-    logout() {
-      api.logout();
-    }
-  }
+  methods: {},
+  created() {}
 };
 </script>
