@@ -8,10 +8,15 @@ export const fetchUser = async function({ api, store }) {
   }
 };
 
-export const getUsers = async function({ api }) {
+export const getUsers = async function({ api }, { page, limit }) {
   try {
-    const res = await api.get('/users');
-    return res.users;
+    const res = await api.get('/users', {
+      params: {
+        page,
+        limit
+      }
+    });
+    return res;
   } catch (err) {
     return Promise.reject(err.data);
   }

@@ -1,10 +1,28 @@
 <template>
   <div class="chats main-wrapper">
-    <ul v-if="users && users.length" class="chats-list">
-      <li v-for="(user, index) in users" :key="index">
-        <router-link :to="chatUrl(user)">{{ user.username }}</router-link>
-      </li>
-    </ul>
+    <div class="chats-list">
+      <ul v-if="users.data && users.data.length">
+        <li v-for="(user, index) in users.data" :key="index">
+          <router-link :to="chatUrl(user)">{{ user.username }}</router-link>
+        </li>
+      </ul>
+      <div v-if="users.data" class="pagination">
+        <button v-if="users.prevPage" @click="changePage(users.prevPage)">
+          &larr;
+        </button>
+        <button
+          v-for="(page, index) in users.totalPages"
+          :class="{ active: users.page === page }"
+          @click="changePage(page)"
+          :key="index"
+        >
+          {{ page }}
+        </button>
+        <button v-if="users.nextPage" @click="changePage(users.nextPage)">
+          &rarr;
+        </button>
+      </div>
+    </div>
     <div v-if="user" class="chat-view">
       <img class="image" :src="baseUrl + '/' + user.profile_img" alt="" />
       <h1>Active: {{ user.username }}</h1>
@@ -23,7 +41,7 @@ export default {
   components: {},
   data() {
     return {
-      users: [],
+      users: {},
       user: null
     };
   },
@@ -38,7 +56,11 @@ export default {
   methods: {
     async getUsers() {
       try {
-        this.users = await api.getUsers();
+        const page = this.users.page || 1;
+        this.users = await api.getUsers({
+          page,
+          limit: 1 // for testing
+        });
       } catch (err) {
         console.log(err);
       }
@@ -56,6 +78,10 @@ export default {
         }
         this.user = null;
       }
+    },
+    changePage(page) {
+      this.users.page = page;
+      this.getUsers();
     },
     chatUrl(item) {
       return { name: 'Chats', params: { url: item.url } };
@@ -93,6 +119,13 @@ export default {
       &:last-child {
         a {
           border-bottom: 1px solid rgb(193, 193, 193);
+        }
+      }
+    }
+    .pagination {
+      button {
+        &.active {
+          color: red;
         }
       }
     }
