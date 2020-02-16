@@ -1,4 +1,8 @@
-export const login = async function({ api, store, router, ls }, payload, redirect = false) {
+export const login = async function(
+  { api, store, router, ls },
+  payload,
+  redirect = false
+) {
   try {
     const res = await api.post('/login', payload);
     ls.set(process.env.VUE_APP_LOCALSTORAGE_KEY + '.token', res.token);

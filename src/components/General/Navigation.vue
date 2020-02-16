@@ -50,7 +50,7 @@ export default {
     padding: 0px 5px;
     font-size: 16px;
     font-weight: 600;
-    color: rgb(27, 130, 241);
+    color: $primary-font-color;
     cursor: pointer;
     display: inline-block;
     text-decoration: none;

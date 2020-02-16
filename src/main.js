@@ -4,8 +4,6 @@ import router from './router';
 import store from './store';
 import { initServices } from './services/api';
 
-import './assets/styles/style.scss';
-
 initServices({
   router,
   store
