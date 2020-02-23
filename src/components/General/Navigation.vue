@@ -1,34 +1,64 @@
 <template>
   <div class="navigation-wrap">
     <div v-if="loggedIn" class="navigation">
-      <router-link to="/" exact>Home</router-link>
-      <router-link to="/chats">Chats</router-link>
+      <Button to="/" exact className="link" color="transparent">
+        Home
+      </Button>
+      <Button to="/chats" className="link" color="transparent">
+        Chats
+      </Button>
 
       <div class="navigation-right">
-        <span class="user">{{ user.username }}</span>
-        <button @click="logout" class="logout">Logout</button>
+        <UserImage
+          className="navigation-user-link"
+          :to="userUrl"
+          :image="userImageUrl"
+        />
+        <Button className="logout" ripple @click="logout">
+          Logout <Icon name="logout" />
+        </Button>
       </div>
     </div>
     <div v-else class="navigation">
-      <router-link to="/register">Register</router-link>
-      <router-link to="/login">Login</router-link>
+      <Button className="auth-link" to="/login" ripple>
+        Login
+      </Button>
+      <Button className="auth-link" to="/register" color="primary" ripple>
+        Register
+      </Button>
     </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
+import Button from '@/components/General/Button.vue';
+import Icon from '@/components/General/Icon.vue';
+import UserImage from '@/components/General/UserImage.vue';
 import { mapGetters } from 'vuex';
 import api from '@/services/api';
 
 export default {
   name: 'Navigation',
-  components: {},
+  components: {
+    Button,
+    Icon,
+    UserImage
+  },
   computed: {
     ...mapGetters({
       loggedIn: 'user/loggedId',
-      user: 'user/user'
-    })
+      user: 'user/user',
+      token: 'user/token',
+      baseUrl: 'app/baseUrl'
+    }),
+    userImageUrl() {
+      const { baseUrl, user, token } = this;
+      return `${baseUrl}/${user.profile_image.url}?token=${token}`;
+    },
+    userUrl() {
+      return { name: 'Chats', params: { url: this.user.url } };
+    }
   },
   methods: {
     logout() {
@@ -44,30 +74,20 @@ export default {
   align-items: center;
   height: 60px;
   padding: 0px 15px;
-  border-bottom: 1px solid rgb(193, 193, 193);
-  a {
-    display: inline-block;
-    padding: 0px 5px;
-    font-size: 16px;
-    font-weight: 600;
-    color: $primary-font-color;
-    cursor: pointer;
-    display: inline-block;
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
-    &.router-link-active {
-      text-decoration: underline;
-    }
+  box-shadow: $primary-shadow;
+  .auth-link {
+    margin-right: 10px;
   }
   .navigation-right {
-    display: inline-block;
+    display: flex;
     margin-left: auto;
-    .user {
-      display: inline-block;
-      font-weight: 600;
-      padding: 0px 15px;
+    .navigation-user-link {
+      margin-right: 10px;
+    }
+    .logout {
+      .icon {
+        margin-left: 10px;
+      }
     }
   }
 }

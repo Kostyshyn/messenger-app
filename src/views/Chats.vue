@@ -24,7 +24,7 @@
       </div>
     </div>
     <div v-if="user" class="chat-view">
-      <img class="image" :src="baseUrl + '/' + user.profile_img" alt="" />
+      <img class="image" :src="baseUrl + '/' + user.profile_image.url" alt="" />
       <h1>Active: {{ user.username }}</h1>
       <p>Email: {{ user.email }}</p>
     </div>
@@ -59,7 +59,7 @@ export default {
         const page = this.users.page || 1;
         this.users = await api.getUsers({
           page,
-          limit: 1 // for testing
+          limit: 5 // for testing
         });
       } catch (err) {
         console.log(err);

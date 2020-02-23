@@ -22,6 +22,7 @@ export default {
   },
   getters: {
     loggedId: state => !!(state.token && state.user),
-    user: state => state.user
+    user: state => state.user,
+    token: state => state.token
   }
 };

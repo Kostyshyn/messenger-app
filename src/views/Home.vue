@@ -4,18 +4,31 @@
       Home
     </h1>
     <p>Environment: {{ env }}</p>
+    <form @submit.prevent="upload">
+      <br />
+      <input type="file" name="file" @change="inputFile"/>
+      <br />
+      <br />
+      <Button color="primary" type="submit" ripple>
+        Upload
+      </Button>
+    </form>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
+import api from '@/services/api';
+import Button from '@/components/General/Button.vue';
 
 export default {
   name: 'Home',
-  components: {},
+  components: {
+    Button
+  },
   data() {
     return {
-      users: []
+      file: null
     };
   },
   computed: {
@@ -23,7 +36,16 @@ export default {
       return process.env.NODE_ENV;
     }
   },
-  methods: {},
+  methods: {
+    inputFile(e) {
+      this.file = e.target.files[0];
+    },
+    async upload() {
+      const formData = new FormData();
+      formData.append('file', this.file);
+      await api.uploadUserImage(formData);
+    }
+  },
   created() {}
 };
 </script>

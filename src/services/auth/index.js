@@ -11,7 +11,7 @@ export const login = async function(
     if (redirect) {
       router.push(redirect);
     } else {
-      router.push('/');
+      router.push('/').catch(() => {});
     }
     return res.user;
   } catch (err) {

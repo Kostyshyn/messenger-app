@@ -30,3 +30,17 @@ export const getUserByUrl = async function({ api }, url) {
     return Promise.reject(err.data);
   }
 };
+
+export const uploadUserImage = async function({ api, store }, payload) {
+  try {
+    const res = await api.post('/upload/image', payload, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+    store.dispatch('user/setUser', res.user);
+    return res.user;
+  } catch (err) {
+    return Promise.reject(err.data);
+  }
+};

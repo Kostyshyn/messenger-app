@@ -64,3 +64,8 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+  .icon {
+    min-width: 14px;
+  }
+</style>
