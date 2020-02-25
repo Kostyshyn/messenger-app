@@ -34,7 +34,9 @@ export default {
         video: 'faVideo',
         dots: 'faEllipsisV',
         options: 'faCog',
-        bars: 'faBars'
+        bars: 'faBars',
+        bell: 'faBell',
+        bellOff: 'faBellSlash'
       }
     };
   },
