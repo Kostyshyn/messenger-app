@@ -1,14 +1,7 @@
 <template>
   <div class="navigation-wrap">
     <div v-if="loggedIn" class="navigation">
-      <Drawer :open="true">
-        <template slot-scope="{ toggle }">
-          <button @click="toggle">Open</button>
-        </template>
-        <template #sidebar>
-          drawer
-        </template>
-      </Drawer>
+      <UserSidebar />
       <Button to="/" exact className="link" color="transparent">
         Home
       </Button>
@@ -43,14 +36,14 @@
 import Button from '@/components/General/Button.vue';
 import Icon from '@/components/General/Icon.vue';
 import UserImage from '@/components/General/UserImage.vue';
-import Drawer from '@/components/General/Drawer.vue';
+import UserSidebar from '@/components/General/UserSidebar.vue';
 import { mapGetters } from 'vuex';
 import api from '@/services/api';
 
 export default {
   name: 'Navigation',
   components: {
-    Drawer,
+    UserSidebar,
     Button,
     Icon,
     UserImage
