@@ -2,12 +2,6 @@
   <div class="navigation-wrap">
     <div v-if="loggedIn" class="navigation">
       <UserSidebar />
-      <Button to="/" exact className="link" color="transparent">
-        Home
-      </Button>
-      <Button to="/chats" className="link" color="transparent">
-        Chats
-      </Button>
     </div>
     <div v-else class="navigation">
       <Button className="auth-link" to="/login" ripple>

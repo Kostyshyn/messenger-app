@@ -1,26 +1,28 @@
 <template>
-  <div class="contact-list">
-    <button>Add new</button>
+  <div class="user-settings">
+    <h1>Settings</h1>
+    <p>{{ user.username }}</p>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import { mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
-  name: 'ContactListPopup',
+  name: 'Settings',
   components: {},
-  props: {
-    contacts: {
-      type: Array,
-      default: () => []
-    }
-  },
+  props: {},
   data() {
     return {};
   },
-  computed: {},
+  computed: {
+    ...mapGetters({
+      user: 'user/user',
+      token: 'user/token',
+      baseUrl: 'app/baseUrl'
+    })
+  },
   methods: {
     ...mapActions({
       close: 'app/closePopup'
@@ -28,13 +30,11 @@ export default {
   },
   watch: {},
   mounted() {},
-  created() {
-    console.log(this.contacts);
-  }
+  created() {}
 };
 </script>
 <style lang="scss" scoped>
-.contact-list {
+.user-settings {
   height: 500px;
   padding: 15px;
 }

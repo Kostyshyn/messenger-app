@@ -39,7 +39,8 @@ import Icon from '@/components/Helpers/Icon.vue';
 import Drawer from '@/components/Helpers/Drawer.vue';
 import Check from '@/components/General/Form/Check.vue';
 import IconList from '@/components/General/IconList.vue';
-import ContactListPopup from '@/components/General/ContactListPopup.vue';
+import ContactList from '@/components/General/ContactList.vue';
+import Settings from '@/components/General/Settings.vue';
 import { mapGetters, mapActions } from 'vuex';
 import api from '@/services/api';
 
@@ -63,12 +64,12 @@ export default {
         {
           label: 'Create group',
           icon: 'people',
-          url: ''
+          action: ''
         },
         {
           label: 'Settings',
           icon: 'settings',
-          url: ''
+          action: 'openSettings'
         },
         {
           label: 'Log out',
@@ -104,12 +105,21 @@ export default {
     openContacts() {
       this.toggle(false);
       this.openPopup({
-        name: 'test',
-        component: ContactListPopup,
+        name: 'contacts',
+        component: ContactList,
         options: {},
         data: {
           contacts: [1, 2, 3]
         }
+      });
+    },
+    openSettings() {
+      this.toggle(false);
+      this.openPopup({
+        name: 'settings',
+        component: Settings,
+        options: {},
+        data: {}
       });
     },
     logout() {
