@@ -76,7 +76,6 @@ export default {
   padding: 3px 5px;
   .check-btn-text {
     font-size: 14px;
-    text-transform: uppercase;
     font-weight: 600;
     display: inline-block;
     height: 18px;

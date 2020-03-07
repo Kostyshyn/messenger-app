@@ -5,7 +5,7 @@
       <slot name="sidebar"></slot>
     </div>
     <transition name="fade" mode="out-in">
-      <Overlay v-if="openDrawer" @click.native="backdrop" />
+      <Overlay v-if="open" @click.native="backdrop" />
     </transition>
   </div>
 </template>
@@ -43,14 +43,12 @@ export default {
     }
   },
   data() {
-    return {
-      openDrawer: false
-    };
+    return {};
   },
   computed: {
     style() {
-      const { direction, width, zIndex, openDrawer } = this;
-      if (openDrawer) {
+      const { direction, width, zIndex, open } = this;
+      if (open) {
         return {
           left: direction === 'left' ? '0px' : 'auto',
           right: direction === 'right' ? '0px' : 'auto',
@@ -73,20 +71,14 @@ export default {
   },
   methods: {
     toggle() {
-      this.openDrawer = !this.openDrawer;
+      this.$emit('toggle', !this.open);
     },
     backdrop() {
-      this.openDrawer = false;
+      this.$emit('toggle', false);
     }
   },
-  watch: {
-    open(open) {
-      this.openDrawer = open;
-    }
-  },
-  mounted() {
-    this.openDrawer = this.open;
-  }
+  watch: {},
+  mounted() {}
 };
 </script>
 <style lang="scss" scoped>

@@ -13,37 +13,27 @@
         Upload
       </Button>
     </form>
-    <br/>
-    <br/>
-    <Check
-      class="mute-check"
-      v-model="mute"
-      name="test">
-      Mute
-      <!-- <Icon v-show="mute" name="bellOff" /> -->
-      <!-- <Icon v-show="!mute" name="bell" /> -->
-    </Check>
+    <br />
+    <Button ripple @click="toggle(true)">
+      Open sidebar
+    </Button>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
+import { mapActions } from 'vuex';
 import api from '@/services/api';
-import Button from '@/components/General/Button.vue';
-import Check from '@/components/General/Form/Check.vue';
-// import Icon from '@/components/General/Icon.vue';
+import Button from '@/components/Helpers/Button.vue';
 
 export default {
   name: 'Home',
   components: {
-    Button,
-    Check
-    // Icon
+    Button
   },
   data() {
     return {
-      file: null,
-      mute: false
+      file: null
     };
   },
   computed: {
@@ -52,13 +42,21 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      toggle: 'app/setSidebarState',
+      openPopup: 'app/openPopup'
+    }),
     inputFile(e) {
       this.file = e.target.files[0];
     },
     async upload() {
-      const formData = new FormData();
-      formData.append('file', this.file);
-      await api.uploadUserImage(formData);
+      try {
+        const formData = new FormData();
+        formData.append('file', this.file);
+        await api.uploadUserImage(formData);
+      } catch (error) {
+        console.error(error);
+      }
     }
   },
   created() {}

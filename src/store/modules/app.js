@@ -5,7 +5,21 @@ export default {
   namespaced: true,
   state: {
     API_BASE_URL: null,
-    loading: true
+    loading: true,
+    sidebarOpen: false,
+    breakpoints: {
+      sm: 576,
+      md: 768,
+      lg: 992
+    },
+    device: null,
+    popup: {
+      open: false,
+      name: '',
+      component: null,
+      options: {},
+      data: {}
+    }
   },
   actions: {
     init({ commit, dispatch }) {
@@ -24,6 +38,29 @@ export default {
       } else {
         commit('SET_LOADING', false);
       }
+    },
+    setSidebarState({ commit }, sidebar) {
+      commit('SET_SIDEBAR_STATE', sidebar);
+    },
+    resize({ state, commit }, width) {
+      const { breakpoints } = state;
+      for (const b in breakpoints) {
+        if (width < breakpoints[b]) {
+          commit('SET_DEVICE', b);
+          break;
+        }
+      }
+    },
+    openPopup({ commit }, popup) {
+      if (popup && popup.component) {
+        commit('SET_POPUP', {
+          ...popup,
+          open: true
+        });
+      }
+    },
+    closePopup({ commit }) {
+      commit('RESET_POPUP');
     }
   },
   mutations: {
@@ -32,10 +69,31 @@ export default {
     },
     SET_LOADING(state, loading) {
       state.loading = loading;
+    },
+    SET_SIDEBAR_STATE(state, sidebar) {
+      state.sidebarOpen = sidebar;
+    },
+    SET_DEVICE(state, device) {
+      state.device = device;
+    },
+    SET_POPUP(state, popup) {
+      state.popup = popup;
+    },
+    RESET_POPUP(state) {
+      state.popup = {
+        open: false,
+        name: '',
+        component: null,
+        options: {},
+        data: {}
+      };
     }
   },
   getters: {
     loading: state => state.loading,
-    baseUrl: state => state.API_BASE_URL
+    baseUrl: state => state.API_BASE_URL,
+    sidebarOpen: state => state.sidebarOpen,
+    device: state => state.device,
+    popup: state => state.popup
   }
 };

@@ -8,17 +8,6 @@
       <Button to="/chats" className="link" color="transparent">
         Chats
       </Button>
-
-      <div class="navigation-right">
-        <UserImage
-          className="navigation-user-link"
-          :to="userUrl"
-          :image="userImageUrl"
-        />
-        <Button className="logout" ripple @click="logout">
-          Logout <Icon name="logout" />
-        </Button>
-      </div>
     </div>
     <div v-else class="navigation">
       <Button className="auth-link" to="/login" ripple>
@@ -33,20 +22,15 @@
 
 <script>
 // @ is an alias to /src
-import Button from '@/components/General/Button.vue';
-import Icon from '@/components/General/Icon.vue';
-import UserImage from '@/components/General/UserImage.vue';
+import Button from '@/components/Helpers/Button.vue';
 import UserSidebar from '@/components/General/UserSidebar.vue';
 import { mapGetters } from 'vuex';
-import api from '@/services/api';
 
 export default {
   name: 'Navigation',
   components: {
     UserSidebar,
-    Button,
-    Icon,
-    UserImage
+    Button
   },
   computed: {
     ...mapGetters({
@@ -54,20 +38,9 @@ export default {
       user: 'user/user',
       token: 'user/token',
       baseUrl: 'app/baseUrl'
-    }),
-    userImageUrl() {
-      const { baseUrl, user, token } = this;
-      return `${baseUrl}/${user.profile_image.url}?token=${token}`;
-    },
-    userUrl() {
-      return { name: 'Chats', params: { url: this.user.url } };
-    }
+    })
   },
-  methods: {
-    logout() {
-      api.logout();
-    }
-  }
+  methods: {}
 };
 </script>
 <style lang="scss" scoped>
@@ -76,7 +49,7 @@ export default {
   flex-direction: row;
   align-items: center;
   height: 50px;
-  padding: 0px 15px;
+  padding: 0px 5px;
   box-shadow: $primary-shadow;
   .auth-link {
     margin-right: 10px;

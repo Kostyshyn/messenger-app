@@ -15,21 +15,19 @@
     :disabled="disabled"
     v-on="$listeners"
   >
-    <Icon v-if="loading" name="spinner" spin />
-    <slot v-else />
+    <slot />
   </button>
 </template>
 
 <script>
 // @ is an alias to /src
-import Icon from '@/components/General/Icon.vue';
 
 const TYPES = ['button', 'submit'];
 const COLORS = ['secondary', 'primary', 'error', 'transparent'];
 
 export default {
   name: 'Button',
-  components: { Icon },
+  components: {},
   props: {
     className: {
       type: [String, Array]
@@ -67,10 +65,6 @@ export default {
         return COLORS.includes(color);
       },
       default: 'secondary'
-    },
-    loading: {
-      type: Boolean,
-      default: false
     }
   },
   computed: {

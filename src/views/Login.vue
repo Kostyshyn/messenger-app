@@ -27,7 +27,7 @@
 <script>
 // @ is an alias to /src
 import Field from '@/components/General/Form/Field.vue';
-import Button from '@/components/General/Button.vue';
+import Button from '@/components/Helpers/Button.vue';
 import api from '@/services/api';
 
 export default {

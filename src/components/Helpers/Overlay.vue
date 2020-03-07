@@ -13,7 +13,7 @@ export default {
   props: {
     blur: {
       type: Boolean,
-      default: true
+      default: false
     },
     zIndex: {
       type: Number,
@@ -29,7 +29,7 @@ export default {
   width: 100%;
   height: 100%;
   z-index: 10;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.5);
   left: 0px;
   top: 0px;
   &.blur {
