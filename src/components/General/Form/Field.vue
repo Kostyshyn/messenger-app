@@ -9,14 +9,16 @@
       :disabled="disabled"
       :autocomplete="autocomplete"
       @input="$emit('input', $event.target.value)"
-      @focus="$emit('focus')"
-      @blur="$emit('blur')"
+      @focus="onFocus"
+      @blur="onBlur"
     />
-    <ul class="field-errors" v-if="errors.length">
-      <li v-for="(error, index) in errors" :key="index">
-        {{ error }}
-      </li>
-    </ul>
+    <transition name="error-fade" mode="out-in">
+      <ul class="field-errors" v-if="isError">
+        <li v-for="(error, index) in errors" :key="index">
+          {{ error }}
+        </li>
+      </ul>
+    </transition>
   </div>
 </template>
 
@@ -70,10 +72,27 @@ export default {
       return this.errors.length;
     }
   },
-  methods: {}
+  methods: {
+    onFocus() {
+      this.$emit('focus');
+    },
+    onBlur() {
+      this.$emit('blur');
+    }
+  },
+  watch: {}
 };
 </script>
 <style lang="scss" scoped>
+.error-fade-enter-active,
+.error-fade-leave-active {
+  transition: 0.15s cubic-bezier(0.25, 0.8, 0.5, 1);
+}
+.error-fade-enter,
+.error-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}
 .field {
   width: 100%;
   min-height: 60px;
@@ -82,9 +101,10 @@ export default {
     background-color: $light-grey-color;
     border-radius: 2px;
     height: 34px;
+    line-height: 35px;
     font-size: 16px;
     color: $black-font-color;
-    padding: 0px 10px;
+    padding: 0px 8px;
     outline: none;
     box-sizing: border-box;
     transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
@@ -108,6 +128,8 @@ export default {
     li {
       font-size: 14px;
       color: $red-font-color;
+      font-weight: 600;
+      margin-top: 2px;
     }
   }
 }

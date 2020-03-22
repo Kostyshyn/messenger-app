@@ -1,6 +1,15 @@
 <template>
   <div class="popup">
-    <div class="popup-body" v-if="popup.component">
+    <div class="popup-content" v-if="popup.component">
+      <div class="popup-header">
+        <div class="back" v-if="backAction" @click="handleBackClick">
+          <Icon name="arrow_back" />
+        </div>
+        <h1>{{ title }}</h1>
+        <div class="close" v-if="options.close" @click="close">
+          <Icon name="clear" />
+        </div>
+      </div>
       <component :is="popup.component" v-bind="popup.data" />
     </div>
     <Overlay @click.native="close" />
@@ -10,12 +19,14 @@
 <script>
 // @ is an alias to /src
 import Overlay from '@/components/Helpers/Overlay.vue';
+import Icon from '@/components/Helpers/Icon.vue';
 import { mapActions } from 'vuex';
 
 export default {
   name: 'Popup',
   components: {
-    Overlay
+    Overlay,
+    Icon
   },
   props: {
     popup: {
@@ -38,16 +49,38 @@ export default {
     }
   },
   data() {
-    return {};
+    return {
+      nestedData: {},
+      backAction: null,
+      options: {
+        close: true,
+        ...this.popup.options
+      }
+    };
   },
-  computed: {},
+  computed: {
+    title() {
+      return this.nestedData.title;
+    }
+  },
   methods: {
     ...mapActions({
       close: 'app/closePopup'
-    })
+    }),
+    handleBackClick() {
+      if (this.backAction) {
+        this.backAction();
+      }
+    }
   },
   watch: {},
-  mounted() {}
+  mounted() {
+    this.nestedData = this.popup.component.data();
+    const { backAction } = this.popup.component.methods;
+    if (backAction && typeof backAction === 'function') {
+      this.backAction = backAction;
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -61,18 +94,54 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  .popup-body {
+  .popup-content {
     z-index: 11;
     position: relative;
     min-height: 100px;
     max-height: 100%;
-    min-width: 300px;
+    width: 300px;
     max-width: 100%;
     border-radius: 4px;
     overflow: hidden;
     top: 0px;
     background: $white-background-color;
     box-shadow: $block-shadow;
+    .popup-header {
+      display: flex;
+      flex-direction: row;
+      padding: 10px;
+      h1 {
+        width: 100%;
+        user-select: none;
+        font-size: 24px;
+        line-height: 28px;
+        margin: 0px 0px 0px 3px;
+        @include trancate-text;
+      }
+      .back,
+      .close {
+        cursor: pointer;
+        display: flex;
+        width: 24px;
+        height: 28px;
+        .icon {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          /deep/ svg {
+            fill: $primary-color;
+          }
+        }
+      }
+      .back {
+        margin-right: 7px;
+      }
+      .close {
+        margin-left: auto;
+      }
+    }
   }
 }
 </style>

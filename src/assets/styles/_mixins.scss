@@ -1,3 +1,9 @@
+@mixin trancate-text {
+	white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 @mixin ripple {
 	position: relative;
 	overflow: hidden;

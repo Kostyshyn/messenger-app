@@ -123,7 +123,7 @@ export default {
   }
   &.transparent {
     background-color: transparent;
-    color: $primary-color;
+    color: $primary-font-color;
     box-shadow: none;
     &.link {
       position: relative;

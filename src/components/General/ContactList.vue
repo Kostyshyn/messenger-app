@@ -1,17 +1,30 @@
 <template>
   <div class="contact-list">
-    <h1>Contacts</h1>
-    <button>Add new</button>
+    <SearchField />
+    list
+    <div class="contact-footer">
+      <Button className="close" color="transparent" ripple>
+        Add
+      </Button>
+      <Button className="close" color="transparent" ripple @click="close">
+        Close
+      </Button>
+    </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
+import SearchField from '@/components/Helpers/SearchField.vue';
+import Button from '@/components/Helpers/Button.vue';
 import { mapActions } from 'vuex';
 
 export default {
   name: 'ContactList',
-  components: {},
+  components: {
+    SearchField,
+    Button
+  },
   props: {
     contacts: {
       type: Array,
@@ -19,7 +32,9 @@ export default {
     }
   },
   data() {
-    return {};
+    return {
+      title: 'Contacts'
+    };
   },
   computed: {},
   methods: {
@@ -36,7 +51,15 @@ export default {
 </script>
 <style lang="scss" scoped>
 .contact-list {
-  height: 500px;
-  padding: 15px;
+  height: 400px;
+  padding: 0px 15px 5px 15px;
+  display: flex;
+  flex-direction: column;
+  .contact-footer {
+    margin-top: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 }
 </style>

@@ -1,0 +1,106 @@
+<template>
+  <div class="search-field">
+    <Icon name="search" class="search" v-show="!loading" />
+    <div class="search-loader" v-show="loading">
+      <div class="search-preloader"></div>
+    </div>
+    <Field v-model="searchVal" />
+    <Icon
+      v-if="searchVal.length"
+      name="clear"
+      class="clear"
+      @click.native="clear"
+    />
+  </div>
+</template>
+
+<script>
+// @ is an alias to /src
+import Field from '@/components/General/Form/Field.vue';
+import Icon from '@/components/Helpers/Icon.vue';
+// import { mapActions } from 'vuex';
+
+export default {
+  name: 'SearchField',
+  components: {
+    Field,
+    Icon
+  },
+  props: {},
+  data() {
+    return {
+      searchVal: '',
+      loading: false
+    };
+  },
+  computed: {},
+  methods: {
+    clear() {
+      this.searchVal = '';
+    }
+  },
+  watch: {},
+  mounted() {}
+};
+</script>
+<style lang="scss" scoped>
+.search-field {
+  display: flex;
+  position: relative;
+  margin-bottom: 15px;
+  /deep/ .field {
+    margin: 0px;
+    min-height: 34px;
+    input {
+      padding: 0px 32px;
+    }
+  }
+  .search-loader {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 34px;
+    width: 34px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    .search-preloader {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border: 2px solid $dark-grey-color;
+      border-bottom-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.75s infinite linear;
+    }
+  }
+
+  @keyframes spin {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  .search,
+  .clear {
+    position: absolute;
+    top: 0px;
+    height: 34px;
+    width: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /deep/ svg {
+      fill: $dark-grey-color;
+    }
+  }
+  .search {
+    left: 0px;
+  }
+  .clear {
+    cursor: pointer;
+    right: 0px;
+  }
+}
+</style>

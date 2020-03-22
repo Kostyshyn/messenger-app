@@ -16,7 +16,7 @@
           v-model="password"
           :errors="errors['password']"
         />
-        <Button color="primary" type="submit" ripple @click="login">
+        <Button color="primary" type="submit" ripple>
           Login
         </Button>
       </form>
@@ -52,6 +52,9 @@ export default {
   methods: {
     login() {
       const { username, password, redirect } = this;
+      if (this.loading) {
+        return;
+      }
       this.loading = true;
       // prettier-ignore
       api.login({
@@ -65,7 +68,8 @@ export default {
         this.errors = err.errors
       });
     }
-  }
+  },
+  watch: {}
 };
 </script>
 <style lang="scss" scoped>

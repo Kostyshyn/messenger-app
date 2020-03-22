@@ -107,7 +107,9 @@ export default {
       this.openPopup({
         name: 'contacts',
         component: ContactList,
-        options: {},
+        options: {
+          close: false
+        },
         data: {
           contacts: [1, 2, 3]
         }
@@ -147,15 +149,20 @@ export default {
     }
     .user-info {
       margin-left: 10px;
+      width: calc(100% - 48px);
       .username {
+        height: 20px;
         color: $primary-color;
         font-size: 18px;
         font-weight: 600;
         margin: 0 0 3px 0;
+        @include trancate-text;
       }
       .url {
+        height: 16px;
         color: $dark-grey-color;
         font-size: 14px;
+        @include trancate-text;
       }
     }
   }

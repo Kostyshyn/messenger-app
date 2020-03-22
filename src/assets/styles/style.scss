@@ -3,13 +3,14 @@
 @import "./mixins";
 
 body {
-	font-family: $main-font;
+  font-family: $main-font;
 }
 
 h1 {
-	font-size: 24px;
-	margin-bottom: 15px;
-	font-weight: 600;
+  font-size: 28px;
+  margin-bottom: 15px;
+  font-weight: 400;
+  color: $primary-font-color;
 }
 
 

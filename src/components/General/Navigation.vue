@@ -3,11 +3,13 @@
     <div v-if="loggedIn" class="navigation">
       <UserSidebar />
     </div>
+
+    <!-- for testing -->
     <div v-else class="navigation">
-      <Button className="auth-link" to="/login" ripple>
+      <Button className="auth-link" to="/login" color="transparent" ripple>
         Login
       </Button>
-      <Button className="auth-link" to="/register" color="primary" ripple>
+      <Button className="auth-link" to="/register" color="transparent" ripple>
         Register
       </Button>
     </div>

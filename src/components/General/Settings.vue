@@ -1,6 +1,5 @@
 <template>
   <div class="user-settings">
-    <h1>Settings</h1>
     <p>{{ user.username }}</p>
   </div>
 </template>
@@ -14,7 +13,10 @@ export default {
   components: {},
   props: {},
   data() {
-    return {};
+    return {
+      // popup title
+      title: 'Settings'
+    };
   },
   computed: {
     ...mapGetters({
@@ -26,7 +28,11 @@ export default {
   methods: {
     ...mapActions({
       close: 'app/closePopup'
-    })
+    }),
+    // popup 'back' button action
+    backAction() {
+      console.log('back action');
+    }
   },
   watch: {},
   mounted() {},
@@ -35,7 +41,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .user-settings {
-  height: 500px;
+  height: 400px;
   padding: 15px;
 }
 </style>

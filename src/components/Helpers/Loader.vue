@@ -28,7 +28,7 @@ export default {
   height: 100vh;
   overflow: hidden;
   position: absolute;
-  background-color: rgb(255, 255, 255);
+  background-color: $white-background-color;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -37,8 +37,8 @@ export default {
     display: inline-block;
     width: 50px;
     height: 50px;
-    border: 2px solid rgb(238, 238, 238);
-    border-bottom-color: rgb(27, 130, 241);
+    border: 2px solid $light-grey-color;
+    border-bottom-color: $primary-color;
     margin-right: -15px;
     border-radius: 50%;
     animation: spin 0.75s infinite linear;
