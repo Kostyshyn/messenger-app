@@ -8,24 +8,15 @@
     <template #sidebar>
       <div class="user-sidebar">
         <div class="sidebar-header">
-          <img :src="userImage" :alt="user.username" class="sidebar-user-img" />
-          <div class="user-info">
-            <h3 class="username">{{ user.username }}</h3>
-            <p class="url">{{ user.url }}</p>
-          </div>
+          <UserLabel :user="user" />
         </div>
         <div class="sidebar-body">
-          <!-- develpment -->
-          <div class="mode-item" @click="notifications = !notifications">
-            <div class="mode-icon">
-              <Icon v-show="notifications" name="notifications" />
-              <Icon v-show="!notifications" name="notifications_off" />
-            </div>
-            <div class="mode-label">
-              Notifications
-            </div>
-            <Check class="mute-check" :value="notifications" />
-          </div>
+          <ModeListItem
+            v-model="notifications"
+            label="Notifications"
+            iconOn="notifications"
+            iconOff="notifications_off"
+          />
           <IconList :list="menuItems" @action="action" />
         </div>
       </div>
@@ -37,10 +28,11 @@
 // @ is an alias to /src
 import Icon from '@/components/Helpers/Icon.vue';
 import Drawer from '@/components/Helpers/Drawer.vue';
-import Check from '@/components/General/Form/Check.vue';
-import IconList from '@/components/General/IconList.vue';
-import ContactList from '@/components/General/ContactList.vue';
-import Settings from '@/components/General/Settings.vue';
+import UserLabel from '@/components/General/User/UserLabel.vue';
+import IconList from '@/components/General/List/IconList.vue';
+import ModeListItem from '@/components/General/List/ModeListItem.vue';
+import ContactList from '@/components/General/Popups/ContactList.vue';
+import Settings from '@/components/General/Popups/Settings.vue';
 import { mapGetters, mapActions } from 'vuex';
 import api from '@/services/api';
 
@@ -49,7 +41,8 @@ export default {
   components: {
     Icon,
     Drawer,
-    Check,
+    UserLabel,
+    ModeListItem,
     IconList
   },
   data() {
@@ -83,14 +76,8 @@ export default {
   computed: {
     ...mapGetters({
       user: 'user/user',
-      token: 'user/token',
-      baseUrl: 'app/baseUrl',
       open: 'app/sidebarOpen'
-    }),
-    userImage() {
-      const { baseUrl, user, token } = this;
-      return `${baseUrl}/${user.profile_image.url}?token=${token}`;
-    }
+    })
   },
   methods: {
     ...mapActions({
@@ -134,69 +121,7 @@ export default {
 <style lang="scss" scoped>
 .user-sidebar {
   .sidebar-header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
     border-bottom: 1px solid $grey-color;
-    padding: 15px;
-    .sidebar-user-img {
-      display: inline-block;
-      width: 48px;
-      height: 48px;
-      -o-object-fit: cover;
-      object-fit: cover;
-      border-radius: 50%;
-    }
-    .user-info {
-      margin-left: 10px;
-      width: calc(100% - 48px);
-      .username {
-        height: 20px;
-        color: $primary-color;
-        font-size: 18px;
-        font-weight: 600;
-        margin: 0 0 3px 0;
-        @include trancate-text;
-      }
-      .url {
-        height: 16px;
-        color: $dark-grey-color;
-        font-size: 14px;
-        @include trancate-text;
-      }
-    }
-  }
-  .sidebar-body {
-    .mode-item {
-      display: flex;
-      padding: 5px 10px;
-      cursor: pointer;
-      &:hover {
-        background-color: $light-grey-color;
-      }
-      .mode-icon {
-        display: flex;
-        font-size: 20px;
-        height: 36px;
-        width: 30px;
-        align-items: center;
-        justify-content: center;
-        /deep/ svg {
-          fill: $dark-grey-color;
-        }
-      }
-      .mode-label {
-        user-select: none;
-        font-size: 16px;
-        line-height: 36px;
-        padding: 0px 10px;
-        font-weight: 600;
-        color: $black-font-color;
-      }
-      .mute-check {
-        margin-left: auto;
-      }
-    }
   }
 }
 .toggle-btn {

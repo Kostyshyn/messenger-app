@@ -27,8 +27,8 @@ export default {
   display: block;
   position: absolute;
   width: 100%;
-  height: 100%;
-  z-index: 10;
+  height: 100vh;
+  z-index: 9;
   background: rgba(0, 0, 0, 0.5);
   left: 0px;
   top: 0px;

@@ -1,6 +1,10 @@
 <template>
-  <div class="popup">
-    <div class="popup-content" v-if="popup.component">
+  <div class="popup" :style="popupStyle">
+    <div
+      class="popup-content"
+      v-if="popup.component"
+      :style="popupContentStyle"
+    >
       <div class="popup-header">
         <div class="back" v-if="backAction" @click="handleBackClick">
           <Icon name="arrow_back" />
@@ -45,7 +49,7 @@ export default {
     },
     width: {
       type: Number,
-      default: 300
+      default: 320
     }
   },
   data() {
@@ -61,6 +65,16 @@ export default {
   computed: {
     title() {
       return this.nestedData.title;
+    },
+    popupStyle() {
+      return {
+        'z-index': this.zIndex
+      };
+    },
+    popupContentStyle() {
+      return {
+        width: `${this.width}px`
+      };
     }
   },
   methods: {
@@ -85,7 +99,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .popup {
-  z-index: 9998;
   position: fixed;
   overflow: hidden;
   top: 0px;
@@ -99,7 +112,6 @@ export default {
     position: relative;
     min-height: 100px;
     max-height: 100%;
-    width: 300px;
     max-width: 100%;
     border-radius: 4px;
     overflow: hidden;
@@ -109,7 +121,7 @@ export default {
     .popup-header {
       display: flex;
       flex-direction: row;
-      padding: 10px;
+      padding: 15px 10px 10px 10px;
       h1 {
         width: 100%;
         user-select: none;
@@ -140,6 +152,7 @@ export default {
       }
       .close {
         margin-left: auto;
+        margin-right: 5px;
       }
     }
   }

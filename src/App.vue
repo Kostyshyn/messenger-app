@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Loader :loading="loading" />
-    <div>
+    <div class="root-wrapper">
       <Navigation />
       <transition name="page" mode="out-in">
         <router-view />
@@ -63,4 +63,8 @@ export default {
 
 <style lang="scss">
 @import './assets/styles/style.scss';
+.root-wrapper {
+  position: relative;
+  padding-top: 50px;
+}
 </style>

@@ -30,7 +30,8 @@ export default {
   components: {},
   props: {
     className: {
-      type: [String, Array]
+      type: String,
+      default: ''
     },
     to: {
       type: String,

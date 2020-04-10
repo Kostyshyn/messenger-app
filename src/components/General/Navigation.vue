@@ -1,32 +1,20 @@
 <template>
   <div class="navigation-wrap">
-    <div v-if="loggedIn" class="navigation">
-      <UserSidebar />
-    </div>
-
-    <!-- for testing -->
-    <div v-else class="navigation">
-      <Button className="auth-link" to="/login" color="transparent" ripple>
-        Login
-      </Button>
-      <Button className="auth-link" to="/register" color="transparent" ripple>
-        Register
-      </Button>
+    <div class="navigation">
+      <UserSidebar v-if="loggedIn" />
     </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import Button from '@/components/Helpers/Button.vue';
 import UserSidebar from '@/components/General/UserSidebar.vue';
 import { mapGetters } from 'vuex';
 
 export default {
   name: 'Navigation',
   components: {
-    UserSidebar,
-    Button
+    UserSidebar
   },
   computed: {
     ...mapGetters({
@@ -40,25 +28,33 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.navigation {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  height: 50px;
-  padding: 0px 5px;
-  box-shadow: $primary-shadow;
-  .auth-link {
-    margin-right: 10px;
-  }
-  .navigation-right {
+.navigation-wrap {
+  position: absolute;
+  width: 100%;
+  left: 0px;
+  top: 0px;
+  z-index: 10;
+  background-color: $white-background-color;
+  .navigation {
     display: flex;
-    margin-left: auto;
-    .navigation-user-link {
+    flex-direction: row;
+    align-items: center;
+    height: 50px;
+    padding: 0px 5px;
+    box-shadow: $primary-shadow;
+    .auth-link {
       margin-right: 10px;
     }
-    .logout {
-      .icon {
-        margin-left: 10px;
+    .navigation-right {
+      display: flex;
+      margin-left: auto;
+      .navigation-user-link {
+        margin-right: 10px;
+      }
+      .logout {
+        .icon {
+          margin-left: 10px;
+        }
       }
     }
   }

@@ -16,9 +16,12 @@
           v-model="password"
           :errors="errors['password']"
         />
-        <Button color="primary" type="submit" ripple>
-          Login
-        </Button>
+        <div class="form-footer">
+          <Button color="primary" type="submit" ripple>
+            Login
+          </Button>
+          <router-link to="/register" class="link">Create account</router-link>
+        </div>
       </form>
     </div>
   </div>
@@ -77,5 +80,18 @@ export default {
   width: 340px;
   padding: 15px;
   margin: 30px auto;
+  .form-footer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    .link {
+      font-size: 16px;
+      font-weight: 400;
+      color: #1b82f1;
+      text-decoration: none;
+      padding: 5px 10px;
+    }
+  }
 }
 </style>

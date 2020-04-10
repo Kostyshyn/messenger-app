@@ -1,16 +1,19 @@
 <template>
   <div class="user-settings">
-    <p>{{ user.username }}</p>
+    <UserLabel :user="user" className="settings-user-label" big />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
+import UserLabel from '@/components/General/User/UserLabel.vue';
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'Settings',
-  components: {},
+  components: {
+    UserLabel
+  },
   props: {},
   data() {
     return {
@@ -26,13 +29,13 @@ export default {
     })
   },
   methods: {
+    // popup 'back' button action
+    // backAction() {
+    //   console.log('back action');
+    // },
     ...mapActions({
       close: 'app/closePopup'
-    }),
-    // popup 'back' button action
-    backAction() {
-      console.log('back action');
-    }
+    })
   },
   watch: {},
   mounted() {},
@@ -42,6 +45,9 @@ export default {
 <style lang="scss" scoped>
 .user-settings {
   height: 400px;
-  padding: 15px;
+  padding: 5px 15px 15px 15px;
+  /deep/ .settings-user-label {
+    padding: 0px;
+  }
 }
 </style>
