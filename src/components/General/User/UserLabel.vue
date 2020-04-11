@@ -55,7 +55,8 @@ export default {
   align-items: center;
   padding: 15px;
   .user-img {
-    display: inline-block;
+    display: flex;
+    flex: 1 0 auto;
     width: 48px;
     height: 48px;
     -o-object-fit: cover;
@@ -67,7 +68,7 @@ export default {
     width: calc(100% - 48px);
     .username {
       height: 20px;
-      color: $primary-color;
+      color: $black-font-color;
       font-size: 18px;
       font-weight: 600;
       margin: 0 0 3px 0;
@@ -75,7 +76,7 @@ export default {
     }
     .url {
       height: 16px;
-      color: $dark-grey-color;
+      color: $dark-grey-font-color;
       font-size: 14px;
       @include trancate-text;
     }

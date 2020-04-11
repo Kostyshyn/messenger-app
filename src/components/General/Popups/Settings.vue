@@ -1,6 +1,8 @@
 <template>
   <div class="user-settings">
-    <UserLabel :user="user" className="settings-user-label" big />
+    <UserLabel :user="user" className="settings-user-label" />
+    <p class="list-header">Account</p>
+    <p class="list-header">Settings</p>
   </div>
 </template>
 
@@ -47,7 +49,7 @@ export default {
   height: 400px;
   padding: 5px 15px 15px 15px;
   /deep/ .settings-user-label {
-    padding: 0px;
+    padding: 0px 0px 15px 0px;
   }
 }
 </style>

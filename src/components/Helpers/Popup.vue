@@ -9,7 +9,7 @@
         <div class="back" v-if="backAction" @click="handleBackClick">
           <Icon name="arrow_back" />
         </div>
-        <h1>{{ title }}</h1>
+        <h2>{{ title }}</h2>
         <div class="close" v-if="options.close" @click="close">
           <Icon name="clear" />
         </div>
@@ -122,12 +122,11 @@ export default {
       display: flex;
       flex-direction: row;
       padding: 15px 10px 10px 10px;
-      h1 {
+      /*background-color: $light-grey-color;*/
+      h2 {
         width: 100%;
         user-select: none;
-        font-size: 24px;
-        line-height: 28px;
-        margin: 0px 0px 0px 3px;
+        margin: 0px 0px 0px 4px;
         @include trancate-text;
       }
       .back,

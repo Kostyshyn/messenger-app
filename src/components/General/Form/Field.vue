@@ -1,6 +1,7 @@
 <template>
   <div class="field" :class="{ error: isError }">
     <input
+      ref="input"
       :type="type"
       :name="name"
       :class="['field-input', className]"
@@ -78,6 +79,9 @@ export default {
     },
     onBlur() {
       this.$emit('blur');
+    },
+    focus() {
+      this.$refs.input.focus();
     }
   },
   watch: {}

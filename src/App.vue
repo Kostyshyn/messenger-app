@@ -66,5 +66,6 @@ export default {
 .root-wrapper {
   position: relative;
   padding-top: 50px;
+  max-height: 100vh;
 }
 </style>

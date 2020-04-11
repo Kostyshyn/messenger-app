@@ -1,7 +1,6 @@
 <template>
   <div class="contact-list">
-    <SearchField />
-    list
+    <SearchField v-model="keyword" />
     <div class="contact-footer">
       <Button className="close" color="transparent" ripple>
         Add
@@ -33,7 +32,8 @@ export default {
   },
   data() {
     return {
-      title: 'Contacts'
+      title: 'Contacts',
+      keyword: ''
     };
   },
   computed: {},

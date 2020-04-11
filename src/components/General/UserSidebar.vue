@@ -8,7 +8,7 @@
     <template #sidebar>
       <div class="user-sidebar">
         <div class="sidebar-header">
-          <UserLabel :user="user" />
+          <UserLabel :user="user" big />
         </div>
         <div class="sidebar-body">
           <ModeListItem

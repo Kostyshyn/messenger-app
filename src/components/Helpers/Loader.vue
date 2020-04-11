@@ -25,9 +25,9 @@ export default {
 <style lang="scss" scoped>
 .loader {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   overflow: hidden;
-  position: absolute;
+  position: fixed;
   background-color: $white-background-color;
   display: flex;
   align-items: center;

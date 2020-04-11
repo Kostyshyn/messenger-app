@@ -1,12 +1,17 @@
 <template>
   <div class="search-field">
-    <Icon name="search" class="search" v-show="!loading" />
+    <Icon
+      name="search"
+      class="search"
+      v-show="!loading"
+      @click.native="focusField"
+    />
     <div class="search-loader" v-show="loading">
       <div class="search-preloader"></div>
     </div>
-    <Field v-model="searchVal" />
+    <Field ref="field" :value="value" @input="$emit('input', $event)" />
     <Icon
-      v-if="searchVal.length"
+      v-if="value.length"
       name="clear"
       class="clear"
       @click.native="clear"
@@ -26,17 +31,26 @@ export default {
     Field,
     Icon
   },
-  props: {},
+  props: {
+    value: {
+      type: [String, Number],
+      default: ''
+    },
+    loading: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
-    return {
-      searchVal: '',
-      loading: false
-    };
+    return {};
   },
   computed: {},
   methods: {
     clear() {
-      this.searchVal = '';
+      this.$emit('input', '');
+    },
+    focusField() {
+      this.$refs.field.focus();
     }
   },
   watch: {},

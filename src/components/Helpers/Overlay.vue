@@ -25,9 +25,9 @@ export default {
 <style lang="scss" scoped>
 .overlay {
   display: block;
-  position: absolute;
+  position: fixed;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   z-index: 9;
   background: rgba(0, 0, 0, 0.5);
   left: 0px;

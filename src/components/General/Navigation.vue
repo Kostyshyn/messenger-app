@@ -29,7 +29,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .navigation-wrap {
-  position: absolute;
+  position: fixed;
   width: 100%;
   left: 0px;
   top: 0px;
@@ -40,7 +40,7 @@ export default {
     flex-direction: row;
     align-items: center;
     height: 50px;
-    padding: 0px 5px;
+    padding: 0px 10px;
     box-shadow: $primary-shadow;
     .auth-link {
       margin-right: 10px;
