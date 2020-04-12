@@ -1,7 +1,7 @@
 <template>
   <div class="drawer">
     <slot :toggle="toggle"></slot>
-    <div class="sidebar" :style="style">
+    <div class="sidebar" :class="className" :style="style">
       <slot name="sidebar"></slot>
     </div>
     <transition name="fade" mode="out-in">
@@ -67,6 +67,9 @@ export default {
             ? `translate3d(${-width}px, 0, 0)`
             : `translate3d(${width}px, 0, 0)`
       };
+    },
+    className() {
+      return { open: this.open };
     }
   },
   methods: {
@@ -95,7 +98,9 @@ export default {
     overflow-y: auto;
     overflow-x: hidden;
     word-wrap: break-word;
-    box-shadow: $block-shadow;
+    &.open {
+      box-shadow: $block-shadow;
+    }
   }
 }
 </style>

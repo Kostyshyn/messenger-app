@@ -7,20 +7,20 @@
     <div class="mode-label" :class="{ 'no-icons': !isIcons }">
       {{ label }}
     </div>
-    <Check class="mode-check" :value="value" />
+    <SwitchField class="mode-check" :value="value" />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import Icon from '@/components/Helpers/Icon.vue';
-import Check from '@/components/General/Form/Check.vue';
+import SwitchField from '@/components/General/Form/SwitchField.vue';
 
 export default {
   name: 'ModeListItem',
   components: {
     Icon,
-    Check
+    SwitchField
   },
   props: {
     label: {
@@ -79,7 +79,7 @@ export default {
   }
   .mode-label {
     user-select: none;
-    font-size: 16px;
+    font-size: $list-item-font;
     line-height: 36px;
     padding: 0px 10px;
     font-weight: 600;

@@ -7,9 +7,7 @@
     </template>
     <template #sidebar>
       <div class="user-sidebar">
-        <div class="sidebar-header">
-          <UserLabel :user="user" big />
-        </div>
+        <UserLabel :user="user" className="sidebar-user-label" big />
         <div class="sidebar-body">
           <ModeListItem
             v-model="notifications"
@@ -31,8 +29,8 @@ import Drawer from '@/components/Helpers/Drawer.vue';
 import UserLabel from '@/components/General/User/UserLabel.vue';
 import IconList from '@/components/General/List/IconList.vue';
 import ModeListItem from '@/components/General/List/ModeListItem.vue';
-import ContactList from '@/components/General/Popups/ContactList.vue';
-import Settings from '@/components/General/Popups/Settings.vue';
+import ContactList from '@/components/General/Popups/Contacts/ContactList.vue';
+import Settings from '@/components/General/Popups/Settings/Settings.vue';
 import { mapGetters, mapActions } from 'vuex';
 import api from '@/services/api';
 
@@ -120,8 +118,11 @@ export default {
 </script>
 <style lang="scss" scoped>
 .user-sidebar {
-  .sidebar-header {
-    border-bottom: 1px solid $grey-color;
+  /deep/ .sidebar-user-label {
+    background-color: $light-grey-color;
+  }
+  .sidebar-body {
+    margin-top: 15px;
   }
 }
 .toggle-btn {

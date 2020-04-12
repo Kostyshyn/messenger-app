@@ -1,11 +1,12 @@
 <template>
-  <div class="overlay" :class="{ blur: blur }" :style="{ 'z-index': zIndex }">
+  <div :class="classList" :style="style">
     <slot></slot>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
+const POSITIONS = ['fixed', 'absolute'];
 
 export default {
   name: 'Overlay',
@@ -18,6 +19,28 @@ export default {
     zIndex: {
       type: Number,
       default: 10
+    },
+    position: {
+      type: String,
+      validator: pos => {
+        return POSITIONS.includes(pos);
+      },
+      default: 'fixed'
+    },
+    className: {
+      type: String,
+      default: ''
+    }
+  },
+  computed: {
+    style() {
+      return {
+        'z-index': this.zIndex,
+        position: this.position
+      };
+    },
+    classList() {
+      return ['overlay', { blur: this.blur }, this.className];
     }
   }
 };
@@ -25,7 +48,6 @@ export default {
 <style lang="scss" scoped>
 .overlay {
   display: block;
-  position: fixed;
   width: 100%;
   height: 100%;
   z-index: 9;

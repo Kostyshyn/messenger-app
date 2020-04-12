@@ -55,13 +55,17 @@ export default {
       width: 30px;
       align-items: center;
       justify-content: center;
-      /deep/ svg {
-        fill: $dark-grey-color;
+      /deep/ .icon {
+        display: flex;
+        align-items: center;
+        svg {
+          fill: $dark-grey-color;
+        }
       }
     }
     .item-label {
       user-select: none;
-      font-size: 16px;
+      font-size: $list-item-font;
       line-height: 36px;
       padding: 0px 10px;
       font-weight: 600;

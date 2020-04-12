@@ -27,7 +27,7 @@
 // @ is an alias to /src
 
 export default {
-  name: 'Check',
+  name: 'SwitchField',
   components: {},
   props: {
     label: {
