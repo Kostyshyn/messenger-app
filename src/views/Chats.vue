@@ -24,7 +24,7 @@
       </div>
     </div>
     <div v-if="user" class="chat-view">
-      <img class="image" :src="baseUrl + '/' + user.profile_image.url" alt="" />
+      <img class="image" :src="image" alt="" />
       <h1>Active: {{ user.username }}</h1>
       <p>Email: {{ user.email }}</p>
     </div>
@@ -47,10 +47,15 @@ export default {
   },
   computed: {
     ...mapGetters({
-      baseUrl: 'app/baseUrl'
+      baseUrl: 'app/baseUrl',
+      token: 'user/token'
     }),
     url() {
       return this.$route.params.url;
+    },
+    image() {
+      const { baseUrl, user, token } = this;
+      return `${baseUrl}/${user.profile_image.url}?token=${token}`;
     }
   },
   methods: {
@@ -59,7 +64,7 @@ export default {
         const page = this.users.page || 1;
         this.users = await api.getUsers({
           page,
-          limit: 5 // for testing
+          limit: 2 // for testing
         });
       } catch (err) {
         console.log(err);

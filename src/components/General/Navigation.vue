@@ -1,7 +1,7 @@
 <template>
   <div class="navigation-wrap">
     <div class="navigation">
-      <UserSidebar v-if="loggedIn" />
+      <UserSidebar />
     </div>
   </div>
 </template>
@@ -18,7 +18,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      loggedIn: 'user/loggedId',
       user: 'user/user',
       token: 'user/token',
       baseUrl: 'app/baseUrl'

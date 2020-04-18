@@ -2,8 +2,8 @@
   <div :class="classList">
     <img :src="userImage" :alt="user.username" class="user-img" />
     <div class="user-info">
-      <h3 class="username">{{ user.username }}</h3>
-      <p class="url">{{ user.url }}</p>
+      <h3 class="username">{{ user.first_name }} {{ user.last_name }}</h3>
+      <p class="url">@{{ user.username }}</p>
     </div>
   </div>
 </template>
@@ -34,8 +34,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      token: 'user/token',
-      baseUrl: 'app/baseUrl'
+      baseUrl: 'app/baseUrl',
+      token: 'user/token'
     }),
     classList() {
       return ['user-label', { big: this.big }, this.className];

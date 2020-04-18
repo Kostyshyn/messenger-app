@@ -67,7 +67,7 @@ div {
 }
 
 .fade-enter-active, .fade-leave-active {
-  transition: 0.2s cubic-bezier(0.25, 0.8, 0.5, 1);
+  transition: 0.1s cubic-bezier(0.25, 0.8, 0.5, 1);
 }
 .fade-enter, .fade-leave-to {
   opacity: 0;

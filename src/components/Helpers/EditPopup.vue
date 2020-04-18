@@ -94,7 +94,7 @@ export default {
   .edit-popup-header {
     display: flex;
     flex-direction: row;
-    padding: 15px 0px 25px 0px;
+    padding: 15px 0px 20px 0px;
     h3 {
       width: 100%;
       user-select: none;

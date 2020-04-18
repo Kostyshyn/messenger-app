@@ -2,7 +2,7 @@
   <div id="app">
     <Loader :loading="loading" />
     <div class="root-wrapper">
-      <Navigation />
+      <Navigation v-if="loggedIn" />
       <transition name="page" mode="out-in">
         <router-view />
       </transition>
@@ -34,6 +34,7 @@ export default {
     ...mapGetters({
       loading: 'app/loading',
       device: 'app/device',
+      loggedIn: 'user/loggedId',
       popup: 'app/popup'
     })
   },

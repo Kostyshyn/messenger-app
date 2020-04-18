@@ -1,6 +1,10 @@
 <template>
   <div class="main-wrapper">
     <h1>Register</h1>
+    <input type="text" v-model="first_name" placeholder="first name" />
+    <br />
+    <input type="text" v-model="last_name" placeholder="last name" />
+    <br />
     <input type="text" v-model="username" placeholder="username" />
     <br />
     <input type="email" v-model="email" placeholder="email" />
@@ -20,6 +24,8 @@ export default {
   components: {},
   data() {
     return {
+      first_name: '',
+      last_name: '',
       username: '',
       email: '',
       password: ''
@@ -28,9 +34,11 @@ export default {
   computed: {},
   methods: {
     click() {
-      const { username, email, password } = this;
+      const { first_name, last_name, username, email, password } = this;
       // prettier-ignore
       api.register({
+        first_name,
+        last_name,
         username,
         email,
         password
