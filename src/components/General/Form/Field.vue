@@ -1,18 +1,21 @@
 <template>
-  <div class="field" :class="{ error: isError }">
-    <input
-      ref="input"
-      :type="type"
-      :name="name"
-      :class="['field-input', className]"
-      :placeholder="placeholder"
-      :value="value"
-      :disabled="disabled"
-      :autocomplete="autocomplete"
-      @input="$emit('input', $event.target.value)"
-      @focus="onFocus"
-      @blur="onBlur"
-    />
+  <div class="field" :class="{ error: isError }" :style="fieldStyle">
+    <label class="label">
+      <p class="field-label">{{ label }}</p>
+      <input
+        ref="input"
+        :type="type"
+        :name="name"
+        :class="['field-input', className]"
+        :placeholder="placeholder"
+        :value="value"
+        :disabled="disabled"
+        :autocomplete="autocomplete"
+        @input="$emit('input', $event.target.value)"
+        @focus="onFocus"
+        @blur="onBlur"
+      />
+    </label>
     <transition name="error-fade" mode="out-in">
       <ul class="field-errors" v-if="isError">
         <li v-for="(error, index) in errors" :key="index">
@@ -33,6 +36,10 @@ export default {
   props: {
     name: {
       type: String
+    },
+    label: {
+      type: String,
+      default: ''
     },
     value: {
       type: [String, Number],
@@ -71,6 +78,16 @@ export default {
   computed: {
     isError() {
       return this.errors.length;
+    },
+    fieldStyle() {
+      if (this.label) {
+        return {
+          'min-height': '80px'
+        };
+      }
+      return {
+        'min-height': '60px'
+      };
     }
   },
   methods: {
@@ -99,7 +116,16 @@ export default {
 }
 .field {
   width: 100%;
-  min-height: 60px;
+  min-height: 80px;
+  .label {
+    display: block;
+  }
+  .field-label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: $dark-grey-font-color;
+  }
   .field-input {
     border: 1px solid $light-grey-color;
     background-color: $light-grey-color;

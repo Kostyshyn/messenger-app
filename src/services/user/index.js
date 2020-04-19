@@ -31,6 +31,16 @@ export const getUserByUrl = async function({ api }, url) {
   }
 };
 
+export const updateUser = async function({ api, store }, payload) {
+  try {
+    const res = await api.put('/user/info', payload);
+    store.dispatch('user/setUser', res.user);
+    return res.user;
+  } catch (err) {
+    return Promise.reject(err.data);
+  }
+};
+
 export const uploadUserImage = async function({ api, store }, payload) {
   try {
     const res = await api.post('/upload/image', payload, {

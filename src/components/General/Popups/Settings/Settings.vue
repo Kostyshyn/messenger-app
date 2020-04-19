@@ -1,12 +1,15 @@
 <template>
   <div class="user-settings">
     <UserLabel :user="user" className="settings-user-label" big />
-    <p class="list-header">Account</p>
-    <IconList :list="accountMenu" @action="action" />
-    <p class="list-header">Settings</p>
-    <IconList :list="settingsMenu" @action="action" />
+    <IconList :list="accountMenu" heading="Account" @action="accountAction" />
+    <IconList :list="settingsMenu" heading="Settings" @action="action" />
     <transition name="fade" mode="out-in">
-      <component v-if="editPopupOpen" :is="activePopup" @close="close" />
+      <component
+        v-if="editPopupOpen"
+        v-bind="{ userData: user }"
+        :is="activePopup"
+        @close="close"
+      />
     </transition>
   </div>
 </template>
@@ -16,7 +19,13 @@
 import UserLabel from '@/components/General/User/UserLabel.vue';
 import IconList from '@/components/General/List/IconList.vue';
 import EditName from '@/components/General/Popups/Settings/EditName.vue';
+import EditUsername from '@/components/General/Popups/Settings/EditUsername.vue';
 import { mapGetters, mapActions } from 'vuex';
+
+const POPUPS = {
+  EditName,
+  EditUsername
+};
 
 export default {
   name: 'Settings',
@@ -30,7 +39,7 @@ export default {
     return {
       // popup title
       title: 'Settings',
-      activePopup: EditName,
+      activePopup: null,
       editPopupOpen: false,
       accountMenu: [
         {
@@ -41,12 +50,12 @@ export default {
         {
           label: 'Edit name',
           icon: 'person',
-          action: ''
+          action: 'EditName'
         },
         {
           label: 'Edit username',
           icon: 'email',
-          action: ''
+          action: 'EditUsername'
         },
         {
           label: 'Change e-mail',
@@ -88,11 +97,16 @@ export default {
     ...mapActions({
       close: 'app/closePopup'
     }),
-    action(method) {
-      this.editPopupOpen = true;
-      if (method && this[method]) {
-        this[method]();
+    accountAction(popup) {
+      if (POPUPS[popup]) {
+        this.activePopup = POPUPS[popup];
+        this.$nextTick(() => {
+          this.editPopupOpen = true;
+        });
       }
+    },
+    action(method) {
+      console.log(method);
     },
     close() {
       this.editPopupOpen = false;

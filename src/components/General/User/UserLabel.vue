@@ -2,7 +2,7 @@
   <div :class="classList">
     <img :src="userImage" :alt="user.username" class="user-img" />
     <div class="user-info">
-      <h3 class="username">{{ user.first_name }} {{ user.last_name }}</h3>
+      <h3 class="username" :style="fontSize">{{ fullName }}</h3>
       <p class="url">@{{ user.username }}</p>
     </div>
   </div>
@@ -30,7 +30,9 @@ export default {
     }
   },
   data() {
-    return {};
+    return {
+      maxStr: 13
+    };
   },
   computed: {
     ...mapGetters({
@@ -43,6 +45,21 @@ export default {
     userImage() {
       const { baseUrl, user, token } = this;
       return `${baseUrl}/${user.profile_image.url}?token=${token}`;
+    },
+    fullName() {
+      const { first_name, last_name } = this.user;
+      return `${first_name} ${last_name}`;
+    },
+    fontSize() {
+      const { first_name } = this.user;
+      if (first_name.length > this.maxStr) {
+        return {
+          'font-size': '16px'
+        };
+      }
+      return {
+        'font-size': '18px'
+      };
     }
   },
   methods: {}
@@ -65,14 +82,14 @@ export default {
   }
   .user-info {
     padding-left: 10px;
-    width: calc(100% - 48px);
+    /*width: calc(100% - 48px);*/
+    width: calc(100% - 76px);
     .username {
-      height: 20px;
+      max-height: 46px;
       color: $black-font-color;
-      font-size: 18px;
       font-weight: 600;
       margin: 0 0 3px 0;
-      @include trancate-text;
+      @include line-clamp(2);
     }
     .url {
       height: 16px;

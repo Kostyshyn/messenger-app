@@ -1,20 +1,11 @@
 <template>
-  <EditPopup title="Edit name" @save="save" @close="$emit('close')">
+  <EditPopup title="Edit username" @save="save" @close="$emit('close')">
     <Field
-      name="first_name"
-      label="First name"
-      placeholder="Type first name"
+      name="username"
+      placeholder="Type username"
       autocomplete="off"
-      v-model="user.first_name"
-      :errors="errors['first_name']"
-    />
-    <Field
-      name="last_name"
-      label="Last name"
-      placeholder="Type last name"
-      autocomplete="off"
-      v-model="user.last_name"
-      :errors="errors['last_name']"
+      v-model="user.username"
+      :errors="errors['username']"
     />
   </EditPopup>
 </template>
@@ -26,7 +17,7 @@ import Field from '@/components/General/Form/Field.vue';
 import api from '@/services/api';
 
 export default {
-  name: 'EditName',
+  name: 'EditUsername',
   components: {
     EditPopup,
     Field
@@ -40,8 +31,7 @@ export default {
   data() {
     return {
       user: {
-        first_name: '',
-        last_name: '',
+        username: '',
         ...this.userData
       },
       errors: {}

@@ -1,5 +1,9 @@
 <template>
-  <div v-on="$listeners" class="mode-item" :class="className" @click="change">
+  <ListItem
+    v-on="$listeners"
+    :className="['mode-item', className]"
+    @click.native="change"
+  >
     <div class="mode-icon" v-if="isIcons">
       <Icon v-show="value" :name="iconOn" />
       <Icon v-show="!value" :name="iconOff" />
@@ -8,17 +12,19 @@
       {{ label }}
     </div>
     <SwitchField class="mode-check" :value="value" />
-  </div>
+  </ListItem>
 </template>
 
 <script>
 // @ is an alias to /src
+import ListItem from '@/components/General/List/ListItem.vue';
 import Icon from '@/components/Helpers/Icon.vue';
 import SwitchField from '@/components/General/Form/SwitchField.vue';
 
 export default {
   name: 'ModeListItem',
   components: {
+    ListItem,
     Icon,
     SwitchField
   },
@@ -60,12 +66,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .mode-item {
-  display: flex;
-  padding: 5px 10px;
-  cursor: pointer;
-  &:hover {
-    background-color: $light-grey-color;
-  }
   .mode-icon {
     display: flex;
     font-size: 20px;

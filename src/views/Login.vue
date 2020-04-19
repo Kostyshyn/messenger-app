@@ -5,14 +5,16 @@
       <form @submit.prevent="login">
         <Field
           name="username"
-          placeholder="Username"
+          label="Username"
+          placeholder="Type username"
           v-model="username"
           :errors="errors['username']"
         />
         <Field
           name="password"
+          label="Password"
           type="password"
-          placeholder="Password"
+          placeholder="Type password"
           v-model="password"
           :errors="errors['password']"
         />
@@ -88,7 +90,7 @@ export default {
     .link {
       font-size: 16px;
       font-weight: 400;
-      color: #1b82f1;
+      color: $primary-font-color;
       text-decoration: none;
       padding: 5px 10px;
     }

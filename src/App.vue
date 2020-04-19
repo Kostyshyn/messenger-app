@@ -2,7 +2,6 @@
   <div id="app">
     <Loader :loading="loading" />
     <div class="root-wrapper">
-      <Navigation v-if="loggedIn" />
       <transition name="page" mode="out-in">
         <router-view />
       </transition>
@@ -16,14 +15,12 @@
 <script>
 // @ is an alias to /src
 import { mapGetters, mapActions } from 'vuex';
-import Navigation from '@/components/General/Navigation.vue';
 import Loader from '@/components/Helpers/Loader.vue';
 import Popup from '@/components/Helpers/Popup.vue';
 
 export default {
   name: 'App',
   components: {
-    Navigation,
     Loader,
     Popup
   },
@@ -34,7 +31,6 @@ export default {
     ...mapGetters({
       loading: 'app/loading',
       device: 'app/device',
-      loggedIn: 'user/loggedId',
       popup: 'app/popup'
     })
   },
