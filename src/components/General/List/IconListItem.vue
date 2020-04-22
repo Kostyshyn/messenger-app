@@ -37,35 +37,27 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.list-item {
+.item-icon {
   display: flex;
-  padding: 5px 10px;
-  cursor: pointer;
-  &:hover {
-    background-color: $light-grey-color;
-  }
-  .item-icon {
+  font-size: 20px;
+  height: 36px;
+  width: 30px;
+  align-items: center;
+  justify-content: center;
+  /deep/ .icon {
     display: flex;
-    font-size: 20px;
-    height: 36px;
-    width: 30px;
     align-items: center;
-    justify-content: center;
-    /deep/ .icon {
-      display: flex;
-      align-items: center;
-      svg {
-        fill: $dark-grey-color;
-      }
+    svg {
+      fill: $dark-grey-color;
     }
   }
-  .item-label {
-    user-select: none;
-    font-size: $list-item-font;
-    line-height: 36px;
-    padding: 0px 10px;
-    font-weight: 600;
-    color: $black-font-color;
-  }
+}
+.item-label {
+  user-select: none;
+  font-size: $list-item-font;
+  line-height: 36px;
+  padding: 0px 10px;
+  font-weight: 600;
+  color: $black-font-color;
 }
 </style>

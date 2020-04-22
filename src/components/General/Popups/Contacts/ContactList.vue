@@ -1,6 +1,7 @@
 <template>
   <div class="contact-list">
     <SearchField v-model="keyword" />
+    <UserList :list="users.data" />
     <div class="contact-footer">
       <Button className="close" color="transparent" ripple>
         Add
@@ -16,13 +17,16 @@
 // @ is an alias to /src
 import SearchField from '@/components/Helpers/SearchField.vue';
 import Button from '@/components/Helpers/Button.vue';
+import UserList from '@/components/General/List/UserList.vue';
 import { mapActions } from 'vuex';
+import api from '@/services/api';
 
 export default {
   name: 'ContactList',
   components: {
     SearchField,
-    Button
+    Button,
+    UserList
   },
   props: {
     contacts: {
@@ -33,16 +37,37 @@ export default {
   data() {
     return {
       title: 'Contacts',
-      keyword: ''
+      users: {},
+      keyword: '',
+      requestProcessing: false
     };
   },
   computed: {},
   methods: {
     ...mapActions({
       close: 'app/closePopup'
-    })
+    }),
+    async getUsers(keyword) {
+      try {
+        const page = this.users.page || 1;
+        this.requestProcessing = true;
+        this.users = await api.getUsers({
+          page,
+          limit: 10, // for testing
+          keyword
+        });
+        this.requestProcessing = false;
+      } catch (err) {
+        this.requestProcessing = false;
+        console.log(err);
+      }
+    }
   },
-  watch: {},
+  watch: {
+    keyword(str) {
+      this.getUsers(str);
+    }
+  },
   mounted() {},
   created() {
     console.log(this.contacts);

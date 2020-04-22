@@ -8,12 +8,13 @@ export const fetchUser = async function({ api, store }) {
   }
 };
 
-export const getUsers = async function({ api }, { page, limit }) {
+export const getUsers = async function({ api }, { page, limit, keyword }) {
   try {
     const res = await api.get('/users', {
       params: {
         page,
-        limit
+        limit,
+        keyword
       }
     });
     return res;

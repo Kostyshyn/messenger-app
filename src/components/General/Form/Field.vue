@@ -1,20 +1,36 @@
 <template>
-  <div class="field" :class="{ error: isError }" :style="fieldStyle">
+  <div class="field" :class="fieldClass" :style="fieldStyle">
     <label class="label">
-      <p class="field-label">{{ label }}</p>
-      <input
-        ref="input"
-        :type="type"
-        :name="name"
-        :class="['field-input', className]"
-        :placeholder="placeholder"
-        :value="value"
-        :disabled="disabled"
-        :autocomplete="autocomplete"
-        @input="$emit('input', $event.target.value)"
-        @focus="onFocus"
-        @blur="onBlur"
-      />
+      <p class="field-label" v-if="label">{{ label }}</p>
+      <div class="input-wrapper">
+        <div
+          class="field-prefix"
+          :class="{ focus: focusState }"
+          v-if="$slots.prefix"
+        >
+          <slot name="prefix" />
+        </div>
+        <input
+          ref="input"
+          :type="type"
+          :name="name"
+          :class="inputClass"
+          :placeholder="placeholder"
+          :value="value"
+          :disabled="disabled"
+          :autocomplete="autocomplete"
+          @input="$emit('input', $event.target.value)"
+          @focus="onFocus"
+          @blur="onBlur"
+        />
+        <div
+          class="field-suffix"
+          :class="{ focus: focusState }"
+          v-if="$slots.suffix"
+        >
+          <slot name="suffix" />
+        </div>
+      </div>
     </label>
     <transition name="error-fade" mode="out-in">
       <ul class="field-errors" v-if="isError">
@@ -67,19 +83,30 @@ export default {
       },
       default: 'text'
     },
+    noErrors: {
+      type: Boolean,
+      default: false
+    },
     errors: {
       type: Array,
       default: () => []
     }
   },
   data() {
-    return {};
+    return {
+      focusState: false
+    };
   },
   computed: {
     isError() {
       return this.errors.length;
     },
     fieldStyle() {
+      if (this.noErrors) {
+        return {
+          'min-height': '34px'
+        };
+      }
       if (this.label) {
         return {
           'min-height': '80px'
@@ -88,20 +115,45 @@ export default {
       return {
         'min-height': '60px'
       };
+    },
+    fieldClass() {
+      return [
+        {
+          error: this.isError
+        },
+        {
+          'no-errors': this.noErrors
+        }
+      ];
+    },
+    inputClass() {
+      return [
+        'field-input',
+        this.className,
+        {
+          prefix: this.$slots.prefix
+        },
+        {
+          suffix: this.$slots.suffix
+        }
+      ];
     }
   },
   methods: {
     onFocus() {
+      this.focusState = true;
       this.$emit('focus');
     },
     onBlur() {
+      this.focusState = false;
       this.$emit('blur');
     },
     focus() {
       this.$refs.input.focus();
     }
   },
-  watch: {}
+  watch: {},
+  mounted() {}
 };
 </script>
 <style lang="scss" scoped>
@@ -116,7 +168,6 @@ export default {
 }
 .field {
   width: 100%;
-  min-height: 80px;
   .label {
     display: block;
   }
@@ -126,24 +177,72 @@ export default {
     margin-bottom: 5px;
     color: $dark-grey-font-color;
   }
-  .field-input {
-    border: 1px solid $light-grey-color;
-    background-color: $light-grey-color;
-    border-radius: 2px;
-    height: 34px;
-    line-height: 35px;
-    font-size: 16px;
-    color: $black-font-color;
-    padding: 0px 8px;
-    outline: none;
-    box-sizing: border-box;
-    transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
-    width: 100%;
-    &:focus,
-    &:active {
+  .input-wrapper {
+    display: flex;
+    position: relative;
+    .field-prefix,
+    .field-suffix {
+      height: 34px;
+      min-width: 34px;
+      max-width: 102px;
+      box-sizing: border-box;
+      border: 1px solid $light-grey-color;
+      background-color: $light-grey-color;
+      border-radius: 2px;
+      transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+      @include trancate-text;
+      &.focus {
+        outline: none;
+        background-color: transparent;
+        border: 1px solid $grey-color;
+      }
+    }
+    .field-prefix {
+      border-right: none;
+      border-top-right-radius: 0px;
+      border-bottom-right-radius: 0px;
+      &.focus {
+        border-right: none;
+      }
+    }
+    .field-suffix {
+      border-left: none;
+      border-top-left-radius: 0px;
+      border-bottom-left-radius: 0px;
+      &.focus {
+        border-left: none;
+      }
+    }
+    .field-input {
+      border: 1px solid $light-grey-color;
+      background-color: $light-grey-color;
+      border-radius: 2px;
+      height: 34px;
+      line-height: 35px;
+      font-size: 16px;
+      color: $black-font-color;
+      padding: 0px 8px;
       outline: none;
-      background-color: transparent;
-      border: 1px solid $grey-color;
+      box-sizing: border-box;
+      transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+      width: 100%;
+      &:focus {
+        outline: none;
+        background-color: transparent;
+        border: 1px solid $grey-color;
+      }
+      &.prefix {
+        padding-left: 0px;
+        border-left: none;
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+      }
+      &.suffix {
+        padding-right: 0px;
+        border-right: none;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+      }
     }
   }
   &.error {

@@ -35,13 +35,13 @@ export default {
 </script>
 <style lang="scss" scoped>
 .user-image {
-  display: inline-block;
+  display: flex;
   a {
     display: inline-block;
   }
   img {
-    width: 36px;
-    height: 36px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
   }
 }

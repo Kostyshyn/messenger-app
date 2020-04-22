@@ -1,21 +1,32 @@
 <template>
   <div class="search-field">
-    <Icon
-      name="search"
-      class="search"
-      v-show="!loading"
-      @click.native="focusField"
-    />
-    <div class="search-loader" v-show="loading">
-      <div class="search-preloader"></div>
-    </div>
-    <Field ref="field" :value="value" @input="$emit('input', $event)" />
-    <Icon
-      v-if="value.length"
-      name="clear"
-      class="clear"
-      @click.native="clear"
-    />
+    <Field
+      noErrors
+      placeholder="Search"
+      ref="field"
+      :value="value"
+      @input="$emit('input', $event)"
+    >
+      <template slot="prefix">
+        <Icon
+          name="search"
+          class="search"
+          v-show="!loading"
+          @click.native="focusField"
+        />
+        <div class="search-loader" v-show="loading">
+          <div class="search-preloader"></div>
+        </div>
+      </template>
+      <template slot="suffix">
+        <Icon
+          v-show="value.length"
+          name="clear"
+          class="clear"
+          @click.native="clear"
+        />
+      </template>
+    </Field>
   </div>
 </template>
 
@@ -62,13 +73,6 @@ export default {
   display: flex;
   position: relative;
   margin-bottom: 15px;
-  /deep/ .field {
-    margin: 0px;
-    min-height: 34px;
-    input {
-      padding: 0px 32px;
-    }
-  }
   .search-loader {
     position: absolute;
     top: 0px;
