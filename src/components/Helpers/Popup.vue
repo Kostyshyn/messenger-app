@@ -16,7 +16,7 @@
       </div>
       <component :is="popup.component" v-bind="popup.data" />
     </div>
-    <Overlay @click.native="close" />
+    <Overlay @click.native="handleBackdropClick" />
   </div>
 </template>
 
@@ -58,6 +58,7 @@ export default {
       backAction: null,
       options: {
         close: true,
+        backdrop: true,
         ...this.popup.options
       }
     };
@@ -84,6 +85,11 @@ export default {
     handleBackClick() {
       if (this.backAction) {
         this.backAction();
+      }
+    },
+    handleBackdropClick() {
+      if (this.options.backdrop) {
+        this.close();
       }
     }
   },

@@ -5,6 +5,8 @@
       placeholder="Search"
       ref="field"
       :value="value"
+      :disabled="disabled"
+      :readonly="readonly"
       @input="$emit('input', $event)"
     >
       <template slot="prefix">
@@ -20,6 +22,7 @@
       </template>
       <template slot="suffix">
         <Icon
+          v-if="!readonly"
           v-show="value.length"
           name="clear"
           class="clear"
@@ -50,6 +53,14 @@ export default {
     loading: {
       type: Boolean,
       default: false
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    readonly: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -58,7 +69,9 @@ export default {
   computed: {},
   methods: {
     clear() {
-      this.$emit('input', '');
+      if (!this.readonly) {
+        this.$emit('input', '');
+      }
     },
     focusField() {
       this.$refs.field.focus();

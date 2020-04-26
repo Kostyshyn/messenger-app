@@ -9,12 +9,14 @@
       <div class="user-sidebar">
         <UserLabel :user="user" className="sidebar-user-label" big />
         <div class="sidebar-body">
-          <ModeListItem
-            v-model="notifications"
-            label="Notifications"
-            iconOn="notifications"
-            iconOff="notifications_off"
-          />
+          <List>
+            <ModeListItem
+              v-model="notifications"
+              label="Notifications"
+              iconOn="notifications"
+              iconOff="notifications_off"
+            />
+          </List>
           <IconList :list="menuItems" @action="action" />
         </div>
       </div>
@@ -27,10 +29,11 @@
 import Icon from '@/components/Helpers/Icon.vue';
 import Drawer from '@/components/Helpers/Drawer.vue';
 import UserLabel from '@/components/General/User/UserLabel.vue';
+import List from '@/components/General/List/List.vue';
 import IconList from '@/components/General/List/IconList.vue';
 import ModeListItem from '@/components/General/List/ModeListItem.vue';
-import ContactList from '@/components/General/Popups/Contacts/ContactList.vue';
-import Settings from '@/components/General/Popups/Settings/Settings.vue';
+import ContactList from '@/components/Popups/Contacts/ContactList.vue';
+import Settings from '@/components/Popups/Settings/Settings.vue';
 import { mapGetters, mapActions } from 'vuex';
 import api from '@/services/api';
 
@@ -41,6 +44,7 @@ export default {
     Drawer,
     UserLabel,
     ModeListItem,
+    List,
     IconList
   },
   data() {
@@ -105,7 +109,9 @@ export default {
       this.openPopup({
         name: 'settings',
         component: Settings,
-        options: {},
+        options: {
+          backdrop: false
+        },
         data: {}
       });
     },

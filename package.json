@@ -12,6 +12,7 @@
     "core-js": "^3.6.4",
     "local-storage": "^2.0.0",
     "vue": "^2.6.11",
+    "vue-croppie": "^2.0.1",
     "vue-router": "^3.1.5",
     "vuex": "^3.1.2"
   },

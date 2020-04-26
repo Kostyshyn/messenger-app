@@ -18,11 +18,13 @@
 // @ is an alias to /src
 import UserLabel from '@/components/General/User/UserLabel.vue';
 import IconList from '@/components/General/List/IconList.vue';
-import EditName from '@/components/General/Popups/Settings/EditName.vue';
-import EditUsername from '@/components/General/Popups/Settings/EditUsername.vue';
+import ChangeProfileImage from '@/components/Popups/Settings/ChangeProfileImage.vue';
+import EditName from '@/components/Popups/Settings/EditName.vue';
+import EditUsername from '@/components/Popups/Settings/EditUsername.vue';
 import { mapGetters, mapActions } from 'vuex';
 
 const POPUPS = {
+  ChangeProfileImage,
   EditName,
   EditUsername
 };
@@ -32,7 +34,9 @@ export default {
   components: {
     UserLabel,
     IconList,
-    EditName
+    ChangeProfileImage,
+    EditName,
+    EditUsername
   },
   props: {},
   data() {
@@ -45,7 +49,7 @@ export default {
         {
           label: 'Change profile image',
           icon: 'add_a_photo',
-          action: ''
+          action: 'ChangeProfileImage'
         },
         {
           label: 'Edit name',
@@ -97,9 +101,9 @@ export default {
     ...mapActions({
       close: 'app/closePopup'
     }),
-    accountAction(popup) {
-      if (POPUPS[popup]) {
-        this.activePopup = POPUPS[popup];
+    accountAction(action) {
+      if (POPUPS[action]) {
+        this.activePopup = POPUPS[action];
         this.$nextTick(() => {
           this.editPopupOpen = true;
         });

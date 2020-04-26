@@ -18,6 +18,7 @@
           :placeholder="placeholder"
           :value="value"
           :disabled="disabled"
+          :readonly="readonly"
           :autocomplete="autocomplete"
           @input="$emit('input', $event.target.value)"
           @focus="onFocus"
@@ -76,6 +77,10 @@ export default {
       type: Boolean,
       default: false
     },
+    readonly: {
+      type: Boolean,
+      default: false
+    },
     type: {
       type: String,
       validator: type => {
@@ -127,9 +132,11 @@ export default {
       ];
     },
     inputClass() {
+      const { readonly, className } = this;
       return [
         'field-input',
-        this.className,
+        className,
+        { readonly },
         {
           prefix: this.$slots.prefix
         },
@@ -242,6 +249,9 @@ export default {
         border-right: none;
         border-top-right-radius: 0px;
         border-bottom-right-radius: 0px;
+      }
+      &.readonly {
+        color: $dark-grey-color;
       }
     }
   }

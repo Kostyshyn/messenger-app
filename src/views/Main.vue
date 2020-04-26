@@ -1,7 +1,9 @@
 <template>
   <div class="main-wrapper">
     <Navigation v-if="loggedIn" />
-    <div class="main-page">Main page</div>
+    <div class="main-page">
+      <h1>Main page</h1>
+    </div>
   </div>
 </template>
 

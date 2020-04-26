@@ -55,23 +55,26 @@ export default {
     }
   },
   methods: {
-    login() {
+    async login() {
       const { username, password, redirect } = this;
       if (this.loading) {
         return;
       }
-      this.loading = true;
-      // prettier-ignore
-      api.login({
-        username,
-        password
-      }, redirect).then(() => {
+      try {
+        this.loading = true;
+        await api.login(
+          {
+            username,
+            password
+          },
+          redirect
+        );
         this.loading = false;
         this.errors = {};
-      }).catch(err => {
+      } catch (err) {
         this.loading = false;
-        this.errors = err.errors
-      });
+        this.errors = err.errors;
+      }
     }
   },
   watch: {}

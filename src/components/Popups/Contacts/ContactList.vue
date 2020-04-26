@@ -20,6 +20,7 @@ import Button from '@/components/Helpers/Button.vue';
 import UserList from '@/components/General/List/UserList.vue';
 import { mapActions } from 'vuex';
 import api from '@/services/api';
+import debounce from '@/utils/debounce';
 
 export default {
   name: 'ContactList',
@@ -39,7 +40,9 @@ export default {
       title: 'Contacts',
       users: {},
       keyword: '',
-      requestProcessing: false
+      delay: 200, // debounce ms
+      requestProcessing: false,
+      debouncedGetUsers: null
     };
   },
   computed: {},
@@ -47,8 +50,9 @@ export default {
     ...mapActions({
       close: 'app/closePopup'
     }),
-    async getUsers(keyword) {
+    async getUsers() {
       try {
+        const { keyword } = this;
         const page = this.users.page || 1;
         this.requestProcessing = true;
         this.users = await api.getUsers({
@@ -64,13 +68,14 @@ export default {
     }
   },
   watch: {
-    keyword(str) {
-      this.getUsers(str);
+    keyword() {
+      this.debouncedGetUsers();
     }
   },
   mounted() {},
   created() {
-    console.log(this.contacts);
+    this.getUsers();
+    this.debouncedGetUsers = debounce(this.getUsers, this.delay);
   }
 };
 </script>
