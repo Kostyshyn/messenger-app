@@ -197,7 +197,7 @@ export default {
       background-color: $light-grey-color;
       border-radius: 2px;
       transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
-      @include trancate-text;
+      @include truncate-text;
       &.focus {
         outline: none;
         background-color: transparent;

@@ -44,7 +44,7 @@ export const updateUser = async function({ api, store }, payload) {
 
 export const uploadUserImage = async function({ api, store }, payload) {
   try {
-    const res = await api.post('/upload/image', payload, {
+    const res = await api.post('/upload/user/image', payload, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }

@@ -44,7 +44,7 @@ export default {
     },
     userImage() {
       const { baseUrl, user, token } = this;
-      return `${baseUrl}/${user.profile_image.url}?token=${token}`;
+      return `${baseUrl}/${user.profile_image.path}?token=${token}`;
     },
     fullName() {
       const { first_name, last_name } = this.user;
@@ -95,7 +95,7 @@ export default {
       height: 16px;
       color: $dark-grey-font-color;
       font-size: 14px;
-      @include trancate-text;
+      @include truncate-text;
     }
   }
   &.big {

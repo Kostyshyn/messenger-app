@@ -38,7 +38,7 @@ export default {
     }),
     image() {
       const { baseUrl, user, token } = this;
-      return `${baseUrl}/${user.profile_image.url}?token=${token}`;
+      return `${baseUrl}/${user.profile_image.path}?token=${token}`;
     },
     fullName() {
       const { first_name, last_name } = this.user;

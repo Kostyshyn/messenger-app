@@ -99,7 +99,7 @@ export default {
       width: 100%;
       user-select: none;
       margin: 0px;
-      @include trancate-text;
+      @include truncate-text;
     }
   }
   .edit-popup-footer {

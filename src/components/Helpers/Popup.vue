@@ -133,7 +133,7 @@ export default {
         width: 100%;
         user-select: none;
         margin: 0px 0px 0px 4px;
-        @include trancate-text;
+        @include truncate-text;
       }
       .back,
       .close {

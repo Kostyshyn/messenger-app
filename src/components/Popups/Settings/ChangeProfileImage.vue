@@ -9,7 +9,13 @@
       :viewport="{ width: 200, height: 200 }"
     >
     </vue-croppie>
-    <input ref="fileInput" type="file" name="file" @change="inputFile" />
+    <input
+      accept="image/png, image/jpeg"
+      ref="fileInput"
+      type="file"
+      name="file"
+      @change="inputFile"
+    />
     <button @click="crop">Crop</button>
   </EditPopup>
 </template>
@@ -18,6 +24,7 @@
 // @ is an alias to /src
 import EditPopup from '@/components/Helpers/EditPopup.vue';
 import api from '@/services/api';
+import truncate from '@/utils/truncate';
 
 export default {
   name: 'ChangeProfileImage',
@@ -34,6 +41,8 @@ export default {
     return {
       file: null,
       cropped: null,
+      acceptFiles: ['image/jpeg', 'image/jpg', 'image/png'],
+      fileNameMaxLength: 255,
       errors: {}
     };
   },
@@ -60,13 +69,18 @@ export default {
       });
     },
     async save() {
-      try {
-        const formData = new FormData();
-        formData.append('file', this.cropped);
-        await api.uploadUserImage(formData);
-        this.$emit('close');
-      } catch (err) {
-        this.errors = err.errors;
+      if (this.file && this.cropped) {
+        try {
+          const { name } = this.file;
+          const fileName = name ? truncate(name, this.fileNameMaxLength) : '';
+          const formData = new FormData();
+          formData.append('file', this.cropped);
+          formData.append('original_name', fileName);
+          await api.uploadUserImage(formData);
+          this.$emit('close');
+        } catch (err) {
+          this.errors = err.errors;
+        }
       }
     }
   },
