@@ -22,7 +22,7 @@
 
 <script>
 // @ is an alias to /src
-import EditPopup from '@/components/Helpers/EditPopup.vue';
+import EditPopup from '@/components/General/Helpers/EditPopup.vue';
 import api from '@/services/api';
 import truncate from '@/utils/truncate';
 

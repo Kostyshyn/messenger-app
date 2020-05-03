@@ -11,7 +11,7 @@
 
 <script>
 // @ is an alias to /src
-import Icon from '@/components/Helpers/Icon.vue';
+import Icon from '@/components/General/Helpers/Icon.vue';
 import ListItem from '@/components/General/List/ListItem.vue';
 
 export default {

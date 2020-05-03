@@ -15,8 +15,8 @@
 
 <script>
 // @ is an alias to /src
-import SearchField from '@/components/Helpers/SearchField.vue';
-import Button from '@/components/Helpers/Button.vue';
+import SearchField from '@/components/General/Form/SearchField.vue';
+import Button from '@/components/General/Helpers/Button.vue';
 import UserList from '@/components/General/List/UserList.vue';
 import { mapActions } from 'vuex';
 import api from '@/services/api';

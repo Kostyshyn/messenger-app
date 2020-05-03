@@ -12,7 +12,7 @@
 
 <script>
 // @ is an alias to /src
-import EditPopup from '@/components/Helpers/EditPopup.vue';
+import EditPopup from '@/components/General/Helpers/EditPopup.vue';
 import Field from '@/components/General/Form/Field.vue';
 import api from '@/services/api';
 

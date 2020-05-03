@@ -15,8 +15,8 @@
 <script>
 // @ is an alias to /src
 import { mapGetters, mapActions } from 'vuex';
-import Loader from '@/components/Helpers/Loader.vue';
-import Popup from '@/components/Helpers/Popup.vue';
+import Loader from '@/components/General/Helpers/Loader.vue';
+import Popup from '@/components/General/Helpers/Popup.vue';
 
 export default {
   name: 'App',

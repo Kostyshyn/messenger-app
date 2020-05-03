@@ -22,8 +22,8 @@
 
 <script>
 // @ is an alias to /src
-import Overlay from '@/components/Helpers/Overlay.vue';
-import Icon from '@/components/Helpers/Icon.vue';
+import Overlay from '@/components/General/Helpers/Overlay.vue';
+import Icon from '@/components/General/Helpers/Icon.vue';
 import { mapActions } from 'vuex';
 
 export default {

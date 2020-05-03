@@ -1,21 +1,8 @@
 <template>
-  <div class="home main-wrapper">
-    <h1>
-      Home
-    </h1>
-    <p>Environment: {{ env }}</p>
-    <form @submit.prevent="upload">
-      <br />
-      <input type="file" name="file" @change="inputFile"/>
-      <br />
-      <br />
-      <Button color="primary" type="submit" ripple>
-        Upload
-      </Button>
-    </form>
-    <br />
-    <Button ripple @click="toggle(true)">
-      Open sidebar
+  <div class="home">
+    <Carousel :images="images.data" v-if="showCarousel" @close="showCarousel = false" />
+    <Button ripple @click="showCarousel = true">
+      Open carousel
     </Button>
   </div>
 </template>
@@ -24,16 +11,20 @@
 // @ is an alias to /src
 import { mapActions } from 'vuex';
 import api from '@/services/api';
-import Button from '@/components/Helpers/Button.vue';
+import Button from '@/components/General/Helpers/Button.vue';
+import Carousel from '@/components/General/Carousel.vue';
 
 export default {
   name: 'Home',
   components: {
+    Carousel,
     Button
   },
   data() {
     return {
-      file: null
+      file: null,
+      showCarousel: false,
+      images: []
     };
   },
   computed: {
@@ -57,21 +48,18 @@ export default {
       } catch (error) {
         console.error(error);
       }
+    },
+    async getImages() {
+      this.images = await api.getUserImages();
     }
   },
-  created() {}
+  created() {
+    this.getImages();
+  }
 };
 </script>
 <style scoped lang="scss">
-.home {
-  position: relative;
-  .overlay-wrap {
-    display: inline-block;
-    position: relative;
-    width: 200px;
-    height: 200px;
-  }
-}
+.home {}
 .mute-check {
   .icon {
     margin-left: 5px;

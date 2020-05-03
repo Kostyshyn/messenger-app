@@ -36,7 +36,7 @@
 <script>
 // @ is an alias to /src
 import Field from '@/components/General/Form/Field.vue';
-import Icon from '@/components/Helpers/Icon.vue';
+import Icon from '@/components/General/Helpers/Icon.vue';
 // import { mapActions } from 'vuex';
 
 export default {

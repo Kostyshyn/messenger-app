@@ -55,3 +55,12 @@ export const uploadUserImage = async function({ api, store }, payload) {
     return Promise.reject(err.data);
   }
 };
+
+export const getUserImages = async function({ api }) {
+  try {
+    const res = await api.get(`/users/images`);
+    return res.images;
+  } catch (err) {
+    return Promise.reject(err.data);
+  }
+};

@@ -18,7 +18,7 @@
 <script>
 // @ is an alias to /src
 import ListItem from '@/components/General/List/ListItem.vue';
-import Icon from '@/components/Helpers/Icon.vue';
+import Icon from '@/components/General/Helpers/Icon.vue';
 import SwitchField from '@/components/General/Form/SwitchField.vue';
 
 export default {

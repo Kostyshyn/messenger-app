@@ -14,7 +14,7 @@
 const DIRECTIONS = ['left', 'right'];
 
 // @ is an alias to /src
-import Overlay from '@/components/Helpers/Overlay.vue';
+import Overlay from '@/components/General/Helpers/Overlay.vue';
 
 export default {
   name: 'Drawer',

@@ -26,8 +26,8 @@
 
 <script>
 // @ is an alias to /src
-import Icon from '@/components/Helpers/Icon.vue';
-import Drawer from '@/components/Helpers/Drawer.vue';
+import Icon from '@/components/General/Helpers/Icon.vue';
+import Drawer from '@/components/General/Helpers/Drawer.vue';
 import UserLabel from '@/components/General/User/UserLabel.vue';
 import List from '@/components/General/List/List.vue';
 import IconList from '@/components/General/List/IconList.vue';

@@ -25,8 +25,8 @@
 
 <script>
 // @ is an alias to /src
-import Overlay from '@/components/Helpers/Overlay.vue';
-import Button from '@/components/Helpers/Button.vue';
+import Overlay from '@/components/General/Helpers/Overlay.vue';
+import Button from '@/components/General/Helpers/Button.vue';
 
 export default {
   name: 'EditPopup',
@@ -78,7 +78,6 @@ export default {
   justify-content: center;
 }
 .edit-popup {
-  position: absolute;
   position: absolute;
   display: flex;
   flex-direction: column;
