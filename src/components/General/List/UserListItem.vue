@@ -1,6 +1,6 @@
 <template>
   <ListItem :className="className">
-    <UserImage :image="image" />
+    <UserImage v-if="image" :image="image" />
     <div class="item-name">
       {{ fullName }}
     </div>
@@ -38,7 +38,10 @@ export default {
     }),
     image() {
       const { baseUrl, user, token } = this;
-      return `${baseUrl}/${user.profile_image.path}?token=${token}`;
+      if (user.profile_image) {
+        return `${baseUrl}/${user.profile_image.path}?token=${token}`;
+      }
+      return false;
     },
     fullName() {
       const { first_name, last_name } = this.user;

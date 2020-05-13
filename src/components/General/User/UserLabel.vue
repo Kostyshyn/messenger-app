@@ -1,6 +1,6 @@
 <template>
   <div :class="classList">
-    <img :src="userImage" :alt="user.username" class="user-img" />
+    <img v-if="userImage" :src="userImage" :alt="user.username" class="user-img" />
     <div class="user-info">
       <h3 class="username" :style="fontSize">{{ fullName }}</h3>
       <p class="url">@{{ user.username }}</p>
@@ -44,7 +44,10 @@ export default {
     },
     userImage() {
       const { baseUrl, user, token } = this;
-      return `${baseUrl}/${user.profile_image.path}?token=${token}`;
+      if (user.profile_image) {
+        return `${baseUrl}/${user.profile_image.path}?token=${token}`;
+      }
+      return false;
     },
     fullName() {
       const { first_name, last_name } = this.user;
