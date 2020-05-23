@@ -55,7 +55,7 @@ export default {
 .item-name {
   user-select: none;
   font-size: $list-item-font;
-  line-height: 36px;
+  line-height: 38px;
   padding: 0px 10px;
   font-weight: 600;
   color: $black-font-color;

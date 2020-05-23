@@ -225,10 +225,9 @@ export default {
       background-color: $light-grey-color;
       border-radius: 2px;
       height: 34px;
-      line-height: 35px;
       font-size: 16px;
       color: $black-font-color;
-      padding: 0px 8px;
+      padding: 1px 8px 0 8px;
       outline: none;
       box-sizing: border-box;
       transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);

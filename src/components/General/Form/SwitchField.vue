@@ -106,11 +106,11 @@ export default {
       content: '';
       display: inline-block;
       position: absolute;
-      height: 16px;
-      width: 16px;
+      height: 14px;
+      width: 14px;
       border-radius: 50%;
-      left: 1px;
-      top: 1px;
+      left: 1.5px;
+      top: 2px;
       transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
       transform: translateX(0);
       background-color: $white-background-color;
@@ -119,7 +119,7 @@ export default {
   .check-input:checked + .check-btn {
     background-color: $primary-color;
     &:after {
-      transform: translateX(24px);
+      transform: translateX(25px);
     }
   }
   .check-input:disabled + .check-btn {
