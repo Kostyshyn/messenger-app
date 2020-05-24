@@ -1,6 +1,6 @@
 <template>
   <div :class="classList">
-    <img v-if="userImage" :src="userImage" :alt="user.username" class="user-img" />
+    <img :src="userImage" :alt="user.username" class="user-img" />
     <div class="user-info">
       <h3 class="username" :style="fontSize">{{ fullName }}</h3>
       <p class="url">@{{ user.username }}</p>
@@ -11,6 +11,7 @@
 <script>
 // @ is an alias to /src
 import { mapGetters } from 'vuex';
+import imagePath from '@/utils/imagePath';
 
 export default {
   name: 'UserLabel',
@@ -31,11 +32,13 @@ export default {
   },
   data() {
     return {
-      maxStr: 13
+      maxStr: 13,
+      imageSizeSuffix: '_128_128'
     };
   },
   computed: {
     ...mapGetters({
+      settings: 'app/settings',
       baseUrl: 'app/baseUrl',
       token: 'user/token'
     }),
@@ -45,9 +48,14 @@ export default {
     userImage() {
       const { baseUrl, user, token } = this;
       if (user.profile_image) {
-        return `${baseUrl}/${user.profile_image.path}?token=${token}`;
+        const image = imagePath(
+          user.profile_image.path,
+          this.imageSizeSuffix,
+          `?token=${token}`
+        );
+        return `${baseUrl}/${image}`;
       }
-      return false;
+      return `${baseUrl}/${this.settings.DEF_PROFILE_IMG}`;
     },
     fullName() {
       const { first_name, last_name } = this.user;

@@ -1,6 +1,6 @@
 <template>
   <ListItem :className="className">
-    <UserImage v-if="image" :image="image" />
+    <UserImage :image="image" />
     <div class="item-name">
       {{ fullName }}
     </div>
@@ -12,6 +12,7 @@
 import ListItem from '@/components/General/List/ListItem.vue';
 import UserImage from '@/components/General/User/UserImage.vue';
 import { mapGetters } from 'vuex';
+import imagePath from '@/utils/imagePath';
 
 export default {
   name: 'UserListItem',
@@ -29,19 +30,27 @@ export default {
     }
   },
   data() {
-    return {};
+    return {
+      imageSizeSuffix: '_68_68'
+    };
   },
   computed: {
     ...mapGetters({
+      settings: 'app/settings',
       baseUrl: 'app/baseUrl',
       token: 'user/token'
     }),
     image() {
       const { baseUrl, user, token } = this;
       if (user.profile_image) {
-        return `${baseUrl}/${user.profile_image.path}?token=${token}`;
+        const image = imagePath(
+          user.profile_image.path,
+          this.imageSizeSuffix,
+          `?token=${token}`
+        );
+        return `${baseUrl}/${image}`;
       }
-      return false;
+      return `${baseUrl}/${this.settings.DEF_PROFILE_IMG}`;
     },
     fullName() {
       const { first_name, last_name } = this.user;

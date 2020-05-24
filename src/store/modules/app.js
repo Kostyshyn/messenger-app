@@ -5,6 +5,10 @@ export default {
   namespaced: true,
   state: {
     API_BASE_URL: null,
+    settings: {
+      // TODO: get global settings from backend
+      DEF_PROFILE_IMG: 'defaults/images/user/128_profile_placeholder.png'
+    },
     loading: true,
     sidebarOpen: false,
     breakpoints: {
@@ -90,6 +94,7 @@ export default {
     }
   },
   getters: {
+    settings: state => state.settings,
     loading: state => state.loading,
     baseUrl: state => state.API_BASE_URL,
     sidebarOpen: state => state.sidebarOpen,
