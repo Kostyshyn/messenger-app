@@ -1,8 +1,11 @@
 <template>
   <ListItem :className="className">
     <UserImage :image="image" />
-    <div class="item-name">
-      {{ fullName }}
+    <div class="item-info">
+      <div class="item-name">{{ fullName }}</div>
+      <div class="item-text">
+        <slot name="text" />
+      </div>
     </div>
   </ListItem>
 </template>
@@ -61,12 +64,26 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.item-name {
-  user-select: none;
-  font-size: $list-item-font;
-  line-height: 38px;
-  padding: 0px 10px;
-  font-weight: 600;
-  color: $black-font-color;
+.item-info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 8px;
+  .item-name {
+    user-select: none;
+    font-size: $list-heading-item-font;
+    /*line-height: 38px;*/
+    font-weight: 600;
+    color: $black-font-color;
+    margin-bottom: 2px;
+  }
+  .item-text {
+    /*min-height: 27px;*/
+    font-size: $list-text-item-font;
+    font-weight: 400;
+    color: $dark-grey-color;
+    @include line-clamp(2);
+  }
 }
 </style>

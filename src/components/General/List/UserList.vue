@@ -1,6 +1,15 @@
 <template>
   <List :heading="heading">
-    <UserListItem v-for="(user, index) in list" :user="user" :key="index" />
+    <UserListItem
+      v-for="(user, index) in list"
+      :user="user"
+      className="user-list-item"
+      :key="index"
+    >
+      <template slot="text">
+        {{ user.last_seen }}
+      </template>
+    </UserListItem>
   </List>
 </template>
 

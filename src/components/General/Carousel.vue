@@ -6,25 +6,30 @@
   >
     <div class="carousel-wrap">
       <agile class="main" ref="main" :options="mainOptions" :as-nav-for="asNav">
-        <div class="slide" v-for="(slide, index) in slides" :key="index">
-          <img :src="userImage(slide)"/>
+        <div class="slide" v-for="(slide, index) in slides.data" :key="index">
+          <img :src="userImage(slide)" />
         </div>
+        <template slot="prevButton">
+          <Icon name="arrow_left" />
+        </template>
+        <template slot="nextButton">
+          <Icon name="arrow_right" />
+        </template>
       </agile>
-      <agile class="thumbniails" ref="thumbnails" :options="navOptions" :as-nav-for="asMain">
+      <agile
+        class="thumbnails"
+        ref="thumbnails"
+        :options="navOptions"
+        :as-nav-for="asMain"
+      >
         <div
-          class="slide thumbniail"
-          v-for="(slide, index) in slides"
+          class="slide thumbnail"
+          v-for="(slide, index) in slides.data"
           @click="$refs.thumbnails.goTo(index)"
           :key="index"
         >
-          <img :src="userImage(slide)"/>
+          <img :src="userImage(slide, 'preview')" />
         </div>
-        <template slot="prevButton">
-          prev
-        </template>
-        <template slot="nextButton">
-          next
-        </template>
       </agile>
     </div>
   </Overlay>
@@ -35,32 +40,41 @@
 import { mapGetters } from 'vuex';
 import { VueAgile } from 'vue-agile';
 import Overlay from '@/components/General/Helpers/Overlay.vue';
+import Icon from '@/components/General/Helpers/Icon.vue';
+import imagePath from '@/utils/imagePath';
 
 export default {
   name: 'Carousel',
   components: {
     agile: VueAgile,
-    Overlay
+    Overlay,
+    Icon
   },
   props: {
-    images: []
+    images: {
+      type: Object,
+      default: () => ({})
+    }
   },
   data() {
     return {
       asNav: [],
       asMain: [],
       mainOptions: {
+        infinite: false,
         dots: false,
-        fade: true,
-        navButtons: false
+        fade: true
       },
       navOptions: {
+        infinite: false,
         centerMode: true,
         dots: false,
         slidesToShow: 3,
+        navButtons: false,
         responsive: []
       },
-      slides: this.images
+      slides: this.images,
+      imageSizeSuffix: '_1080_1080'
     };
   },
   computed: {
@@ -70,9 +84,14 @@ export default {
     })
   },
   methods: {
-    userImage(image) {
+    userImage(slide) {
       const { baseUrl, token } = this;
-      return `${baseUrl}/${image.path}?token=${token}`;
+      const image = imagePath(
+        slide.path,
+        this.imageSizeSuffix,
+        `?token=${token}`
+      );
+      return `${baseUrl}/${image}`;
     },
     save() {
       this.$emit('save');
@@ -97,7 +116,36 @@ export default {
   height: 100vh;
 }
 .carousel-wrap {
-  max-width: 450px;
+  width: 450px;
+  /deep/ .main {
+    .agile__actions {
+      .agile__nav-button {
+        background: transparent;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        font-size: 24px;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        transition-duration: 0.3s;
+        width: 80px;
+        &:hover {
+          background-color: rgba(#000, 0.5);
+          opacity: 1;
+        }
+        &--prev {
+          left: 0;
+        }
+        &--next {
+          right: 0;
+        }
+      }
+    }
+  }
+  /deep/ .thumbnails {
+    padding-top: 10px;
+  }
   .slide {
     align-items: center;
     box-sizing: border-box;
@@ -105,14 +153,18 @@ export default {
     display: flex;
     height: 450px;
     justify-content: center;
-    &.thumbniail {
+    &.thumbnail {
       cursor: pointer;
-      height: 100px;
+      height: 140px;
+      max-width: 150px;
       padding: 0 5px;
-      transition: opacity .3s;
+      transition: opacity 0.3s;
+      img {
+        max-width: 140px;
+      }
     }
     &:hover {
-      opacity: .75;
+      opacity: 0.75;
     }
     img {
       height: 100%;

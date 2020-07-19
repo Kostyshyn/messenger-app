@@ -40,8 +40,8 @@ export default {
     display: inline-block;
   }
   img {
-    width: 38px;
-    height: 38px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
   }
 }
