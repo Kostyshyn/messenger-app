@@ -16,6 +16,7 @@ import ListItem from '@/components/General/List/ListItem.vue';
 import UserImage from '@/components/General/User/UserImage.vue';
 import { mapGetters } from 'vuex';
 import imagePath from '@/utils/imagePath';
+import config from '@/config';
 
 export default {
   name: 'UserListItem',
@@ -34,7 +35,7 @@ export default {
   },
   data() {
     return {
-      imageSizeSuffix: '_68_68'
+      imageSizeSuffix: config.IMAGES.USER_LIST_IMAGE_SIZE
     };
   },
   computed: {
@@ -44,7 +45,7 @@ export default {
       token: 'user/token'
     }),
     image() {
-      const { baseUrl, user, token } = this;
+      const { baseUrl, user, token, settings } = this;
       if (user.profile_image) {
         const image = imagePath(
           user.profile_image.path,
@@ -53,7 +54,7 @@ export default {
         );
         return `${baseUrl}/${image}`;
       }
-      return `${baseUrl}/${this.settings.DEF_PROFILE_IMG}`;
+      return `${baseUrl}/${settings.DEF_PROFILE_IMG}`;
     },
     fullName() {
       const { first_name, last_name } = this.user;

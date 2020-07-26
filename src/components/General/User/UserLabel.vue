@@ -12,6 +12,7 @@
 // @ is an alias to /src
 import { mapGetters } from 'vuex';
 import imagePath from '@/utils/imagePath';
+import config from '@/config';
 
 export default {
   name: 'UserLabel',
@@ -33,7 +34,7 @@ export default {
   data() {
     return {
       maxStr: 13,
-      imageSizeSuffix: '_128_128'
+      imageSizeSuffix: config.IMAGES.USER_IMAGE_SIZE
     };
   },
   computed: {
@@ -46,7 +47,7 @@ export default {
       return ['user-label', { big: this.big }, this.className];
     },
     userImage() {
-      const { baseUrl, user, token } = this;
+      const { baseUrl, user, token, settings } = this;
       if (user.profile_image) {
         const image = imagePath(
           user.profile_image.path,
@@ -55,7 +56,7 @@ export default {
         );
         return `${baseUrl}/${image}`;
       }
-      return `${baseUrl}/${this.settings.DEF_PROFILE_IMG}`;
+      return `${baseUrl}/${settings.DEF_PROFILE_IMG}`;
     },
     fullName() {
       const { first_name, last_name } = this.user;

@@ -1,6 +1,10 @@
 <template>
   <div class="home">
-    <Carousel :images="images" v-if="showCarousel" @close="showCarousel = false" />
+    <Carousel
+      v-if="showCarousel"
+      :images="images"
+      @close="showCarousel = false"
+    />
     <Button ripple @click="showCarousel = true">
       Open carousel
     </Button>
@@ -52,8 +56,8 @@ export default {
     async getImages() {
       try {
         this.images = await api.getUserImages();
-      } catch  (err) {
-        console.log(err)
+      } catch (err) {
+        console.log(err);
       }
     }
   },
@@ -63,7 +67,6 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.home {}
 .mute-check {
   .icon {
     margin-left: 5px;

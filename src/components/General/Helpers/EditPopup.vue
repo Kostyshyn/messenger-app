@@ -2,7 +2,7 @@
   <Overlay
     className="edit-popup-overlay"
     position="absolute"
-    @click.self.native="close"
+    @click.self.native="close('overlay')"
   >
     <div class="edit-popup" :style="style">
       <div class="edit-popup-header">
@@ -12,7 +12,12 @@
         <slot />
       </div>
       <div class="edit-popup-footer">
-        <Button className="cancel" color="transparent" ripple @click="close">
+        <Button
+          className="cancel"
+          color="transparent"
+          ripple
+          @click="close('button')"
+        >
           Cancel
         </Button>
         <Button className="save" color="transparent" ripple @click="save">
@@ -62,8 +67,8 @@ export default {
     save() {
       this.$emit('save');
     },
-    close() {
-      this.$emit('close');
+    close(type) {
+      this.$emit('close', type);
     }
   },
   watch: {},

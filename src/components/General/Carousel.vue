@@ -42,6 +42,7 @@ import { VueAgile } from 'vue-agile';
 import Overlay from '@/components/General/Helpers/Overlay.vue';
 import Icon from '@/components/General/Helpers/Icon.vue';
 import imagePath from '@/utils/imagePath';
+import config from '@/config';
 
 export default {
   name: 'Carousel',
@@ -74,7 +75,7 @@ export default {
         responsive: []
       },
       slides: this.images,
-      imageSizeSuffix: '_1080_1080'
+      imageSizeSuffix: config.IMAGES.CAROUSEL_IMAGE_SIZE
     };
   },
   computed: {

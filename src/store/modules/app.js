@@ -6,7 +6,7 @@ export default {
   state: {
     API_BASE_URL: null,
     settings: {
-      // TODO: get global settings from backend
+      // TODO: get the global settings from the backend
       DEF_PROFILE_IMG: 'defaults/images/user/128_profile_placeholder.png'
     },
     loading: true,

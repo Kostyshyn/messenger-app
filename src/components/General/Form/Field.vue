@@ -33,23 +33,20 @@
         </div>
       </div>
     </label>
-    <transition name="error-fade" mode="out-in">
-      <ul class="field-errors" v-if="isError">
-        <li v-for="(error, index) in errors" :key="index">
-          {{ error }}
-        </li>
-      </ul>
-    </transition>
+    <ErrorsList :errors="errors" :showErrors="isError" />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
+import ErrorsList from '@/components/General/Form/ErrorsList';
 const TYPES = ['text', 'email', 'password'];
 
 export default {
   name: 'Field',
-  components: {},
+  components: {
+    ErrorsList
+  },
   props: {
     name: {
       type: String
@@ -164,15 +161,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.error-fade-enter-active,
-.error-fade-leave-active {
-  transition: 0.15s cubic-bezier(0.25, 0.8, 0.5, 1);
-}
-.error-fade-enter,
-.error-fade-leave-to {
-  opacity: 0;
-  transform: translateY(-8px);
-}
 .field {
   width: 100%;
   .label {
@@ -260,14 +248,6 @@ export default {
       background-color: transparent;
       border: 1px solid $red-font-color;
       color: $red-font-color;
-    }
-  }
-  .field-errors {
-    li {
-      font-size: 14px;
-      color: $red-font-color;
-      font-weight: 600;
-      margin-top: 2px;
     }
   }
 }

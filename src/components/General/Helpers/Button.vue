@@ -86,7 +86,7 @@ export default {
   border-radius: 2px;
   display: inline-flex;
   height: 36px;
-  line-height: 36px;
+  line-height: 38px;
   flex: 0 0 auto;
   font-size: 14px;
   justify-content: center;
@@ -117,6 +117,7 @@ export default {
   &.primary {
     background-color: $primary-color;
     color: $white-font-color;
+    font-weight: 400;
   }
   &.secondary {
     background-color: $grey-color;
