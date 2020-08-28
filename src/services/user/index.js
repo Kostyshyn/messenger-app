@@ -56,9 +56,9 @@ export const uploadUserImage = async function({ api, store }, payload) {
   }
 };
 
-export const getUserImages = async function({ api }) {
+export const getUserImages = async function({ api }, id) {
   try {
-    const res = await api.get(`/users/images`);
+    const res = await api.get(`/users/${id}/images`);
     return res.images;
   } catch (err) {
     return Promise.reject(err.data);

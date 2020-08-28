@@ -1,10 +1,6 @@
 <template>
   <div class="home">
-    <Carousel
-      v-if="showCarousel"
-      :images="images"
-      @close="showCarousel = false"
-    />
+    <Carousel v-if="showCarousel" @close="showCarousel = false" />
     <Button ripple @click="showCarousel = true">
       Open carousel
     </Button>
@@ -52,18 +48,9 @@ export default {
       } catch (error) {
         console.error(error);
       }
-    },
-    async getImages() {
-      try {
-        this.images = await api.getUserImages();
-      } catch (err) {
-        console.log(err);
-      }
     }
   },
-  created() {
-    this.getImages();
-  }
+  created() {}
 };
 </script>
 <style scoped lang="scss">

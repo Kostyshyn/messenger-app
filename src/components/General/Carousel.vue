@@ -4,16 +4,17 @@
     position="absolute"
     @click.self.native="close"
   >
-    <div class="carousel-wrap">
+    <div v-if="slides.data && slides.data.length" class="carousel-wrap">
       <agile class="main" ref="main" :options="mainOptions" :as-nav-for="asNav">
         <div class="slide" v-for="(slide, index) in slides.data" :key="index">
           <img :src="userImage(slide)" />
         </div>
         <template slot="prevButton">
-          <Icon name="arrow_left" />
+          <!-- use property fillColor to change background-color -->
+          <ChevronLeft :size="navBtnSize" />
         </template>
         <template slot="nextButton">
-          <Icon name="arrow_right" />
+          <ChevronRight :size="navBtnSize" />
         </template>
       </agile>
       <agile
@@ -37,24 +38,31 @@
 
 <script>
 // @ is an alias to /src
+import ChevronRight from 'vue-material-design-icons/ChevronRight.vue';
+import ChevronLeft from 'vue-material-design-icons/ChevronLeft.vue';
 import { mapGetters } from 'vuex';
 import { VueAgile } from 'vue-agile';
 import Overlay from '@/components/General/Helpers/Overlay.vue';
-import Icon from '@/components/General/Helpers/Icon.vue';
 import imagePath from '@/utils/imagePath';
 import config from '@/config';
+import api from '@/services/api';
 
 export default {
   name: 'Carousel',
   components: {
     agile: VueAgile,
     Overlay,
-    Icon
+    ChevronRight,
+    ChevronLeft
   },
   props: {
     images: {
       type: Object,
       default: () => ({})
+    },
+    imagesUrl: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -70,17 +78,20 @@ export default {
         infinite: false,
         centerMode: true,
         dots: false,
-        slidesToShow: 3,
+        slidesToShow: 5,
         navButtons: false,
         responsive: []
       },
-      slides: this.images,
-      imageSizeSuffix: config.IMAGES.CAROUSEL_IMAGE_SIZE
+      slides: {},
+      requestProcessing: false,
+      imageSizeSuffix: config.IMAGES.CAROUSEL_IMAGE_SIZE,
+      navBtnSize: 48
     };
   },
   computed: {
     ...mapGetters({
       baseUrl: 'app/baseUrl',
+      user: 'user/user',
       token: 'user/token'
     })
   },
@@ -94,8 +105,19 @@ export default {
       );
       return `${baseUrl}/${image}`;
     },
-    save() {
-      this.$emit('save');
+    async getImages() {
+      if (this.requestProcessing) {
+        return;
+      }
+      try {
+        const { _id: id } = this.user;
+        this.requestProcessing = true;
+        this.slides = await api.getUserImages(id);
+        this.requestProcessing = false;
+      } catch (err) {
+        this.requestProcessing = false;
+        console.log(err);
+      }
     },
     close() {
       this.$emit('close');
@@ -106,7 +128,13 @@ export default {
     this.asNav.push(this.$refs.thumbnails);
     this.asMain.push(this.$refs.main);
   },
-  created() {}
+  created() {
+    if (this.images.data) {
+      this.slides = { ...this.images };
+    } else {
+      this.getImages();
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -117,7 +145,7 @@ export default {
   height: 100vh;
 }
 .carousel-wrap {
-  width: 450px;
+  width: 540px;
   /deep/ .main {
     .agile__actions {
       .agile__nav-button {
@@ -152,20 +180,22 @@ export default {
     box-sizing: border-box;
     color: #fff;
     display: flex;
-    height: 450px;
+    height: 540px;
     justify-content: center;
     &.thumbnail {
       cursor: pointer;
-      height: 140px;
-      max-width: 150px;
+      height: 98px;
+      max-width: 108px;
       padding: 0 5px;
+      opacity: 0.75;
       transition: opacity 0.3s;
       img {
-        max-width: 140px;
+        max-width: 108px;
       }
     }
+    &.agile__slide--active,
     &:hover {
-      opacity: 0.75;
+      opacity: 1;
     }
     img {
       height: 100%;
