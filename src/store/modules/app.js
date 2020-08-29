@@ -23,6 +23,11 @@ export default {
       component: null,
       options: {},
       data: {}
+    },
+    carousel: {
+      open: false,
+      id: null,
+      actions: false
     }
   },
   actions: {
@@ -65,6 +70,17 @@ export default {
     },
     closePopup({ commit }) {
       commit('RESET_POPUP');
+    },
+    openCarousel({ commit }, carousel) {
+      if (carousel) {
+        commit('SET_CAROUSEL', {
+          ...carousel,
+          open: true
+        });
+      }
+    },
+    closeCarousel({ commit }) {
+      commit('RESET_CAROUSEL');
     }
   },
   mutations: {
@@ -91,6 +107,16 @@ export default {
         options: {},
         data: {}
       };
+    },
+    SET_CAROUSEL(state, carousel) {
+      state.carousel = carousel;
+    },
+    RESET_CAROUSEL(state) {
+      state.carousel = {
+        open: false,
+        id: null,
+        actions: false
+      };
     }
   },
   getters: {
@@ -99,6 +125,7 @@ export default {
     baseUrl: state => state.API_BASE_URL,
     sidebarOpen: state => state.sidebarOpen,
     device: state => state.device,
-    popup: state => state.popup
+    popup: state => state.popup,
+    carousel: state => state.carousel
   }
 };

@@ -1,12 +1,15 @@
 <template>
   <div id="app">
-    <Loader :loading="loading" />
+    <PageLoader :loading="loading" />
     <div class="root-wrapper">
       <transition name="page" mode="out-in">
         <router-view />
       </transition>
       <transition name="fade" mode="out-in">
         <Popup v-if="popup.open" :popup="popup" />
+      </transition>
+      <transition name="fade" mode="out-in">
+        <Carousel v-if="carousel.open" />
       </transition>
     </div>
   </div>
@@ -15,14 +18,16 @@
 <script>
 // @ is an alias to /src
 import { mapGetters, mapActions } from 'vuex';
-import Loader from '@/components/General/Helpers/Loader.vue';
+import PageLoader from '@/components/General/Helpers/PageLoader.vue';
 import Popup from '@/components/General/Helpers/Popup.vue';
+import Carousel from '@/components/General/Carousel.vue';
 
 export default {
   name: 'App',
   components: {
-    Loader,
-    Popup
+    PageLoader,
+    Popup,
+    Carousel
   },
   data() {
     return {};
@@ -31,7 +36,8 @@ export default {
     ...mapGetters({
       loading: 'app/loading',
       device: 'app/device',
-      popup: 'app/popup'
+      popup: 'app/popup',
+      carousel: 'app/carousel'
     })
   },
   methods: {

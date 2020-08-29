@@ -35,7 +35,7 @@ export default {
     },
     zIndex: {
       type: Number,
-      default: 9998
+      default: 11
     },
     width: {
       type: Number,

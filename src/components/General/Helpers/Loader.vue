@@ -1,9 +1,7 @@
 <template>
-  <transition name="loader" mode="out-in">
-    <div class="loader" v-if="loading">
-      <div class="circle-preloader"></div>
-    </div>
-  </transition>
+  <div class="loader" :class="className" v-if="loading">
+    <div class="circle-preloader"></div>
+  </div>
 </template>
 
 <script>
@@ -15,6 +13,9 @@ export default {
     loading: {
       type: Boolean,
       default: false
+    },
+    className: {
+      type: [String, Array]
     }
   },
   components: {},
@@ -26,19 +27,15 @@ export default {
 .loader {
   width: 100%;
   height: 100%;
-  overflow: hidden;
-  position: fixed;
-  background-color: $white-background-color;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
   .circle-preloader {
     display: inline-block;
     width: 50px;
     height: 50px;
     border: 2px solid $light-grey-color;
-    border-bottom-color: $primary-color;
+    border-bottom-color: transparent;
     margin-right: -15px;
     border-radius: 50%;
     animation: spin 0.75s infinite linear;

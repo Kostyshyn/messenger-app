@@ -1,6 +1,11 @@
 <template>
   <div :class="classList">
-    <img :src="userImage" :alt="user.username" class="user-img" />
+    <img
+      :src="userImage"
+      :alt="user.username"
+      class="user-img"
+      @click="openCarousel"
+    />
     <div class="user-info">
       <h3 class="username" :style="fontSize">{{ fullName }}</h3>
       <p class="url">@{{ user.username }}</p>
@@ -10,7 +15,7 @@
 
 <script>
 // @ is an alias to /src
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import imagePath from '@/utils/imagePath';
 import config from '@/config';
 
@@ -34,7 +39,8 @@ export default {
   data() {
     return {
       maxStr: 13,
-      imageSizeSuffix: config.IMAGES.USER_IMAGE_SIZE
+      imageSizeSuffix: config.IMAGES.USER_IMAGE_SIZE,
+      showCarousel: false
     };
   },
   computed: {
@@ -74,7 +80,16 @@ export default {
       };
     }
   },
-  methods: {}
+  methods: {
+    ...mapActions({
+      open: 'app/openCarousel'
+    }),
+    openCarousel() {
+      this.open({
+        id: this.user._id
+      });
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -84,6 +99,7 @@ export default {
   align-items: center;
   padding: 15px;
   .user-img {
+    cursor: pointer;
     display: flex;
     flex: 1 0 auto;
     width: 48px;

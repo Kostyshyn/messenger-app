@@ -1,5 +1,5 @@
 module.exports = {
-  chainWebpack: (config) => {
+  chainWebpack: config => {
     const svgRule = config.module.rule('svg');
 
     svgRule.uses.clear();
