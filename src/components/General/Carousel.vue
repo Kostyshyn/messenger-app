@@ -1,6 +1,11 @@
 <template>
   <Overlay className="carousel-overlay" :zIndex="zIndex" position="absolute">
-    <Close title="Close" :size="38" class="close-btn" @click="close" />
+    <Close
+      title="Close"
+      :size="closeBtnSize"
+      class="close-btn"
+      @click="close"
+    />
     <transition name="fade" mode="out-in" @after-enter="afterEnter">
       <div v-if="showCarousel" class="carousel-wrap">
         <agile
@@ -20,9 +25,11 @@
           <template slot="nextButton">
             <ChevronRight :size="navBtnSize" />
           </template>
-          <template slot="caption">{{
-            slides.data[currentSlide].createdAt
-          }}</template>
+          <template slot="caption">
+            <div class="image-caption">
+              {{ slides.data[currentSlide].createdAt | moment('LL') }}
+            </div>
+          </template>
         </agile>
         <agile
           class="thumbnails"
@@ -105,7 +112,6 @@ export default {
       slides: {},
       requestProcessing: false,
       imageSizeSuffix: config.IMAGES.CAROUSEL_IMAGE_SIZE,
-      navBtnSize: 48,
       currentSlide: 0
     };
   },
@@ -113,12 +119,19 @@ export default {
     ...mapGetters({
       baseUrl: 'app/baseUrl',
       user: 'user/user',
-      token: 'user/token'
+      token: 'user/token',
+      device: 'app/device'
     }),
     showCarousel() {
       return (
         !this.requestProcessing && this.slides.data && !!this.slides.data.length
       );
+    },
+    navBtnSize() {
+      return this.device === 'sm' ? 38 : 48;
+    },
+    closeBtnSize() {
+      return this.device === 'sm' ? 24 : 38;
     }
   },
   methods: {
@@ -163,6 +176,7 @@ export default {
       this.currentSlide = e.currentSlide;
     }
   },
+  filters: {},
   watch: {},
   mounted() {},
   created() {
@@ -181,12 +195,19 @@ export default {
   justify-content: center;
   height: 100vh;
   position: relative;
+  background: rgba(0, 0, 0, 0.7);
   .close-btn {
     cursor: pointer;
     position: absolute;
     top: 10px;
     right: 10px;
     color: $white-font-color;
+  }
+  @media (max-width: $sm) {
+    .close-btn {
+      top: 16px;
+      right: 15px;
+    }
   }
 }
 .carousel-wrap {
@@ -220,6 +241,21 @@ export default {
         }
       }
     }
+    .agile__caption {
+      position: absolute;
+      bottom: 5px;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      .image-caption {
+        background: rgba(0, 0, 0, 0.5);
+        padding: 6px 8px;
+        border-radius: 10px;
+        font-size: 13px;
+        color: #fff;
+        line-height: 10px;
+      }
+    }
   }
   /deep/ .thumbnails {
     padding-top: 10px;
@@ -250,6 +286,22 @@ export default {
       object-fit: cover;
       object-position: center;
       width: 100%;
+    }
+  }
+  @media (max-width: $sm) {
+    width: 100%;
+    /deep/ .main {
+      .agile__actions {
+        .agile__nav-button {
+          width: 60px;
+        }
+      }
+    }
+    .slide {
+      height: auto;
+      &.agile__slide--active {
+        min-width: 108px;
+      }
     }
   }
 }

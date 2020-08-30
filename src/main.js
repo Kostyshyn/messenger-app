@@ -6,9 +6,16 @@ import { initServices } from './services/api';
 
 // external
 
+// Cropper
 import VueCroppie from 'vue-croppie';
 import 'croppie/croppie.css';
 Vue.use(VueCroppie);
+//
+
+// Moment js
+import VueMoment from 'vue-moment';
+Vue.use(VueMoment);
+//
 
 //
 

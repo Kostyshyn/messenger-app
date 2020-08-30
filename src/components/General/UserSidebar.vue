@@ -49,7 +49,6 @@ export default {
   },
   data() {
     return {
-      width: 250,
       menuItems: [
         {
           label: 'Contacts',
@@ -78,8 +77,12 @@ export default {
   computed: {
     ...mapGetters({
       user: 'user/user',
-      open: 'app/sidebarOpen'
-    })
+      open: 'app/sidebarOpen',
+      device: 'app/device'
+    }),
+    width() {
+      return this.device === 'sm' ? 280 : 250;
+    }
   },
   methods: {
     ...mapActions({

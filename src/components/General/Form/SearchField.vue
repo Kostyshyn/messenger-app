@@ -88,8 +88,8 @@ export default {
   margin-bottom: 15px;
   .search-loader {
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     height: 34px;
     width: 34px;
     overflow: hidden;
@@ -116,7 +116,7 @@ export default {
   .search,
   .clear {
     position: absolute;
-    top: 0px;
+    top: 0;
     height: 34px;
     width: 34px;
     display: flex;
@@ -127,11 +127,11 @@ export default {
     }
   }
   .search {
-    left: 0px;
+    left: 0;
   }
   .clear {
     cursor: pointer;
-    right: 0px;
+    right: 0;
   }
 }
 </style>

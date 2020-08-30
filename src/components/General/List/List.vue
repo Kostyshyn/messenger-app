@@ -40,8 +40,14 @@ export default {
     line-height: 18px;
     font-weight: 600;
     color: $primary-font-color;
-    padding: 0px 15px;
-    margin: 10px 0px;
+    padding: 0 15px;
+    margin: 10px 0;
+  }
+  @media (max-width: $sm) {
+    .list-header {
+      font-size: 16px;
+      line-height: 20px;
+    }
   }
 }
 </style>

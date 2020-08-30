@@ -89,7 +89,7 @@ export default {
   min-height: 165px;
   width: 90%;
   min-width: 256px;
-  padding: 0px 15px 5px 15px;
+  padding: 0 15px 5px 15px;
   border-radius: 4px;
   overflow: hidden;
   box-sizing: border-box;
@@ -98,11 +98,11 @@ export default {
   .edit-popup-header {
     display: flex;
     flex-direction: row;
-    padding: 15px 0px 20px 0px;
+    padding: 15px 0 20px 0;
     h3 {
       width: 100%;
       user-select: none;
-      margin: 0px;
+      margin: 0;
       @include truncate-text;
     }
   }

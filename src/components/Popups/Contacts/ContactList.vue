@@ -1,6 +1,8 @@
 <template>
   <div class="contact-list">
-    <SearchField v-model="keyword" />
+    <div class="contact-search">
+      <SearchField v-model="keyword" />
+    </div>
     <UserList :list="users.data" />
     <div class="contact-footer">
       <Button className="close" color="transparent" ripple>
@@ -82,14 +84,28 @@ export default {
 <style lang="scss" scoped>
 .contact-list {
   height: 400px;
-  padding: 0px 15px 5px 15px;
   display: flex;
   flex-direction: column;
+  .contact-search {
+    padding: 0 15px;
+  }
+  /deep/ .list {
+    .user-list-item {
+      padding: 8px 15px;
+    }
+  }
   .contact-footer {
     margin-top: auto;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    padding: 0 15px 5px 15px;
+  }
+  @media (max-width: $sm) {
+    height: calc(100% - 53px);
+    .contact-footer {
+      padding-bottom: 15px;
+    }
   }
 }
 </style>

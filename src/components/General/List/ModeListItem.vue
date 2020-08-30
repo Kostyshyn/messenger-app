@@ -81,7 +81,7 @@ export default {
     user-select: none;
     font-size: $list-item-font;
     line-height: 36px;
-    padding: 0px 10px;
+    padding: 0 10px;
     font-weight: 600;
     color: $black-font-color;
     &.no-icons {
@@ -90,6 +90,11 @@ export default {
   }
   .mode-check {
     margin-left: auto;
+  }
+  @media (max-width: $sm) {
+    .mode-label {
+      font-size: $list-item-font-sm;
+    }
   }
 }
 </style>

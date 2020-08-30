@@ -86,5 +86,14 @@ export default {
     color: $dark-grey-color;
     @include line-clamp(2);
   }
+  @media (max-width: $sm) {
+    .item-name {
+      font-size: $list-heading-item-font-sm;
+      margin-bottom: 4px;
+    }
+    .item-text {
+      font-size: $list-text-item-font-sm;
+    }
+  }
 }
 </style>

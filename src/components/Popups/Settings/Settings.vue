@@ -131,5 +131,9 @@ export default {
   /deep/ .settings-user-label {
     padding: 10px 15px;
   }
+  @media (max-width: $sm) {
+    min-height: 100%;
+    max-height: 100%;
+  }
 }
 </style>

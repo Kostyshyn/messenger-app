@@ -194,16 +194,16 @@ export default {
     }
     .field-prefix {
       border-right: none;
-      border-top-right-radius: 0px;
-      border-bottom-right-radius: 0px;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
       &.focus {
         border-right: none;
       }
     }
     .field-suffix {
       border-left: none;
-      border-top-left-radius: 0px;
-      border-bottom-left-radius: 0px;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
       &.focus {
         border-left: none;
       }
@@ -226,16 +226,16 @@ export default {
         border: 1px solid $grey-color;
       }
       &.prefix {
-        padding-left: 0px;
+        padding-left: 0;
         border-left: none;
-        border-top-left-radius: 0px;
-        border-bottom-left-radius: 0px;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
       }
       &.suffix {
-        padding-right: 0px;
+        padding-right: 0;
         border-right: none;
-        border-top-right-radius: 0px;
-        border-bottom-right-radius: 0px;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
       }
       &.readonly {
         color: $dark-grey-color;

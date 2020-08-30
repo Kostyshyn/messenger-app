@@ -44,5 +44,11 @@ export default {
     height: 48px;
     border-radius: 50%;
   }
+  @media (max-width: $sm) {
+    img {
+      width: 68px;
+      height: 68px;
+    }
+  }
 }
 </style>

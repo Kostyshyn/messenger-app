@@ -92,7 +92,7 @@ export default {
     will-change: transform;
     height: 100%;
     max-width: 100%;
-    top: 0px;
+    top: 0;
     transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.5, 1);
     background: $white-background-color;
     overflow-y: auto;

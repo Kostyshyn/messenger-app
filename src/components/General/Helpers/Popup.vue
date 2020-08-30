@@ -24,7 +24,7 @@
 // @ is an alias to /src
 import Overlay from '@/components/General/Helpers/Overlay.vue';
 import Icon from '@/components/General/Helpers/Icon.vue';
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'Popup',
@@ -64,6 +64,9 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      device: 'app/device'
+    }),
     title() {
       return this.nestedData.title;
     },
@@ -73,9 +76,10 @@ export default {
       };
     },
     popupContentStyle() {
-      return {
-        width: `${this.width}px`
-      };
+      const small = this.device === 'sm';
+      const width = small ? '100%' : `${this.width}px`;
+      const height = small ? '100%' : 'auto';
+      return { width, height };
     }
   },
   methods: {
@@ -107,7 +111,7 @@ export default {
 .popup {
   position: fixed;
   overflow: hidden;
-  top: 0px;
+  top: 0;
   width: 100%;
   height: 100%;
   display: flex;
@@ -121,7 +125,7 @@ export default {
     max-width: 100%;
     border-radius: 4px;
     overflow: hidden;
-    top: 0px;
+    top: 0;
     background: $white-background-color;
     box-shadow: $block-shadow;
     .popup-header {
@@ -132,7 +136,7 @@ export default {
       h2 {
         width: 100%;
         user-select: none;
-        margin: 0px 0px 0px 4px;
+        margin: 0 0 0 4px;
         @include truncate-text;
       }
       .back,
@@ -159,6 +163,12 @@ export default {
         margin-left: auto;
         margin-right: 5px;
       }
+    }
+  }
+  @media (max-width: $sm) {
+    .popup-content {
+      border-radius: 0;
+      box-shadow: none;
     }
   }
 }

@@ -56,8 +56,11 @@ export default {
   user-select: none;
   font-size: $list-item-font;
   line-height: 36px;
-  padding: 0px 10px;
+  padding: 0 10px;
   font-weight: 600;
   color: $black-font-color;
+  @media (max-width: $sm) {
+    font-size: $list-item-font-sm;
+  }
 }
 </style>

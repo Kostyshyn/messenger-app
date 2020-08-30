@@ -9,10 +9,15 @@ $primary-font-color: rgb(27, 130, 241);
 $dark-grey-font-color: rgb(145, 145, 145);
 
 // Font sizes
-
+// md, lg
 $list-item-font: 14px;
 $list-heading-item-font: 16px;
 $list-text-item-font: 14px;
+// sm
+$list-item-font-sm: 16px;
+$list-heading-item-font-sm: 18px;
+$list-text-item-font-sm: 16px;
+
 
 // Colors
 $primary-color: rgb(27, 130, 241);
@@ -22,9 +27,15 @@ $dark-grey-color: rgb(145, 145, 145);
 $white-background-color: rgb(250, 250, 250);
 
 // Shadow
-$primary-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
-0px 4px 5px 0px rgba(0, 0, 0, 0.14),
-0px 1px 10px 0px rgba(0, 0, 0, 0.12);
-$block-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
-0px 2px 2px 0px rgba(0, 0, 0, 0.14),
-0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+$primary-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
+0px 4px 5px 0 rgba(0, 0, 0, 0.14),
+0px 1px 10px 0 rgba(0, 0, 0, 0.12);
+$block-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+0px 2px 2px 0 rgba(0, 0, 0, 0.14),
+0px 1px 5px 0 rgba(0, 0, 0, 0.12);
+
+// Media breakpoints
+
+$sm: 576px;
+$md: 768px;
+$lg: 992px;

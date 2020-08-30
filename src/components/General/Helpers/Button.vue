@@ -90,7 +90,7 @@ export default {
   flex: 0 0 auto;
   font-size: 14px;
   justify-content: center;
-  padding: 0px 15px;
+  padding: 0 15px;
   min-width: 80px;
   outline: 0;
   text-transform: uppercase;
@@ -134,7 +134,7 @@ export default {
         display: block;
         position: absolute;
         height: 2px;
-        width: 0px;
+        width: 0;
         bottom: 5px;
         background-color: $primary-color;
         transition: 0s;

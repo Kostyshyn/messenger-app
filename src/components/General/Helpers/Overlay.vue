@@ -52,8 +52,8 @@ export default {
   height: 100%;
   z-index: 9;
   background: rgba(0, 0, 0, 0.5);
-  left: 0px;
-  top: 0px;
+  left: 0;
+  top: 0;
   &.blur {
     backdrop-filter: blur(2px);
   }

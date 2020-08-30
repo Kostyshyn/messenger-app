@@ -29,5 +29,6 @@ export default {
   &:hover {
     background-color: $light-grey-color;
   }
+  /* @media (max-width: $sm) {} */
 }
 </style>

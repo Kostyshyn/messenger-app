@@ -117,6 +117,7 @@ export default {
       color: $black-font-color;
       font-weight: 600;
       margin: 0 0 3px 0;
+      line-height: 20px;
       @include line-clamp(2);
     }
     .url {
@@ -130,6 +131,14 @@ export default {
     .user-img {
       width: 68px;
       height: 68px;
+    }
+  }
+  @media (max-width: $sm) {
+    &.big {
+      .user-img {
+        width: 88px;
+        height: 88px;
+      }
     }
   }
 }

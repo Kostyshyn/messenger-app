@@ -30,8 +30,8 @@ export default {
 .navigation-wrap {
   position: fixed;
   width: 100%;
-  left: 0px;
-  top: 0px;
+  left: 0;
+  top: 0;
   z-index: 10;
   background-color: $white-background-color;
   .navigation {
@@ -39,7 +39,7 @@ export default {
     flex-direction: row;
     align-items: center;
     height: 50px;
-    padding: 0px 10px;
+    padding: 0 10px;
     box-shadow: $primary-shadow;
     .auth-link {
       margin-right: 10px;
