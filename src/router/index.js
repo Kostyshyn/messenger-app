@@ -8,10 +8,6 @@ import ErrorPage from '../views/ErrorPage.vue';
 import Login from '../views/Login.vue';
 import Register from '../views/Register.vue';
 
-// test
-
-import Home from '../views/Home.vue';
-
 Vue.use(VueRouter);
 
 const routes = [
@@ -21,13 +17,6 @@ const routes = [
     component: Main,
     meta: { requiresAuth: true }
   },
-  //
-  {
-    path: '/test',
-    name: 'Home',
-    component: Home
-  },
-  //
   {
     path: '/login',
     name: 'Login',

@@ -1,51 +1,76 @@
 <template>
   <div class="main-wrapper">
-    <h1>Register</h1>
-    <input type="text" v-model="first_name" placeholder="first name" />
-    <br />
-    <input type="text" v-model="last_name" placeholder="last name" />
-    <br />
-    <input type="text" v-model="username" placeholder="username" />
-    <br />
-    <input type="email" v-model="email" placeholder="email" />
-    <br />
-    <input type="password" v-model="password" placeholder="password" />
-    <br />
-    <button @click="click">Register</button>
+    <AuthForm v-bind="form" :fields="fields" />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import api from '@/services/api';
+import AuthForm from '@/components/General/AuthForm.vue';
 
 export default {
   name: 'Register',
-  components: {},
+  components: { AuthForm },
   data() {
     return {
-      first_name: '',
-      last_name: '',
-      username: '',
-      email: '',
-      password: ''
+      form: {
+        action: 'register',
+        className: 'register-form',
+        title: 'Register',
+        label: 'Register',
+        link: '/login',
+        linkText: 'Sign in if you already have an account'
+      },
+      fields: [
+        {
+          name: 'first_name',
+          type: 'text',
+          label: 'First name',
+          placeholder: 'Type first name',
+          model: '',
+          errorKey: 'first_name'
+        },
+        {
+          name: 'last_name',
+          type: 'text',
+          label: 'Last name',
+          placeholder: 'Type last name',
+          model: '',
+          errorKey: 'last_name'
+        },
+        {
+          name: 'username',
+          type: 'text',
+          label: 'Username',
+          placeholder: 'Type username',
+          model: '',
+          errorKey: 'username'
+        },
+        {
+          name: 'email',
+          type: 'email',
+          label: 'Email',
+          placeholder: 'Type email',
+          model: '',
+          errorKey: 'email'
+        },
+        {
+          name: 'password',
+          type: 'password',
+          label: 'Password',
+          placeholder: 'Type password',
+          model: '',
+          errorKey: 'password'
+        }
+      ]
     };
   },
   computed: {},
-  methods: {
-    click() {
-      const { first_name, last_name, username, email, password } = this;
-      // prettier-ignore
-      api.register({
-        first_name,
-        last_name,
-        username,
-        email,
-        password
-      }).catch(err => {
-        console.log(err);
-      });
-    }
-  }
+  methods: {}
 };
 </script>
+<style lang="scss" scoped>
+.register-form {
+  margin: 0 auto;
+}
+</style>

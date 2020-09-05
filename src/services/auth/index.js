@@ -1,31 +1,21 @@
-export const login = async function(
-  { api, store, router, ls },
-  payload,
-  redirect = false
-) {
+export const login = async function({ api, store, ls }, payload) {
   try {
     const res = await api.post('/login', payload);
     ls.set(process.env.VUE_APP_LOCALSTORAGE_KEY + '.token', res.token);
     store.dispatch('user/setToken', res.token);
     store.dispatch('user/setUser', res.user);
-    if (redirect) {
-      router.push(redirect);
-    } else {
-      router.push('/').catch(() => {});
-    }
     return res.user;
   } catch (err) {
     return Promise.reject(err.data);
   }
 };
 
-export const register = async function({ api, store, router, ls }, payload) {
+export const register = async function({ api, store, ls }, payload) {
   try {
     const res = await api.post('/register', payload);
     ls.set(process.env.VUE_APP_LOCALSTORAGE_KEY + '.token', res.token);
     store.dispatch('user/setToken', res.token);
     store.dispatch('user/setUser', res.user);
-    router.push('/');
     return res.user;
   } catch (err) {
     return Promise.reject(err.data);
