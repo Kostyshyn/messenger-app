@@ -55,7 +55,7 @@ export const initServices = function({ router, store }) {
     ls.remove(process.env.VUE_APP_LOCALSTORAGE_KEY + '.token');
     store.dispatch('user/setToken', null);
     store.dispatch('user/setUser', null);
-    store.dispatch('app/closePopup');
+    store.dispatch('popup/closePopup');
     if (!redirectFrom || redirectFrom !== '/login') {
       router.push('/login');
     }

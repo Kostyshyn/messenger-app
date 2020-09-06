@@ -36,28 +36,30 @@ export default {
     ...mapGetters({
       loading: 'app/loading',
       device: 'app/device',
-      popup: 'app/popup',
+      popup: 'popup/popup',
       carousel: 'app/carousel'
     })
   },
   methods: {
     ...mapActions({
       init: 'app/init',
-      resize: 'app/resize'
+      resize: 'app/resize',
+      openPopup: 'popup/openPopup'
     }),
     onResize() {
       this.resize(window.innerWidth);
     }
   },
-  mounted() {
+  async mounted() {
+    await this.init();
+    const { popup } = this.$route.query;
+    this.openPopup(popup);
     this.$nextTick(() => {
       this.resize(window.innerWidth);
       window.addEventListener('resize', this.onResize);
     });
   },
-  created() {
-    this.init();
-  },
+  created() {},
   beforeDestroy() {
     window.removeEventListener('resize', this.onResize);
   }

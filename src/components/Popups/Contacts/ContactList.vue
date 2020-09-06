@@ -50,7 +50,7 @@ export default {
   computed: {},
   methods: {
     ...mapActions({
-      close: 'app/closePopup'
+      close: 'popup/closePopup'
     }),
     async getUsers() {
       try {

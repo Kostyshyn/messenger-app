@@ -84,7 +84,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      close: 'app/closePopup'
+      close: 'popup/closePopup'
     }),
     handleBackClick() {
       if (this.backAction) {
@@ -95,15 +95,28 @@ export default {
       if (this.options.backdrop) {
         this.close();
       }
+    },
+    setQuery(query) {
+      const { query: currentQuery } = this.$route;
+      if (!this._.isEqual(query, currentQuery)) {
+        this.$router.push({ query });
+      }
     }
   },
   watch: {},
   mounted() {
+    const { name } = this.popup;
+    this.setQuery({
+      popup: name
+    });
     this.nestedData = this.popup.component.data();
     const { backAction } = this.popup.component.methods;
     if (backAction && typeof backAction === 'function') {
       this.backAction = backAction;
     }
+  },
+  beforeDestroy() {
+    this.setQuery({});
   }
 };
 </script>

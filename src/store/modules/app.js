@@ -17,13 +17,6 @@ export default {
       lg: 992
     },
     device: null,
-    popup: {
-      open: false,
-      name: '',
-      component: null,
-      options: {},
-      data: {}
-    },
     carousel: {
       open: false,
       id: null,
@@ -31,19 +24,19 @@ export default {
     }
   },
   actions: {
-    init({ commit, dispatch }) {
+    async init({ commit, dispatch }) {
       commit('SET_API_BASE_URL', process.env.VUE_APP_API_BASE_URL);
       const token = ls.get(process.env.VUE_APP_LOCALSTORAGE_KEY + '.token');
       if (token) {
         dispatch('user/setToken', token, {
           root: true
         });
-        // prettier-ignore
-        api.fetchUser().catch(err => {
+        try {
+          await api.fetchUser();
+        } catch (err) {
           alert(err.message); // development
-        }).finally(() => {
-          commit('SET_LOADING', false);
-        });
+        }
+        commit('SET_LOADING', false);
       } else {
         commit('SET_LOADING', false);
       }
@@ -59,17 +52,6 @@ export default {
           break;
         }
       }
-    },
-    openPopup({ commit }, popup) {
-      if (popup && popup.component) {
-        commit('SET_POPUP', {
-          ...popup,
-          open: true
-        });
-      }
-    },
-    closePopup({ commit }) {
-      commit('RESET_POPUP');
     },
     openCarousel({ commit }, carousel) {
       if (carousel) {
@@ -96,18 +78,6 @@ export default {
     SET_DEVICE(state, device) {
       state.device = device;
     },
-    SET_POPUP(state, popup) {
-      state.popup = popup;
-    },
-    RESET_POPUP(state) {
-      state.popup = {
-        open: false,
-        name: '',
-        component: null,
-        options: {},
-        data: {}
-      };
-    },
     SET_CAROUSEL(state, carousel) {
       state.carousel = carousel;
     },
@@ -125,7 +95,6 @@ export default {
     baseUrl: state => state.API_BASE_URL,
     sidebarOpen: state => state.sidebarOpen,
     device: state => state.device,
-    popup: state => state.popup,
     carousel: state => state.carousel
   }
 };

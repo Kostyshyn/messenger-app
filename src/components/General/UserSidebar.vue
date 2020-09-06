@@ -32,8 +32,6 @@ import UserLabel from '@/components/General/User/UserLabel.vue';
 import List from '@/components/General/List/List.vue';
 import IconList from '@/components/General/List/IconList.vue';
 import ModeListItem from '@/components/General/List/ModeListItem.vue';
-import ContactList from '@/components/Popups/Contacts/ContactList.vue';
-import Settings from '@/components/Popups/Settings/Settings.vue';
 import { mapGetters, mapActions } from 'vuex';
 import api from '@/services/api';
 
@@ -87,7 +85,7 @@ export default {
   methods: {
     ...mapActions({
       toggle: 'app/setSidebarState',
-      openPopup: 'app/openPopup'
+      openPopup: 'popup/openPopup'
     }),
     action(method) {
       if (method && this[method]) {
@@ -95,28 +93,10 @@ export default {
       }
     },
     openContacts() {
-      this.toggle(false);
-      this.openPopup({
-        name: 'contacts',
-        component: ContactList,
-        options: {
-          close: false
-        },
-        data: {
-          contacts: [1, 2, 3]
-        }
-      });
+      this.openPopup('contacts');
     },
     openSettings() {
-      this.toggle(false);
-      this.openPopup({
-        name: 'settings',
-        component: Settings,
-        options: {
-          backdrop: false
-        },
-        data: {}
-      });
+      this.openPopup('settings');
     },
     logout() {
       this.toggle(false);

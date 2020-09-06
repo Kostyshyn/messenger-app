@@ -4,7 +4,7 @@
     position="absolute"
     @click.self.native="close('overlay')"
   >
-    <div class="edit-popup" :style="style">
+    <form class="edit-popup" :style="style" @submit.prevent="save">
       <div class="edit-popup-header">
         <h3>{{ title }}</h3>
       </div>
@@ -20,11 +20,11 @@
         >
           Cancel
         </Button>
-        <Button className="save" color="transparent" ripple @click="save">
+        <Button className="save" type="submit" color="transparent" ripple>
           Save
         </Button>
       </div>
-    </div>
+    </form>
   </Overlay>
 </template>
 

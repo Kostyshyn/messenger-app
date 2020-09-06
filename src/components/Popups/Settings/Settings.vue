@@ -99,7 +99,7 @@ export default {
     //   console.log('back action');
     // },
     ...mapActions({
-      close: 'app/closePopup'
+      close: 'popup/closePopup'
     }),
     accountAction(action) {
       if (POPUPS[action]) {

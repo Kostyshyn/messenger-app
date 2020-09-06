@@ -17,6 +17,10 @@ import VueMoment from 'vue-moment';
 Vue.use(VueMoment);
 //
 
+// Lodash
+import VueLodash from 'vue-lodash';
+import lodash from 'lodash';
+Vue.use(VueLodash, { lodash });
 //
 
 initServices({
