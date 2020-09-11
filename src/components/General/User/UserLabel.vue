@@ -4,6 +4,7 @@
       :src="userImage"
       :alt="user.username"
       class="user-img"
+      :class="{ hasImages }"
       @click="openCarousel"
     />
     <div class="user-info">
@@ -52,6 +53,9 @@ export default {
     classList() {
       return ['user-label', { big: this.big }, this.className];
     },
+    hasImages() {
+      return !!this.user.profile_image;
+    },
     userImage() {
       const { baseUrl, user, token, settings } = this;
       if (user.profile_image) {
@@ -85,9 +89,11 @@ export default {
       open: 'app/openCarousel'
     }),
     openCarousel() {
-      this.open({
-        id: this.user._id
-      });
+      if (this.hasImages) {
+        this.open({
+          id: this.user._id
+        });
+      }
     }
   }
 };
@@ -99,7 +105,6 @@ export default {
   align-items: center;
   padding: 15px;
   .user-img {
-    cursor: pointer;
     display: flex;
     flex: 1 0 auto;
     width: 48px;
@@ -107,6 +112,9 @@ export default {
     -o-object-fit: cover;
     object-fit: cover;
     border-radius: 50%;
+    &.hasImages {
+      cursor: pointer;
+    }
   }
   .user-info {
     padding-left: 10px;
