@@ -28,6 +28,10 @@ export const authGuard = (to, from, next) => {
   }
 };
 
+export const confirmGuard = (to, from, next) => {
+  next();
+};
+
 function isLoggedIn() {
   const token = ls.get(process.env.VUE_APP_LOCALSTORAGE_KEY + '.token');
   return store.getters['user/loggedId'] || token;

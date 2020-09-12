@@ -1,12 +1,13 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import { globalGuard, authGuard } from './guards.js';
-import Main from '../views/Main.vue';
-import ErrorPage from '../views/ErrorPage.vue';
+import { globalGuard, authGuard, confirmGuard } from './guards.js';
+import Main from '@/views/Main.vue';
+import ErrorPage from '@/views/ErrorPage.vue';
 
 // Auth views
-import Login from '../views/Login.vue';
-import Register from '../views/Register.vue';
+import Login from '@/views/Login.vue';
+import Register from '@/views/Register.vue';
+import Confirm from '@/views/Confirm.vue';
 
 Vue.use(VueRouter);
 
@@ -28,6 +29,12 @@ const routes = [
     name: 'Register',
     beforeEnter: authGuard,
     component: Register
+  },
+  {
+    path: '/confirm',
+    name: 'Confirm',
+    beforeEnter: confirmGuard,
+    component: Confirm
   },
   {
     path: '*',
