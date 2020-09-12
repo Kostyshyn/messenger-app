@@ -1,9 +1,9 @@
 <template>
   <div class="user-image" :class="className" v-on="$listeners">
     <router-link v-if="to" :to="to">
-      <img :src="image" alt="user image" />
+      <img crossorigin :src="image" alt="user image" />
     </router-link>
-    <img v-else :src="image" alt="user image" />
+    <img crossorigin v-else :src="image" alt="user image" />
   </div>
 </template>
 

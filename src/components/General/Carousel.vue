@@ -16,7 +16,7 @@
           @after-change="afterChange"
         >
           <div class="slide" v-for="(slide, index) in slides.data" :key="index">
-            <img :src="userImage(slide)" />
+            <img crossorigin :src="userImage(slide)" />
           </div>
           <template slot="prevButton">
             <!-- use property fillColor to change background-color -->
@@ -43,7 +43,7 @@
             @click="$refs.thumbnails.goTo(index)"
             :key="index"
           >
-            <img :src="userImage(slide, 'preview')" />
+            <img crossorigin :src="userImage(slide, 'preview')" />
           </div>
         </agile>
       </div>

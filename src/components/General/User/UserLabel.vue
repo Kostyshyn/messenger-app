@@ -1,6 +1,7 @@
 <template>
   <div :class="classList">
     <img
+      crossorigin
       :src="userImage"
       :alt="user.username"
       class="user-img"
