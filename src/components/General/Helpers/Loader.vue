@@ -36,7 +36,6 @@ export default {
     height: 50px;
     border: 2px solid $light-grey-color;
     border-bottom-color: transparent;
-    margin-right: -15px;
     border-radius: 50%;
     animation: spin 0.75s infinite linear;
   }

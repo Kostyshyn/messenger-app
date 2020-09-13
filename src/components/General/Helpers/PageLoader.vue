@@ -1,6 +1,6 @@
 <template>
   <transition name="loader" mode="out-in">
-    <Loader v-if="loading" className="page-loader" :loading="true" />
+    <Loader v-if="loading" className="page-loader" loading />
   </transition>
 </template>
 

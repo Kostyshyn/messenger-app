@@ -28,8 +28,15 @@ export const authGuard = (to, from, next) => {
   }
 };
 
-export const confirmGuard = (to, from, next) => {
-  next();
+export const confirmGuard = ({ query }, { name }, next) => {
+  // TODO: need to check user isConfirmed and
+  if (query.token && !name) {
+    next();
+  } else {
+    next({
+      path: '/'
+    });
+  }
 };
 
 function isLoggedIn() {

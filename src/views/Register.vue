@@ -19,7 +19,8 @@ export default {
         title: 'Register',
         label: 'Register',
         link: '/login',
-        linkText: 'Sign in if you already have an account'
+        linkText: 'Sign in if you already have an account',
+        showLoading: true
       },
       fields: [
         {

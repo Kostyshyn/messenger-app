@@ -12,9 +12,16 @@
         :errors="errors[field.errorKey]"
         :key="i"
       />
-      <div class="form-footer">
+      <div class="form-footer" :class="action">
         <Button color="primary" type="submit" ripple>
-          {{ label }}
+          <transition name="fade" mode="out-in" appear>
+            <Loader
+              v-if="showLoading && loading"
+              className="button-loader"
+              loading
+            />
+            <span v-else>{{ label }}</span>
+          </transition>
         </Button>
         <router-link v-if="link" :to="link" class="link">
           {{ linkText }}
@@ -28,13 +35,15 @@
 // @ is an alias to /src
 import Field from '@/components/General/Form/Field.vue';
 import Button from '@/components/General/Helpers/Button.vue';
+import Loader from '@/components/General/Helpers/Loader.vue';
 import api from '@/services/api';
 
 export default {
   name: 'AuthForm',
   components: {
     Field,
-    Button
+    Button,
+    Loader
   },
   props: {
     action: {
@@ -72,6 +81,10 @@ export default {
     className: {
       type: String,
       default: ''
+    },
+    showLoading: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

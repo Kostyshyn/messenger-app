@@ -7,6 +7,29 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    /deep/.button {
+      span {
+        height: 36px;
+      }
+    }
+    &.register {
+      /deep/.button {
+        width: 102px;
+      }
+    }
+    &.login {
+      /deep/.button {
+        width: 80px;
+      }
+    }
+    .button-loader {
+      /deep/.circle-preloader {
+        width: 16px;
+        height: 16px;
+        margin: 0;
+        border-bottom-color: $primary-color;
+      }
+    }
     .link {
       font-size: 16px;
       font-weight: 400;

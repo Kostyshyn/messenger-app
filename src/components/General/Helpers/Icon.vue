@@ -12,10 +12,6 @@ export default {
     name: {
       type: String,
       required: true
-    },
-    spin: {
-      type: Boolean,
-      default: false
     }
   },
   data() {
