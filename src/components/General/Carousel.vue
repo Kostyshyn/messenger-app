@@ -112,7 +112,8 @@ export default {
       slides: {},
       requestProcessing: false,
       imageSizeSuffix: config.IMAGES.CAROUSEL_IMAGE_SIZE,
-      currentSlide: 0
+      currentSlide: 0,
+      handleKeys: ['ArrowRight', 'ArrowLeft']
     };
   },
   computed: {
@@ -174,17 +175,32 @@ export default {
     },
     afterChange(e) {
       this.currentSlide = e.currentSlide;
+    },
+    keyboardHandler(e) {
+      const { main } = this.$refs;
+      if (main && e.key && this.handleKeys.includes(e.key)) {
+        if (e.key === 'ArrowRight') {
+          main.goToNext();
+        } else {
+          main.goToPrev();
+        }
+      }
     }
   },
   filters: {},
   watch: {},
-  mounted() {},
+  mounted() {
+    window.addEventListener('keydown', this.keyboardHandler);
+  },
   created() {
     if (this.images.data) {
       this.slides = { ...this.images };
     } else {
       this.getImages();
     }
+  },
+  beforeDestroy() {
+    window.removeEventListener('keydown', this.keyboardHandler);
   }
 };
 </script>
