@@ -4,6 +4,10 @@ import { globalGuard, authGuard, confirmGuard } from './guards.js';
 import Main from '@/views/Main.vue';
 import ErrorPage from '@/views/ErrorPage.vue';
 
+// test
+import Test from '@/views/Test.vue';
+//
+
 // Auth views
 import Login from '@/views/Login.vue';
 import Register from '@/views/Register.vue';
@@ -18,6 +22,13 @@ const routes = [
     component: Main,
     meta: { requiresAuth: true }
   },
+  // test
+  {
+    path: '/test',
+    name: 'Test',
+    component: Test
+  },
+  //
   {
     path: '/login',
     name: 'Login',

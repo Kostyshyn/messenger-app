@@ -51,6 +51,7 @@ div {
 .page-enter-active, .page-leave-active {
   transition: 0.15s cubic-bezier(0.25, 0.8, 0.5, 1);
 }
+
 .page-enter, .page-leave-to {
   opacity: 0;
   // transform: translateY(-20px);
@@ -59,7 +60,16 @@ div {
 .fade-enter-active, .fade-leave-active {
   transition: 0.1s cubic-bezier(0.25, 0.8, 0.5, 1);
 }
+
 .fade-enter, .fade-leave-to {
   opacity: 0;
-  // transform: translateY(-20px);
+}
+
+.slide-enter-active, .slide-leave-active {
+  transition: 0.1s cubic-bezier(0.25, 0.8, 0.5, 1);
+}
+
+.slide-enter, .slide-leave-to {
+  opacity: 0;
+  transform: translateY(-20px);
 }

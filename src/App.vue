@@ -72,5 +72,7 @@ export default {
   position: relative;
   padding-top: 50px;
   max-height: 100vh;
+  height: 100vh;
+  box-sizing: border-box;
 }
 </style>

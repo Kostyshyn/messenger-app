@@ -1,8 +1,8 @@
 <template>
   <div class="drawer">
-    <slot :toggle="toggle"></slot>
+    <slot :toggle="toggle" />
     <div class="sidebar" :class="className" :style="style">
-      <slot name="sidebar"></slot>
+      <slot name="sidebar" />
     </div>
     <transition name="fade" mode="out-in">
       <Overlay v-if="open" @click.native="backdrop" />

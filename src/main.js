@@ -3,6 +3,7 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import { initServices } from './services/api';
+import bindDirectives from '@/directives';
 
 // external
 
@@ -27,6 +28,8 @@ initServices({
   router,
   store
 });
+
+bindDirectives(Vue);
 
 Vue.config.productionTip = false;
 
