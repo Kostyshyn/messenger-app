@@ -53,6 +53,10 @@ export default {
       type: Boolean,
       default: false
     },
+    round: {
+      type: Boolean,
+      default: false
+    },
     type: {
       type: String,
       validator: type => {
@@ -70,13 +74,8 @@ export default {
   },
   computed: {
     btnClass() {
-      return [
-        'button',
-        this.color,
-        { ripple: this.ripple },
-        { full: this.fullWidth },
-        this.className
-      ];
+      const { color, ripple, round, fullWidth: full, className } = this;
+      return ['button', color, { ripple }, { round }, { full }, className];
     }
   }
 };
@@ -153,6 +152,18 @@ export default {
       }
     }
   }
-  @include ripple;
+  &.ripple {
+    @include ripple;
+  }
+  &.round {
+    min-width: 36px;
+    width: 36px;
+    border-radius: 50%;
+  }
+  .material-design-icon {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
 }
 </style>

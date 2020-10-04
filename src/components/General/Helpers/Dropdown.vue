@@ -5,7 +5,7 @@
     </div>
     <transition name="slide" mode="out-in" @after-enter="afterEnter">
       <div v-if="show" v-click-outside="close" class="dropdown-body">
-        test
+        <slot name="body" />
       </div>
     </transition>
   </div>
@@ -59,7 +59,7 @@ export default {
       this.init = true;
     },
     close() {
-      if (this.show && this.init) {
+      if (this.show && this.init && this.backdrop) {
         this.$emit('close');
       }
     }
@@ -78,17 +78,18 @@ export default {
 <style lang="scss" scoped>
 .dropdown-list-wrapper {
   display: flex;
-  background-color: #c1c1c1;
   width: fit-content;
   height: auto;
   position: relative;
   .dropdown-body {
     position: absolute;
-    top: 100%;
+    top: calc(100% + 5px);
     left: 0;
-    height: 200px;
-    width: 300px;
-    background-color: grey;
+    height: auto;
+    min-width: 100px;
+    border-radius: 4px;
+    background-color: $white-background-color;
+    box-shadow: $block-shadow;
   }
 }
 </style>

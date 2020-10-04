@@ -6,12 +6,37 @@
       <div class="dropdown-lists">
         <Dropdown :show="showDropdown1" @close="showDropdown1 = false">
           <template #trigger>
-            <button @click="showDropdown1 = !showDropdown1">Open 1</button>
+            <Button
+              color="transparent"
+              round
+              ripple
+              @click="showDropdown1 = !showDropdown1"
+            >
+              <DotsVertical />
+            </Button>
+          </template>
+          <template #body>
+            test 1
           </template>
         </Dropdown>
-        <Dropdown :show="showDropdown2" @close="showDropdown2 = false">
+        <Dropdown backdrop :show="showDropdown2" @close="showDropdown2 = false">
           <template #trigger>
-            <button @click="showDropdown2 = !showDropdown2">Open 2</button>
+            <Button round ripple @click="showDropdown2 = !showDropdown2">
+              <DotsVertical />
+            </Button>
+          </template>
+          <template #body>
+            <List>
+              <ListItem
+                v-for="(item, index) in list"
+                :key="index"
+                @click.native="$emit('action')"
+              >
+                <div class="item-label">
+                  {{ item.label }}
+                </div>
+              </ListItem>
+            </List>
           </template>
         </Dropdown>
       </div>
@@ -24,17 +49,33 @@
 import { mapGetters, mapActions } from 'vuex';
 import Navigation from '@/components/General/Navigation.vue';
 import Dropdown from '@/components/General/Helpers/Dropdown';
+import List from '@/components/General/List/List.vue';
+import ListItem from '@/components/General/List/ListItem.vue';
+import Button from '@/components/General/Helpers/Button.vue';
+import DotsVertical from 'vue-material-design-icons/DotsVertical.vue';
 
 export default {
   name: 'Test',
   components: {
     Navigation,
-    Dropdown
+    Dropdown,
+    List,
+    ListItem,
+    Button,
+    DotsVertical
   },
   data() {
     return {
       showDropdown1: false,
-      showDropdown2: false
+      showDropdown2: false,
+      list: [
+        {
+          label: 'Menu item 1'
+        },
+        {
+          label: 'Menu item 2'
+        }
+      ]
     };
   },
   computed: {
@@ -54,5 +95,17 @@ export default {
   display: flex;
   width: 500px;
   justify-content: space-between;
+  .item-label {
+    user-select: none;
+    font-size: $list-item-font;
+    line-height: 36px;
+    padding: 0 5px;
+    font-weight: 600;
+    color: $black-font-color;
+    white-space: nowrap;
+    @media (max-width: $sm) {
+      font-size: $list-item-font-sm;
+    }
+  }
 }
 </style>
