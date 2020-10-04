@@ -14,6 +14,8 @@ const modules = [auth, user];
 
 const methods = {};
 
+const STOP_ON_STATUS = [401, 404];
+
 export const initServices = function({ router, store }) {
   modules.map(module => {
     for (const method in module) {
@@ -34,7 +36,7 @@ export const initServices = function({ router, store }) {
         });
       }
 
-      if (response && response.status === 401) {
+      if (response && STOP_ON_STATUS.includes(response.status)) {
         stop();
       }
       return Promise.reject(response ? response : false);

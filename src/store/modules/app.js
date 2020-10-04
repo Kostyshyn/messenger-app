@@ -32,9 +32,18 @@ export default {
           root: true
         });
         try {
-          await api.fetchUser();
+          const user = await api.fetchUser();
+          // TODO: show it in the specific route guard
+          if (!user.isConfirmed) {
+            const send = confirm(
+              'Please confirm your account. Resend confirmation via email?'
+            ); // TODO: change to alert message
+            if (send) {
+              await api.resendConfirm();
+            }
+          }
         } catch (err) {
-          alert(err.message); // development
+          alert(err.message); // TODO: change to alert message
         }
         commit('SET_LOADING', false);
       } else {

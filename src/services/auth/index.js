@@ -36,6 +36,14 @@ export const confirm = async function({ api, store, ls }, token) {
   }
 };
 
+export const resendConfirm = async function({ api }) {
+  try {
+    return await api.get('/resend-confirm');
+  } catch (err) {
+    return Promise.reject(err.data);
+  }
+};
+
 export const logout = function({ store, router, ls }) {
   ls.remove(process.env.VUE_APP_LOCALSTORAGE_KEY + '.token');
   store.dispatch('user/setToken', null);

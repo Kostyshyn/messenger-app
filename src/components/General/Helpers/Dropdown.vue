@@ -90,6 +90,7 @@ export default {
     border-radius: 4px;
     background-color: $white-background-color;
     box-shadow: $block-shadow;
+    z-index: 1;
   }
 }
 </style>

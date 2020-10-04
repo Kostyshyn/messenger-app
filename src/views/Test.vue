@@ -8,6 +8,7 @@
           <template #trigger>
             <Button
               color="transparent"
+              disabled
               round
               ripple
               @click="showDropdown1 = !showDropdown1"
@@ -16,12 +17,17 @@
             </Button>
           </template>
           <template #body>
-            test 1
+            Dropdown content
           </template>
         </Dropdown>
         <Dropdown backdrop :show="showDropdown2" @close="showDropdown2 = false">
           <template #trigger>
-            <Button round ripple @click="showDropdown2 = !showDropdown2">
+            <Button
+              color="error"
+              round
+              ripple
+              @click="showDropdown2 = !showDropdown2"
+            >
               <DotsVertical />
             </Button>
           </template>
@@ -40,6 +46,26 @@
           </template>
         </Dropdown>
       </div>
+      <ul>
+        <li>
+          <Button color="primary" ripple>Button 1</Button>
+        </li>
+        <li>
+          <Button color="secondary" flat ripple>Button 2</Button>
+        </li>
+        <li>
+          <Button color="transparent" ripple>Button 3</Button>
+        </li>
+        <li>
+          <Button color="error" ripple>Button 4</Button>
+        </li>
+        <li>
+          <Button color="transparent" exact to="/" ripple>Button 5</Button>
+        </li>
+        <li>
+          <Button color="error" disabled ripple>Button 6</Button>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -93,7 +119,8 @@ export default {
 <style scoped lang="scss">
 .dropdown-lists {
   display: flex;
-  width: 500px;
+  width: 50%;
+  padding: 40px 0;
   justify-content: space-between;
   .item-label {
     user-select: none;
@@ -106,6 +133,11 @@ export default {
     @media (max-width: $sm) {
       font-size: $list-item-font-sm;
     }
+  }
+}
+ul {
+  li {
+    margin-bottom: 15px;
   }
 }
 </style>

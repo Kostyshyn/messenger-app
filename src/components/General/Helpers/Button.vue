@@ -57,6 +57,10 @@ export default {
       type: Boolean,
       default: false
     },
+    flat: {
+      type: Boolean,
+      default: false
+    },
     type: {
       type: String,
       validator: type => {
@@ -74,8 +78,16 @@ export default {
   },
   computed: {
     btnClass() {
-      const { color, ripple, round, fullWidth: full, className } = this;
-      return ['button', color, { ripple }, { round }, { full }, className];
+      const { color, ripple, round, flat, fullWidth: full, className } = this;
+      return [
+        'button',
+        color,
+        { ripple },
+        { flat },
+        { round },
+        { full },
+        className
+      ];
     }
   }
 };
@@ -105,22 +117,30 @@ export default {
   font-weight: 600;
   box-sizing: border-box;
   box-shadow: $block-shadow;
-  &:disabled,
-  &.disabled {
-    opacity: 0.8;
-    cursor: not-allowed;
-  }
-  &.disabled {
-    pointer-events: none;
+  &.flat {
+    box-shadow: none;
   }
   &.primary {
     background-color: $primary-color;
     color: $white-font-color;
-    font-weight: 400;
+    &:hover {
+      background-color: $light-primary-color;
+    }
   }
   &.secondary {
     background-color: $grey-color;
     color: $black-font-color;
+  }
+  &.error {
+    background-color: $red-color;
+    color: $white-font-color;
+    &:hover {
+      background-color: $light-red-color;
+    }
+  }
+  &.primary,
+  &.error {
+    font-weight: 400;
   }
   &.transparent {
     background-color: transparent;
@@ -139,6 +159,7 @@ export default {
         transition: 0s;
       }
       &:hover {
+        background-color: transparent;
         &:before {
           width: calc(100% - 30px);
           transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
@@ -151,6 +172,19 @@ export default {
         }
       }
     }
+  }
+  &.secondary,
+  &.transparent {
+    &:hover {
+      background-color: $light-grey-color;
+    }
+  }
+  &:disabled,
+  &.disabled {
+    opacity: 0.8;
+    pointer-events: none;
+    color: $dark-grey-font-color;
+    background-color: $grey-color;
   }
   &.ripple {
     @include ripple;

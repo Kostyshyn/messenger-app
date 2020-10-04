@@ -21,7 +21,8 @@ export default {
   data() {
     return {
       requestProcessing: false,
-      requested: false
+      requested: false,
+      redirectStatuses: [404, 422]
     };
   },
   computed: {
@@ -45,7 +46,7 @@ export default {
         this.requested = true;
       } catch (err) {
         this.requestProcessing = false;
-        if (err.status === 404) {
+        if (this.redirectStatuses.includes(err.status)) {
           await this.$router.push(this.defaultRedirect);
         }
         this.requested = true;
