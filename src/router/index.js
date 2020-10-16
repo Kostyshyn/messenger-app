@@ -9,9 +9,10 @@ import Test from '@/views/Test.vue';
 //
 
 // Auth views
-import Login from '@/views/Login.vue';
-import Register from '@/views/Register.vue';
-import Confirm from '@/views/Confirm.vue';
+import Login from '@/views/auth/Login.vue';
+import Register from '@/views/auth/Register.vue';
+import Confirm from '@/views/auth/Confirm.vue';
+import ResetPassword from '@/views/auth/ResetPassword.vue';
 
 Vue.use(VueRouter);
 
@@ -46,6 +47,12 @@ const routes = [
     name: 'Confirm',
     beforeEnter: confirmGuard,
     component: Confirm
+  },
+  {
+    path: '/reset-password',
+    name: 'ResetPassword',
+    beforeEnter: authGuard,
+    component: ResetPassword
   },
   {
     path: '*',

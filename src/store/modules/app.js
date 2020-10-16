@@ -32,16 +32,7 @@ export default {
           root: true
         });
         try {
-          const user = await api.fetchUser();
-          // TODO: show it in the specific route guard
-          if (!user.isConfirmed) {
-            const send = confirm(
-              'Please confirm your account. Resend confirmation via email?'
-            ); // TODO: change to alert message
-            if (send) {
-              await api.resendConfirm();
-            }
-          }
+          await api.fetchUser();
         } catch (err) {
           alert(err.message); // TODO: change to alert message
         }

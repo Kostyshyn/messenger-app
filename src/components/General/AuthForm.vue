@@ -54,6 +54,10 @@ export default {
       type: String,
       default: ''
     },
+    text: {
+      type: String,
+      default: ''
+    },
     label: {
       type: String,
       default: 'Submit'
@@ -67,7 +71,7 @@ export default {
       default: ''
     },
     redirect: {
-      type: String,
+      type: [String, Boolean],
       default: ''
     },
     fields: {
@@ -119,14 +123,16 @@ export default {
           ...payload,
           ...additionalPayload
         });
+        console.log(1, redirect);
         if (redirect) {
           await this.$router.push(redirect);
-        } else {
+        } else if (typeof redirect !== 'boolean' && redirect !== false) {
           await this.$router.push(defaultRedirect);
         }
         this.loading = false;
         this.errors = {};
       } catch (err) {
+        console.log(2, redirect, err);
         this.loading = false;
         this.errors = err.errors;
       }
