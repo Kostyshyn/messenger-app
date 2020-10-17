@@ -1,20 +1,29 @@
 <template>
-  <div class="auth-form" :class="className">
+  <div class="auth-form" :class="[className, { hasColumns }]">
     <h1>{{ title }}</h1>
     <div class="form-info-text">
       <slot name="form-info" />
     </div>
     <form @submit.prevent="submit">
-      <Field
-        v-for="(field, i) in fields"
-        :name="field.name"
-        :label="field.label"
-        :placeholder="field.placeholder"
-        v-model="field.model"
-        :type="field.type"
-        :errors="errors[field.errorKey]"
-        :key="i"
-      />
+      <Columns
+        :data="fields"
+        :columnsNum="columnsNum"
+        :colMaxWidth="colMaxWidth"
+        className="form-row"
+      >
+        <template #column="{ col }">
+          <Field
+            v-for="(field, i) in col"
+            :name="field.name"
+            :label="field.label"
+            :placeholder="field.placeholder"
+            v-model="field.model"
+            :type="field.type"
+            :errors="errors[field.errorKey]"
+            :key="i"
+          />
+        </template>
+      </Columns>
       <div class="form-footer" :class="action">
         <Button color="primary" type="submit" ripple>
           <transition name="fade" mode="out-in" appear>
@@ -39,6 +48,8 @@
 
 <script>
 // @ is an alias to /src
+import { mapGetters } from 'vuex';
+import Columns from '@/components/General/Helpers/Columns.vue';
 import Field from '@/components/General/Form/Field.vue';
 import Button from '@/components/General/Helpers/Button.vue';
 import Loader from '@/components/General/Helpers/Loader.vue';
@@ -47,11 +58,19 @@ import api from '@/services/api';
 export default {
   name: 'AuthForm',
   components: {
+    Columns,
     Field,
     Button,
     Loader
   },
   props: {
+    columnsNum: {
+      type: Number,
+      validator: num => {
+        return [1, 2, 3].includes(num);
+      },
+      default: 1
+    },
     action: {
       type: String,
       required: true
@@ -97,10 +116,27 @@ export default {
     return {
       defaultRedirect: '/',
       loading: false,
-      errors: {}
+      errors: {},
+      colMaxWidth: '340px'
     };
   },
   computed: {
+    ...mapGetters({
+      device: 'app/device'
+    }),
+    hasColumns() {
+      return this.columnsNum > 1;
+    },
+    columns() {
+      const { columnsNum, fields, _ } = this;
+      return _.chunk(fields, _.round(fields.length / columnsNum));
+    },
+    colStyle() {
+      if (this.device === 'sm') {
+        return { width: '100%' };
+      }
+      return { width: 100 / this.columnsNum + '%' };
+    },
     payload() {
       const result = {};
       this.fields.forEach(field => (result[field.name] = field.model));
@@ -108,6 +144,10 @@ export default {
     }
   },
   methods: {
+    colClass(index) {
+      const num = index + 1;
+      return [`col-num-${num}`, num % 2 === 0 ? 'even' : 'odd'];
+    },
     async submit() {
       const {
         action,

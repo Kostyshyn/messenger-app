@@ -24,7 +24,8 @@ export default {
         label: 'Register',
         link: '/login',
         linkText: 'Sign in if you already have an account',
-        showLoading: true
+        showLoading: true,
+        columnsNum: 2
       },
       fields: [
         {
@@ -66,6 +67,14 @@ export default {
           placeholder: 'Type password',
           model: '',
           errorKey: 'password'
+        },
+        {
+          name: 'confirm_password',
+          type: 'password',
+          label: 'Confirm password',
+          placeholder: 'Type password',
+          model: '',
+          errorKey: 'confirm_password'
         }
       ]
     };

@@ -28,7 +28,7 @@ export const authGuard = (to, from, next) => {
   }
 };
 
-export const confirmGuard = ({ query }, { name }, next) => {
+export const tokenGuard = ({ query }, { name }, next) => {
   // TODO: need to check user isConfirmed and
   if (query.token && !name) {
     next();

@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import { globalGuard, authGuard, confirmGuard } from './guards.js';
+import { globalGuard, authGuard, tokenGuard } from './guards.js';
 import Main from '@/views/Main.vue';
 import ErrorPage from '@/views/ErrorPage.vue';
 
@@ -13,6 +13,7 @@ import Login from '@/views/auth/Login.vue';
 import Register from '@/views/auth/Register.vue';
 import Confirm from '@/views/auth/Confirm.vue';
 import ResetPassword from '@/views/auth/ResetPassword.vue';
+import ChangePassword from '@/views/auth/ChangePassword.vue';
 
 Vue.use(VueRouter);
 
@@ -45,7 +46,7 @@ const routes = [
   {
     path: '/confirm',
     name: 'Confirm',
-    beforeEnter: confirmGuard,
+    beforeEnter: tokenGuard,
     component: Confirm
   },
   {
@@ -53,6 +54,12 @@ const routes = [
     name: 'ResetPassword',
     beforeEnter: authGuard,
     component: ResetPassword
+  },
+  {
+    path: '/change-password',
+    name: 'ChangePassword',
+    // beforeEnter: tokenGuard,
+    component: ChangePassword
   },
   {
     path: '*',

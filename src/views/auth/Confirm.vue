@@ -49,7 +49,6 @@ export default {
         if (this.redirectStatuses.includes(err.status)) {
           await this.$router.push(this.defaultRedirect);
         }
-        this.requested = true;
         console.log(err);
       }
     }
