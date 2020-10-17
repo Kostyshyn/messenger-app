@@ -1,6 +1,10 @@
 <template>
   <div class="main-wrapper">
-    <AuthForm v-bind="form" :fields="fields" />
+    <AuthForm v-bind="form" :fields="fields">
+      <template #form-info>
+        Create your account.
+      </template>
+    </AuthForm>
   </div>
 </template>
 

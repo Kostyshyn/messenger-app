@@ -38,3 +38,16 @@
     transition: 0s;
   }
 }
+
+@mixin heading-text {
+  color: $primary-font-color;
+  font-weight: 400;
+  margin-bottom: 15px;
+}
+
+@mixin info-text {
+  color: $dark-grey-font-color;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 18px;
+}

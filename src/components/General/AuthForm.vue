@@ -1,6 +1,9 @@
 <template>
   <div class="auth-form" :class="className">
     <h1>{{ title }}</h1>
+    <div class="form-info-text">
+      <slot name="form-info" />
+    </div>
     <form @submit.prevent="submit">
       <Field
         v-for="(field, i) in fields"
@@ -27,6 +30,9 @@
           {{ linkText }}
         </router-link>
       </div>
+      <div class="form-bottom" :class="action">
+        <slot name="form-bottom" />
+      </div>
     </form>
   </div>
 </template>
@@ -51,10 +57,6 @@ export default {
       required: true
     },
     title: {
-      type: String,
-      default: ''
-    },
-    text: {
       type: String,
       default: ''
     },
@@ -119,22 +121,23 @@ export default {
       }
       try {
         this.loading = true;
-        await api[action]({
+        const res = await api[action]({
           ...payload,
           ...additionalPayload
         });
-        console.log(1, redirect);
         if (redirect) {
           await this.$router.push(redirect);
         } else if (typeof redirect !== 'boolean' && redirect !== false) {
           await this.$router.push(defaultRedirect);
+        } else {
+          this.$emit('onSuccess', res);
         }
         this.loading = false;
         this.errors = {};
       } catch (err) {
-        console.log(2, redirect, err);
         this.loading = false;
         this.errors = err.errors;
+        this.$emit('onError', err);
       }
     }
   },

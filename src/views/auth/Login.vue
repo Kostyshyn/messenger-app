@@ -1,6 +1,14 @@
 <template>
   <div class="main-wrapper">
-    <AuthForm v-bind="form" :fields="fields" :redirect="redirect" />
+    <AuthForm v-bind="form" :fields="fields" :redirect="redirect">
+      <template #form-info>
+        Sign in to your account.
+        <br />
+        <router-link :to="registerLink" class="register-link">
+          {{ registerLinkText }}
+        </router-link>
+      </template>
+    </AuthForm>
   </div>
 </template>
 
@@ -17,8 +25,8 @@ export default {
         action: 'login',
         title: 'Login',
         label: 'Login',
-        link: '/register',
-        linkText: 'Create an account'
+        link: '/reset-password',
+        linkText: 'Forgot Password?'
       },
       fields: [
         {
@@ -37,7 +45,9 @@ export default {
           model: '',
           errorKey: 'password'
         }
-      ]
+      ],
+      registerLink: '/register',
+      registerLinkText: "Don't have an account? Sign up"
     };
   },
   computed: {
@@ -49,4 +59,11 @@ export default {
   watch: {}
 };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.register-link {
+  font-size: 16px;
+  font-weight: 400;
+  color: $primary-font-color;
+  text-decoration: none;
+}
+</style>

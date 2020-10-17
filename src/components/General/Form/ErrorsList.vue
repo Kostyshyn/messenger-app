@@ -44,9 +44,10 @@ export default {
 .field-errors {
   li {
     font-size: 14px;
+    line-height: 16px;
     color: $red-font-color;
     font-weight: 600;
-    margin-top: 2px;
+    margin: 2px 0;
   }
 }
 </style>
