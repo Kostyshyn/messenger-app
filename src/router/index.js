@@ -52,13 +52,12 @@ const routes = [
   {
     path: '/reset-password',
     name: 'ResetPassword',
-    beforeEnter: authGuard,
     component: ResetPassword
   },
   {
     path: '/change-password',
     name: 'ChangePassword',
-    // beforeEnter: tokenGuard,
+    beforeEnter: tokenGuard,
     component: ChangePassword
   },
   {

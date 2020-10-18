@@ -8,7 +8,7 @@
         v-if="editPopupOpen"
         v-bind="{ userData: user }"
         :is="activePopup"
-        @close="close"
+        @close="closeEdit"
       />
     </transition>
   </div>
@@ -69,7 +69,7 @@ export default {
         {
           label: 'Change password',
           icon: 'key',
-          action: ''
+          action: 'changePassword'
         }
       ],
       settingsMenu: [
@@ -107,12 +107,20 @@ export default {
         this.$nextTick(() => {
           this.editPopupOpen = true;
         });
+      } else if (this[action]) {
+        this[action]();
       }
     },
     action(method) {
       console.log(method);
     },
-    close() {
+    // Popup actions
+    changePassword() {
+      this.close();
+      this.$router.push('/reset-password');
+    },
+    //
+    closeEdit() {
       this.editPopupOpen = false;
     }
   },

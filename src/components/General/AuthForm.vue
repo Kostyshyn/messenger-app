@@ -42,17 +42,25 @@
       <div class="form-bottom" :class="action">
         <slot name="form-bottom" />
       </div>
+      <div class="form-additional-errors">
+        <ErrorsList
+          v-for="(key, i) in additionalPayloadErrors"
+          :errors="errors[key]"
+          :showErrors="hasErrors(key)"
+          :key="i"
+        />
+      </div>
     </form>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import { mapGetters } from 'vuex';
 import Columns from '@/components/General/Helpers/Columns.vue';
 import Field from '@/components/General/Form/Field.vue';
 import Button from '@/components/General/Helpers/Button.vue';
 import Loader from '@/components/General/Helpers/Loader.vue';
+import ErrorsList from '@/components/General/Form/ErrorsList';
 import api from '@/services/api';
 
 export default {
@@ -61,7 +69,8 @@ export default {
     Columns,
     Field,
     Button,
-    Loader
+    Loader,
+    ErrorsList
   },
   props: {
     columnsNum: {
@@ -121,33 +130,19 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      device: 'app/device'
-    }),
     hasColumns() {
       return this.columnsNum > 1;
-    },
-    columns() {
-      const { columnsNum, fields, _ } = this;
-      return _.chunk(fields, _.round(fields.length / columnsNum));
-    },
-    colStyle() {
-      if (this.device === 'sm') {
-        return { width: '100%' };
-      }
-      return { width: 100 / this.columnsNum + '%' };
     },
     payload() {
       const result = {};
       this.fields.forEach(field => (result[field.name] = field.model));
       return result;
+    },
+    additionalPayloadErrors() {
+      return Object.keys(this.additionalPayload || {});
     }
   },
   methods: {
-    colClass(index) {
-      const num = index + 1;
-      return [`col-num-${num}`, num % 2 === 0 ? 'even' : 'odd'];
-    },
     async submit() {
       const {
         action,
@@ -179,6 +174,9 @@ export default {
         this.errors = err.errors;
         this.$emit('onError', err);
       }
+    },
+    hasErrors(errKey) {
+      return !!(this.errors[errKey] && this.errors[errKey].length);
     }
   },
   watch: {}

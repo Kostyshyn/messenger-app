@@ -52,6 +52,18 @@ export const resetPassword = async function({ api }, payload) {
   }
 };
 
+export const changePassword = async function({ api, store, ls }, payload) {
+  try {
+    const res = await api.post('/change-password', payload);
+    ls.set(process.env.VUE_APP_LOCALSTORAGE_KEY + '.token', res.token);
+    store.dispatch('user/setToken', res.token);
+    store.dispatch('user/setUser', res.user);
+    return res;
+  } catch (err) {
+    return Promise.reject(err.data);
+  }
+};
+
 export const logout = function({ store, router, ls }) {
   ls.remove(process.env.VUE_APP_LOCALSTORAGE_KEY + '.token');
   store.dispatch('user/setToken', null);

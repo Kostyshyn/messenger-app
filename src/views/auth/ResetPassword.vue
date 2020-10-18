@@ -11,6 +11,7 @@
 
 <script>
 // @ is an alias to /src
+import { mapGetters } from 'vuex';
 import AuthForm from '@/components/General/AuthForm.vue';
 
 export default {
@@ -23,28 +24,70 @@ export default {
         className: 'reset-password-form',
         title: 'Reset password',
         label: 'Send',
-        link: '/login',
-        linkText: 'Back to login',
         showLoading: true,
         redirect: false
       },
-      fields: [
-        {
-          name: 'email',
-          type: 'email',
-          label: 'Email',
-          placeholder: 'Type email',
-          model: '',
-          errorKey: 'email'
-        }
-      ]
+      fields: [],
+      defFormLink: {
+        link: '/login',
+        linkText: 'Back to login'
+      },
+      homeFormLink: {
+        link: '/',
+        linkText: 'Back to home page'
+      }
     };
   },
-  computed: {},
+  computed: {
+    ...mapGetters({
+      loading: 'app/loading',
+      user: 'user/user'
+    }),
+    defaultRedirect() {
+      return this.user ? '/' : '/login';
+    },
+    generalFormLink() {
+      const { defFormLink, homeFormLink } = this;
+      return this.user ? homeFormLink : defFormLink;
+    }
+  },
   methods: {
-    onSuccess(res) {
-      // TODO: show alert with text "Check the email address connected to your account for a password reset email"
-      console.log(res);
+    onSuccess({ success }) {
+      try {
+        // TODO: show alert with text "Check the email address connected to your account for a password reset email"
+        alert(
+          'Check the email address connected to your account for a password reset email'
+        );
+        if (success) {
+          this.$router.push(this.defaultRedirect);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  },
+  watch: {
+    loading: {
+      immediate: true,
+      handler(data) {
+        if (!data) {
+          const { user, form, generalFormLink } = this;
+          this.form = {
+            ...form,
+            ...generalFormLink
+          };
+          this.fields = [
+            {
+              name: 'email',
+              type: 'email',
+              label: 'Email',
+              placeholder: 'Type email',
+              model: user ? user.email : '',
+              errorKey: 'email'
+            }
+          ];
+        }
+      }
     }
   }
 };

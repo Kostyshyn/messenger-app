@@ -6,6 +6,15 @@
         Go to home page
       </Button>
     </div>
+    <div v-if="expiredToken" class="confirm-form">
+      <h1>{{ expiredTokenMsg }}</h1>
+      <Button v-if="user" color="primary" ripple @click="resendConfirm">
+        Re-send the confirmation email
+      </Button>
+      <Button v-else color="primary" to="/login" ripple>
+        Go to login page
+      </Button>
+    </div>
   </div>
 </template>
 
@@ -22,6 +31,8 @@ export default {
     return {
       requestProcessing: false,
       requested: false,
+      expiredToken: false,
+      expiredTokenMsg: 'Expired token',
       redirectStatuses: [404, 422]
     };
   },
@@ -44,12 +55,38 @@ export default {
         await api.confirm(token);
         this.requestProcessing = false;
         this.requested = true;
-      } catch (err) {
+      } catch ({ status, errors }) {
         this.requestProcessing = false;
-        if (this.redirectStatuses.includes(err.status)) {
+        if (errors && errors.token) {
+          this.expiredToken = true;
+          this.expiredTokenMsg = errors.token[0];
+        } else if (this.redirectStatuses.includes(status)) {
           await this.$router.push(this.defaultRedirect);
         }
-        console.log(err);
+        console.log(errors);
+      }
+    },
+    async resendConfirm() {
+      if (this.requestProcessing) {
+        return;
+      }
+      try {
+        this.requestProcessing = true;
+        const { success } = await api.resendConfirm();
+        this.requestProcessing = false;
+        // TODO: show alert
+        alert(
+          'Check the email address connected to your account for a confirmation email'
+        );
+        if (success) {
+          await this.$router.push(this.defaultRedirect);
+        }
+      } catch ({ status, errors }) {
+        this.requestProcessing = false;
+        if (this.redirectStatuses.includes(status)) {
+          await this.$router.push(this.defaultRedirect);
+        }
+        console.log(errors);
       }
     }
   },
