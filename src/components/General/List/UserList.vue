@@ -7,7 +7,7 @@
       :key="index"
     >
       <template slot="text">
-        {{ user.last_seen | moment('H:mm, D MMMM') }}
+        @{{ user.username }}/{{ user.last_seen | moment('H:mm, D MMMM') }}
       </template>
     </UserListItem>
   </List>

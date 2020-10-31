@@ -149,6 +149,13 @@ export default {
         height: 88px;
       }
     }
+    .user-info {
+      .url {
+        height: 18px;
+        line-height: 18px;
+        font-size: 16px;
+      }
+    }
   }
 }
 </style>
