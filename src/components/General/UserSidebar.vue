@@ -17,7 +17,7 @@
               iconOff="notifications_off"
             />
           </List>
-          <IconList :list="menuItems" @action="action" />
+          <IconList :list="menuList" @action="action" />
         </div>
       </div>
     </template>
@@ -47,6 +47,13 @@ export default {
   },
   data() {
     return {
+      adminMenuItems: [
+        {
+          label: 'Admin panel',
+          icon: 'dashboard',
+          action: 'openAdminPanel'
+        }
+      ],
       menuItems: [
         {
           label: 'Contacts',
@@ -74,10 +81,18 @@ export default {
   },
   computed: {
     ...mapGetters({
+      settings: 'app/settings',
       user: 'user/user',
       open: 'app/sidebarOpen',
       device: 'app/device'
     }),
+    menuList() {
+      const { user, settings, adminMenuItems, menuItems } = this;
+      if (user.role === settings.PRIVATE_ACCESS_ADMIN) {
+        return [...adminMenuItems, ...menuItems];
+      }
+      return menuItems;
+    },
     width() {
       return this.device === 'sm' ? 280 : 250;
     }
@@ -91,6 +106,9 @@ export default {
       if (method && this[method]) {
         this[method]();
       }
+    },
+    openAdminPanel() {
+      this.$router.push('/admin-panel');
     },
     openContacts() {
       this.openPopup('contacts');

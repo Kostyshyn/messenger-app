@@ -41,6 +41,7 @@ export default {
     return {
       title: 'Contacts',
       users: {},
+      page: 1,
       keyword: '',
       delay: 200, // debounce ms
       requestProcessing: false,
@@ -52,12 +53,11 @@ export default {
     ...mapActions({
       close: 'popup/closePopup'
     }),
-    async getUsers() {
+    async getContacts() {
       try {
-        const { keyword } = this;
-        const page = this.users.page || 1;
+        const { keyword, page } = this;
         this.requestProcessing = true;
-        this.users = await api.getUsers({
+        this.users = await api.getContacts({
           page,
           limit: 10, // for testing
           keyword
@@ -76,8 +76,8 @@ export default {
   },
   mounted() {},
   created() {
-    this.getUsers();
-    this.debouncedGetUsers = debounce(this.getUsers, this.delay);
+    this.getContacts();
+    this.debouncedGetUsers = debounce(this.getContacts, this.delay);
   }
 };
 </script>

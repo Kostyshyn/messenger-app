@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import { globalGuard, authGuard, tokenGuard } from './guards.js';
+import { globalGuard, authGuard, tokenGuard, adminGuard } from './guards.js';
 import Main from '@/views/Main.vue';
 import ErrorPage from '@/views/ErrorPage.vue';
 
@@ -14,6 +14,9 @@ import Register from '@/views/auth/Register.vue';
 import Confirm from '@/views/auth/Confirm.vue';
 import ResetPassword from '@/views/auth/ResetPassword.vue';
 import ChangePassword from '@/views/auth/ChangePassword.vue';
+
+// Admin views
+import AdminPanel from '@/views/AdminPanel.vue';
 
 Vue.use(VueRouter);
 
@@ -31,6 +34,13 @@ const routes = [
     component: Test
   },
   //
+  {
+    path: '/admin-panel',
+    name: 'AdminPanel',
+    component: AdminPanel,
+    beforeEnter: adminGuard,
+    meta: { requiresAuth: true }
+  },
   {
     path: '/login',
     name: 'Login',

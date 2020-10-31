@@ -7,7 +7,8 @@ export default {
     API_BASE_URL: null,
     settings: {
       // TODO: get the global settings from the backend
-      DEF_PROFILE_IMG: 'defaults/images/user/128_profile_placeholder.png'
+      DEF_PROFILE_IMG: 'defaults/images/user/128_profile_placeholder.png',
+      PRIVATE_ACCESS_ADMIN: 1
     },
     loading: true,
     sidebarOpen: false,

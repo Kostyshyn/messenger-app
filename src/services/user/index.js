@@ -8,16 +8,15 @@ export const fetchUser = async function({ api, store }) {
   }
 };
 
-export const getUsers = async function({ api }, { page, limit, keyword }) {
+export const getContacts = async function({ api }, { page, limit, keyword }) {
   try {
-    const res = await api.get('/users', {
+    return await api.get('/user/contacts', {
       params: {
         page,
         limit,
         keyword
       }
     });
-    return res;
   } catch (err) {
     return Promise.reject(err.data);
   }

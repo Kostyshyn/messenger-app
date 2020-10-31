@@ -3,7 +3,7 @@
     <PageLoader :loading="loading" />
     <div class="root-wrapper">
       <transition name="page" mode="out-in">
-        <router-view />
+        <router-view v-if="!loading" />
       </transition>
       <transition name="fade" mode="out-in">
         <Popup v-if="popup.open" :popup="popup" />
@@ -34,6 +34,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      user: 'user/user',
       loading: 'app/loading',
       device: 'app/device',
       popup: 'popup/popup',
@@ -51,7 +52,9 @@ export default {
     }
   },
   async mounted() {
+    console.log('Mounted: App', this.user);
     await this.init();
+    console.log('Mounted and fetched data: App', this.user);
     const { popup } = this.$route.query;
     this.openPopup(popup);
     this.$nextTick(() => {
@@ -59,7 +62,12 @@ export default {
       window.addEventListener('resize', this.onResize);
     });
   },
-  created() {},
+  created() {
+    console.log('Created: App');
+  },
+  beforeCreate() {
+    console.log('beforeCreate', 'App');
+  },
   beforeDestroy() {
     window.removeEventListener('resize', this.onResize);
   }

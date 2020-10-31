@@ -2,6 +2,7 @@ import ls from 'local-storage';
 import store from '@/store';
 
 export const globalGuard = (to, from, next) => {
+  console.log('globalGuard', from);
   if (to.matched.some(route => route.meta.requiresAuth)) {
     if (!isLoggedIn()) {
       next({
@@ -37,6 +38,19 @@ export const tokenGuard = ({ query }, { name }, next) => {
       path: '/'
     });
   }
+};
+
+export const adminGuard = (to, from, next) => {
+  const user = store.getters['user/user'];
+  console.log('adminGuard', user);
+  next();
+  // if (isLoggedIn()) {
+  //   next({
+  //     path: '/'
+  //   });
+  // } else {
+  //   next();
+  // }
 };
 
 function isLoggedIn() {
