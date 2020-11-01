@@ -63,6 +63,9 @@
           <Button color="transparent" exact to="/" ripple>Button 5</Button>
         </li>
         <li>
+          <Button color="transparent" exact to="/login" ripple>Login</Button>
+        </li>
+        <li>
           <Button color="error" disabled ripple>Button 6</Button>
         </li>
       </ul>

@@ -35,7 +35,7 @@ export default {
   },
   created() {
     console.log('Created: Admin panel', this.user);
-    this.checkAdmin();
+    // this.checkAdmin();
   },
   beforeRouteEnter(from, to, next) {
     console.log('beforeRouteEnter', 'AdminPanel');

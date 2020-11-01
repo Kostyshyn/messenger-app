@@ -25,22 +25,18 @@ export default {
     }
   },
   actions: {
-    async init({ commit, dispatch }) {
+    init({ commit, dispatch }) {
       commit('SET_API_BASE_URL', process.env.VUE_APP_API_BASE_URL);
       const token = ls.get(process.env.VUE_APP_LOCALSTORAGE_KEY + '.token');
       if (token) {
-        dispatch('user/setToken', token, {
-          root: true
-        });
-        try {
-          await api.fetchUser();
-        } catch (err) {
-          alert(err.message); // TODO: change to alert message
-        }
-        commit('SET_LOADING', false);
+        dispatch('user/setToken', token, { root: true });
+        return api.fetchUser();
       } else {
-        commit('SET_LOADING', false);
+        return Promise.reject('No token');
       }
+    },
+    setLoading({ commit }, loading) {
+      commit('SET_LOADING', loading);
     },
     setSidebarState({ commit }, sidebar) {
       commit('SET_SIDEBAR_STATE', sidebar);

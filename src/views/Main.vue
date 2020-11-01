@@ -22,6 +22,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      user: 'user/user',
       device: 'app/device',
       loggedIn: 'user/loggedId'
     })
@@ -29,7 +30,9 @@ export default {
   methods: {
     ...mapActions({})
   },
-  created() {}
+  created() {
+    console.log('Created: Main', this.user);
+  }
 };
 </script>
 <style scoped lang="scss"></style>

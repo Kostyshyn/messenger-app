@@ -39,7 +39,10 @@ const routes = [
     name: 'AdminPanel',
     component: AdminPanel,
     beforeEnter: adminGuard,
-    meta: { requiresAuth: true }
+    meta: {
+      requiresAuth: true,
+      requiresAdmin: true
+    }
   },
   {
     path: '/login',

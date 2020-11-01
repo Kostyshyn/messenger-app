@@ -53,7 +53,7 @@ export default {
   },
   async mounted() {
     console.log('Mounted: App', this.user);
-    await this.init();
+    // await this.init();
     console.log('Mounted and fetched data: App', this.user);
     const { popup } = this.$route.query;
     this.openPopup(popup);
@@ -64,9 +64,6 @@ export default {
   },
   created() {
     console.log('Created: App');
-  },
-  beforeCreate() {
-    console.log('beforeCreate', 'App');
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.onResize);
