@@ -1,8 +1,9 @@
 <template>
-  <div class="main-wrapper navigation">
-    <Navigation v-if="loggedIn" />
+  <div class="main-wrapper">
     <div class="main-page">
-      <h1>Main page</h1>
+      <h1>Admin page</h1>
+      <p>Device: {{ device }}</p>
+      <p>User name: {{ user.username }}</p>
     </div>
   </div>
 </template>
@@ -10,21 +11,17 @@
 <script>
 // @ is an alias to /src
 import { mapGetters, mapActions } from 'vuex';
-import Navigation from '@/components/General/Navigation.vue';
 
 export default {
-  name: 'Main',
-  components: {
-    Navigation
-  },
+  name: 'AdminPanel',
+  components: {},
   data() {
     return {};
   },
   computed: {
     ...mapGetters({
       user: 'user/user',
-      device: 'app/device',
-      loggedIn: 'user/loggedIn'
+      device: 'app/device'
     })
   },
   methods: {

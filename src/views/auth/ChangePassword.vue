@@ -69,8 +69,8 @@ export default {
       return this.user ? '/' : '/login';
     },
     generalFormLink() {
-      const { defFormLink, homeFormLink } = this;
-      return this.user ? homeFormLink : defFormLink;
+      const { user, defFormLink, homeFormLink } = this;
+      return user ? homeFormLink : defFormLink;
     },
     token() {
       return this.$route.query.token;
@@ -95,18 +95,11 @@ export default {
       };
     }
   },
-  watch: {
-    loading: {
-      immediate: true,
-      handler(data) {
-        if (!data) {
-          this.form = {
-            ...this.form,
-            ...this.generalFormLink
-          };
-        }
-      }
-    }
+  created() {
+    this.form = {
+      ...this.form,
+      ...this.generalFormLink
+    };
   }
 };
 </script>

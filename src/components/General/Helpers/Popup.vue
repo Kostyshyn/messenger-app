@@ -1,10 +1,6 @@
 <template>
   <div class="popup" :style="popupStyle">
-    <div
-      class="popup-content"
-      v-if="popup.component"
-      :style="popupContentStyle"
-    >
+    <div v-if="showPopup" class="popup-content" :style="popupContentStyle">
       <div class="popup-header">
         <div class="back" v-if="backAction" @click="handleBackClick">
           <Icon name="arrow_back" />
@@ -39,6 +35,7 @@ export default {
         open: false,
         name: '',
         component: null,
+        requiresAuth: false,
         options: {},
         data: {}
       })
@@ -54,6 +51,7 @@ export default {
   },
   data() {
     return {
+      show: false,
       nestedData: {},
       backAction: null,
       options: {
@@ -65,8 +63,12 @@ export default {
   },
   computed: {
     ...mapGetters({
+      loggedIn: 'user/loggedIn',
       device: 'app/device'
     }),
+    showPopup() {
+      return this.popup.component && this.show;
+    },
     title() {
       return this.nestedData.title;
     },
@@ -113,6 +115,14 @@ export default {
     const { backAction } = this.popup.component.methods;
     if (backAction && typeof backAction === 'function') {
       this.backAction = backAction;
+    }
+  },
+  created() {
+    const { requiresAuth } = this.popup;
+    if (requiresAuth && !this.loggedIn) {
+      this.close();
+    } else {
+      this.show = true;
     }
   },
   beforeDestroy() {

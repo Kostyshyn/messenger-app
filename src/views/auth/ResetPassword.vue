@@ -47,8 +47,8 @@ export default {
       return this.user ? '/' : '/login';
     },
     generalFormLink() {
-      const { defFormLink, homeFormLink } = this;
-      return this.user ? homeFormLink : defFormLink;
+      const { user, defFormLink, homeFormLink } = this;
+      return user ? homeFormLink : defFormLink;
     }
   },
   methods: {
@@ -66,29 +66,22 @@ export default {
       }
     }
   },
-  watch: {
-    loading: {
-      immediate: true,
-      handler(data) {
-        if (!data) {
-          const { user, form, generalFormLink } = this;
-          this.form = {
-            ...form,
-            ...generalFormLink
-          };
-          this.fields = [
-            {
-              name: 'email',
-              type: 'email',
-              label: 'Email',
-              placeholder: 'Type email',
-              model: user ? user.email : '',
-              errorKey: 'email'
-            }
-          ];
-        }
+  created() {
+    const { user, form, generalFormLink } = this;
+    this.form = {
+      ...form,
+      ...generalFormLink
+    };
+    this.fields = [
+      {
+        name: 'email',
+        type: 'email',
+        label: 'Email',
+        placeholder: 'Type email',
+        model: user ? user.email : '',
+        errorKey: 'email'
       }
-    }
+    ];
   }
 };
 </script>

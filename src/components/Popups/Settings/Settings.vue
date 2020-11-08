@@ -116,7 +116,6 @@ export default {
     },
     // Popup actions
     changePassword() {
-      this.close();
       this.$router.push('/reset-password');
     },
     //

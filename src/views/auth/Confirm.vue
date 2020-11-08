@@ -63,7 +63,6 @@ export default {
         } else if (this.redirectStatuses.includes(status)) {
           await this.$router.push(this.defaultRedirect);
         }
-        console.log(errors);
       }
     },
     async resendConfirm() {
@@ -86,22 +85,13 @@ export default {
         if (this.redirectStatuses.includes(status)) {
           await this.$router.push(this.defaultRedirect);
         }
-        console.log(errors);
       }
     }
   },
-  watch: {
-    loading: {
-      immediate: true,
-      handler(data) {
-        const { token } = this.$route.query;
-        if (!data) {
-          this.confirm(token);
-        }
-      }
-    }
-  },
-  mounted() {}
+  mounted() {
+    const { token } = this.$route.query;
+    this.confirm(token);
+  }
 };
 </script>
 <style lang="scss" scoped>
