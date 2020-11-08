@@ -81,14 +81,14 @@ export default {
   },
   computed: {
     ...mapGetters({
-      settings: 'app/settings',
       user: 'user/user',
+      isAdmin: 'user/isAdmin',
       open: 'app/sidebarOpen',
       device: 'app/device'
     }),
     menuList() {
-      const { user, settings, adminMenuItems, menuItems } = this;
-      if (user.role === settings.PRIVATE_ACCESS_ADMIN) {
+      const { adminMenuItems, menuItems } = this;
+      if (this.isAdmin) {
         return [...adminMenuItems, ...menuItems];
       }
       return menuItems;

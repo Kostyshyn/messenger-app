@@ -171,7 +171,9 @@ export default {
         this.errors = {};
       } catch (err) {
         this.loading = false;
-        this.errors = err.errors;
+        if (err && err.errors) {
+          this.errors = err.errors;
+        }
         this.$emit('onError', err);
       }
     },

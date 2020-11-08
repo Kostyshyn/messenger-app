@@ -1,5 +1,5 @@
 <template>
-  <div class="main-wrapper">
+  <div class="main-wrapper navigation">
     <Navigation v-if="loggedIn" />
     <div class="main-page">
       <h1>Main page</h1>
@@ -24,15 +24,13 @@ export default {
     ...mapGetters({
       user: 'user/user',
       device: 'app/device',
-      loggedIn: 'user/loggedId'
+      loggedIn: 'user/loggedIn'
     })
   },
   methods: {
     ...mapActions({})
   },
-  created() {
-    console.log('Created: Main', this.user);
-  }
+  created() {}
 };
 </script>
 <style scoped lang="scss"></style>

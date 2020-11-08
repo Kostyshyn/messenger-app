@@ -1,6 +1,12 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import { globalGuard, authGuard, tokenGuard, adminGuard } from './guards.js';
+import {
+  globalGuard,
+  pageGuard,
+  authGuard,
+  tokenGuard,
+  adminGuard
+} from './guards.js';
 import Main from '@/views/Main.vue';
 import ErrorPage from '@/views/ErrorPage.vue';
 
@@ -25,7 +31,7 @@ const routes = [
     path: '/',
     name: 'Main',
     component: Main,
-    meta: { requiresAuth: true }
+    beforeEnter: pageGuard
   },
   // test
   {
@@ -38,11 +44,7 @@ const routes = [
     path: '/admin-panel',
     name: 'AdminPanel',
     component: AdminPanel,
-    beforeEnter: adminGuard,
-    meta: {
-      requiresAuth: true,
-      requiresAdmin: true
-    }
+    beforeEnter: adminGuard
   },
   {
     path: '/login',

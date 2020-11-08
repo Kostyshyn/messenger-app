@@ -44,27 +44,19 @@ export default {
   methods: {
     ...mapActions({
       init: 'app/init',
-      resize: 'app/resize',
-      openPopup: 'popup/openPopup'
+      resize: 'app/resize'
     }),
     onResize() {
       this.resize(window.innerWidth);
     }
   },
   async mounted() {
-    console.log('Mounted: App', this.user);
-    // await this.init();
-    console.log('Mounted and fetched data: App', this.user);
-    const { popup } = this.$route.query;
-    this.openPopup(popup);
     this.$nextTick(() => {
       this.resize(window.innerWidth);
       window.addEventListener('resize', this.onResize);
     });
   },
-  created() {
-    console.log('Created: App');
-  },
+  created() {},
   beforeDestroy() {
     window.removeEventListener('resize', this.onResize);
   }
@@ -75,7 +67,6 @@ export default {
 @import './assets/styles/style.scss';
 .root-wrapper {
   position: relative;
-  padding-top: 50px;
   max-height: 100vh;
   height: 100vh;
   box-sizing: border-box;

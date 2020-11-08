@@ -8,18 +8,14 @@ export const fetchUser = async function({ api, store }) {
   }
 };
 
-export const getContacts = async function({ api }, { page, limit, keyword }) {
-  try {
-    return await api.get('/user/contacts', {
-      params: {
-        page,
-        limit,
-        keyword
-      }
-    });
-  } catch (err) {
-    return Promise.reject(err.data);
-  }
+export const getContacts = function({ api }, { page, limit, keyword }) {
+  return api.get('/user/contacts', {
+    params: {
+      page,
+      limit,
+      keyword
+    }
+  });
 };
 
 export const getUserByUrl = async function({ api }, url) {
@@ -57,8 +53,7 @@ export const uploadUserImage = async function({ api, store }, payload) {
 
 export const getUserImages = async function({ api }, id) {
   try {
-    const res = await api.get(`/users/${id}/images`);
-    return res.images;
+    return api.get(`/users/${id}/images`);
   } catch (err) {
     return Promise.reject(err.data);
   }

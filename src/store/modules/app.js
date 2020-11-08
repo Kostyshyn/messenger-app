@@ -17,7 +17,7 @@ export default {
       md: 768,
       lg: 992
     },
-    device: null,
+    device: 'lg',
     carousel: {
       open: false,
       id: null,

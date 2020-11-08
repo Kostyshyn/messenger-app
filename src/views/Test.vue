@@ -110,7 +110,7 @@ export default {
   computed: {
     ...mapGetters({
       device: 'app/device',
-      loggedIn: 'user/loggedId'
+      loggedIn: 'user/loggedIn'
     })
   },
   methods: {
