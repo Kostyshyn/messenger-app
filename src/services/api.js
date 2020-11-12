@@ -37,6 +37,7 @@ export const initServices = function({ router, store }) {
       }
 
       if (response && STOP_ON_STATUS.includes(response.status)) {
+        // TODO: handle errors with status code 500
         stop();
       }
       return Promise.reject(response ? response : false);
