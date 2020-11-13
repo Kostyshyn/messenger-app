@@ -23,6 +23,9 @@ import ChangePassword from '@/views/auth/ChangePassword.vue';
 
 // Admin views
 import AdminPanel from '@/views/AdminPanel.vue';
+import SummaryPanel from '@/views/admin/SummaryPanel.vue';
+import UsersPanel from '@/views/admin/UsersPanel.vue';
+import OriginsPanel from '@/views/admin/OriginsPanel.vue';
 
 Vue.use(VueRouter);
 
@@ -44,7 +47,24 @@ const routes = [
     path: '/admin-panel',
     name: 'AdminPanel',
     component: AdminPanel,
-    beforeEnter: adminGuard
+    beforeEnter: adminGuard,
+    children: [
+      {
+        path: '',
+        name: 'SummaryPanel',
+        component: SummaryPanel
+      },
+      {
+        path: 'users',
+        name: 'UsersPanel',
+        component: UsersPanel
+      },
+      {
+        path: 'origins',
+        name: 'OriginsPanel',
+        component: OriginsPanel
+      }
+    ]
   },
   {
     path: '/login',

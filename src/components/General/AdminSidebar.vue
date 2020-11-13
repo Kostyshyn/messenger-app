@@ -6,18 +6,12 @@
       </div>
     </template>
     <template #sidebar>
-      <div class="user-sidebar">
-        <UserLabel :user="user" className="sidebar-user-label" big />
+      <div class="admin-sidebar-header">
+        Admin panel
+      </div>
+      <div class="admin-sidebar">
         <div class="sidebar-body">
-          <List>
-            <ModeListItem
-              v-model="notifications"
-              label="Notifications"
-              iconOn="notifications"
-              iconOff="notifications_off"
-            />
-          </List>
-          <IconList :list="menuList" @action="action" />
+          <IconList :list="adminMenuItems" @action="action" />
         </div>
       </div>
     </template>
@@ -28,42 +22,39 @@
 // @ is an alias to /src
 import Icon from '@/components/General/Helpers/Icon.vue';
 import Drawer from '@/components/General/Helpers/Drawer.vue';
-import UserLabel from '@/components/General/User/UserLabel.vue';
-import List from '@/components/General/List/List.vue';
 import IconList from '@/components/General/List/IconList.vue';
-import ModeListItem from '@/components/General/List/ModeListItem.vue';
 import { mapGetters, mapActions } from 'vuex';
 import api from '@/services/api';
 
 export default {
-  name: 'UserSidebar',
+  name: 'AdminSidebar',
   components: {
     Icon,
     Drawer,
-    UserLabel,
-    ModeListItem,
-    List,
     IconList
   },
   data() {
     return {
       adminMenuItems: [
         {
-          label: 'Admin panel',
-          link: '/admin-panel',
-          icon: 'dashboard'
-        }
-      ],
-      menuItems: [
-        {
-          label: 'Contacts',
-          icon: 'person',
-          action: 'openContacts'
+          label: 'Application',
+          link: '/',
+          icon: 'exit_to_app'
         },
         {
-          label: 'Create group',
-          icon: 'people',
-          action: ''
+          label: 'Dashboard',
+          link: '/admin-panel/dashboard',
+          icon: 'assessment'
+        },
+        {
+          label: 'Users',
+          link: '/admin-panel/users',
+          icon: 'person'
+        },
+        {
+          label: 'API origins',
+          link: '/admin-panel/origins',
+          icon: 'planet'
         },
         {
           label: 'Settings',
@@ -75,8 +66,7 @@ export default {
           icon: 'arrow_back',
           action: 'logout'
         }
-      ],
-      notifications: true
+      ]
     };
   },
   computed: {
@@ -86,13 +76,6 @@ export default {
       open: 'app/sidebarOpen',
       device: 'app/device'
     }),
-    menuList() {
-      const { adminMenuItems, menuItems } = this;
-      if (this.isAdmin) {
-        return [...adminMenuItems, ...menuItems];
-      }
-      return menuItems;
-    },
     width() {
       return this.device === 'sm' ? 280 : 250;
     }
@@ -107,11 +90,8 @@ export default {
         this[method]();
       }
     },
-    openAdminPanel() {
-      this.$router.push('/admin-panel');
-    },
-    openContacts() {
-      this.openPopup('contacts');
+    openApplication() {
+      this.$router.push('/');
     },
     openSettings() {
       this.openPopup('settings');
@@ -124,7 +104,15 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.user-sidebar {
+.admin-sidebar-header {
+  padding: 15px;
+  background-color: $primary-color;
+  font-size: 20px;
+  color: $white-font-color;
+  margin: 0 0 3px 0;
+  line-height: 20px;
+}
+.admin-sidebar {
   /deep/ .sidebar-user-label {
     background-color: $light-grey-color;
   }
@@ -145,7 +133,7 @@ export default {
     justify-content: center;
     height: 100%;
     /deep/ svg {
-      fill: $primary-color;
+      fill: $white-background-color;
     }
   }
   @include ripple;

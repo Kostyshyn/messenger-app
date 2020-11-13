@@ -9,8 +9,9 @@ export const Api = axios.create({
 
 import * as auth from './auth';
 import * as user from './user';
+import * as admin from './admin';
 
-const modules = [auth, user];
+const modules = [auth, user, admin];
 
 const methods = {};
 

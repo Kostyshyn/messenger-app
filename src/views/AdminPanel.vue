@@ -1,27 +1,36 @@
 <template>
-  <div class="main-wrapper">
-    <div class="main-page">
-      <h1>Admin page</h1>
-      <p>Device: {{ device }}</p>
-      <p>User name: {{ user.username }}</p>
-    </div>
-  </div>
+  <Wrapper>
+    <template #navigation>
+      <Navigation v-if="loggedIn" invert>
+        <AdminSidebar />
+      </Navigation>
+    </template>
+    <template #page>
+      <router-view />
+    </template>
+  </Wrapper>
 </template>
 
 <script>
 // @ is an alias to /src
 import { mapGetters, mapActions } from 'vuex';
+import Wrapper from '@/components/General/Wrapper.vue';
+import Navigation from '@/components/General/Navigation.vue';
+import AdminSidebar from '@/components/General/AdminSidebar.vue';
 
 export default {
   name: 'AdminPanel',
-  components: {},
+  components: {
+    Wrapper,
+    Navigation,
+    AdminSidebar
+  },
   data() {
     return {};
   },
   computed: {
     ...mapGetters({
-      user: 'user/user',
-      device: 'app/device'
+      loggedIn: 'user/loggedIn'
     })
   },
   methods: {
