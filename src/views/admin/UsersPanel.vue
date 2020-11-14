@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Users</h1>
-    <UsersTable :users="users" />
+    <UsersTable :users="users" @sortUsers="sortUsers" />
   </div>
 </template>
 
@@ -34,22 +34,32 @@ export default {
     }
   },
   methods: {
-    async getUsers() {
+    async getUsers(params = {}) {
       if (this.requestProcessing) {
         return;
       }
       try {
         this.requestProcessing = true;
-        this.users = await api.getUsersData(this.query);
+        this.users = await api.getUsersData(params);
         this.requestProcessing = false;
       } catch (err) {
         this.requestProcessing = false;
         console.log(err);
       }
+    },
+    sortUsers({ key, value }) {
+      this.sort = { [key]: value };
     }
   },
-  created() {
-    this.getUsers();
-  }
+  watch: {
+    query: {
+      deep: true,
+      immediate: true,
+      handler(data) {
+        this.getUsers(data);
+      }
+    }
+  },
+  created() {}
 };
 </script>
