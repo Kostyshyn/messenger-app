@@ -8,6 +8,7 @@ export default {
       open: false,
       name: '',
       component: null,
+      requiresAuth: false,
       options: {},
       data: {}
     },
@@ -15,6 +16,7 @@ export default {
       contacts: {
         name: 'contacts',
         component: ContactList,
+        requiresAuth: true,
         options: {
           close: false
         }
@@ -22,6 +24,7 @@ export default {
       settings: {
         name: 'settings',
         component: Settings,
+        requiresAuth: true,
         options: {
           backdrop: false
         }
@@ -54,6 +57,7 @@ export default {
         open: false,
         name: '',
         component: null,
+        requiresAuth: false,
         options: {},
         data: {}
       };

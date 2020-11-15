@@ -1,5 +1,8 @@
 <template>
-  <div class="list-item" :class="className">
+  <router-link v-if="to" :to="to" class="list-item link" :class="className">
+    <slot />
+  </router-link>
+  <div v-else class="list-item" :class="className">
     <slot />
   </div>
 </template>
@@ -12,6 +15,10 @@ export default {
   props: {
     className: {
       type: [String, Array]
+    },
+    to: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -26,6 +33,9 @@ export default {
   display: flex;
   padding: 5px 10px;
   cursor: pointer;
+  &.link {
+    text-decoration: none;
+  }
   &:hover {
     background-color: $light-grey-color;
   }

@@ -1,5 +1,9 @@
 <template>
-  <ListItem :className="className" @click.native="$emit('action')">
+  <ListItem
+    :to="item.link"
+    :className="className"
+    @click.native="$emit('action')"
+  >
     <div class="item-icon">
       <Icon :name="item.icon" />
     </div>

@@ -3,7 +3,7 @@
     <PageLoader :loading="loading" />
     <div class="root-wrapper">
       <transition name="page" mode="out-in">
-        <router-view />
+        <router-view v-if="!loading" />
       </transition>
       <transition name="fade" mode="out-in">
         <Popup v-if="popup.open" :popup="popup" />
@@ -34,6 +34,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      user: 'user/user',
       loading: 'app/loading',
       device: 'app/device',
       popup: 'popup/popup',
@@ -43,17 +44,13 @@ export default {
   methods: {
     ...mapActions({
       init: 'app/init',
-      resize: 'app/resize',
-      openPopup: 'popup/openPopup'
+      resize: 'app/resize'
     }),
     onResize() {
       this.resize(window.innerWidth);
     }
   },
   async mounted() {
-    await this.init();
-    const { popup } = this.$route.query;
-    this.openPopup(popup);
     this.$nextTick(() => {
       this.resize(window.innerWidth);
       window.addEventListener('resize', this.onResize);
@@ -70,7 +67,6 @@ export default {
 @import './assets/styles/style.scss';
 .root-wrapper {
   position: relative;
-  padding-top: 50px;
   max-height: 100vh;
   height: 100vh;
   box-sizing: border-box;

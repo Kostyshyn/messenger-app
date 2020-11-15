@@ -1,5 +1,6 @@
 import axios from 'axios';
 import ls from 'local-storage';
+import qs from 'qs';
 
 export const Api = axios.create({
   baseURL: `${process.env.VUE_APP_API_BASE_URL}/api`
@@ -9,8 +10,9 @@ export const Api = axios.create({
 
 import * as auth from './auth';
 import * as user from './user';
+import * as admin from './admin';
 
-const modules = [auth, user];
+const modules = [auth, user, admin];
 
 const methods = {};
 
@@ -25,6 +27,17 @@ export const initServices = function({ router, store }) {
     }
   });
 
+  Api.interceptors.request.use(config => {
+    config.paramsSerializer = params => {
+      return qs.stringify(params, {
+        arrayFormat: 'brackets',
+        encode: false
+      });
+    };
+
+    return config;
+  });
+
   Api.interceptors.response.use(
     response => response.data,
     err => {
@@ -37,6 +50,7 @@ export const initServices = function({ router, store }) {
       }
 
       if (response && STOP_ON_STATUS.includes(response.status)) {
+        // TODO: handle errors with status code 500
         stop();
       }
       return Promise.reject(response ? response : false);

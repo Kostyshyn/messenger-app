@@ -1,25 +1,44 @@
-import ls from 'local-storage';
 import store from '@/store';
 
-export const globalGuard = (to, from, next) => {
-  if (to.matched.some(route => route.meta.requiresAuth)) {
-    if (!isLoggedIn()) {
-      next({
-        path: '/login',
-        query: {
-          redirect: to.fullPath
-        }
-      });
-    } else {
-      next();
+export const globalGuard = async ({ query }, { name: nameFrom }, next) => {
+  const loggedIn = store.getters['user/loggedIn'];
+  const isStart = !nameFrom;
+  const { popup } = query;
+  if (isStart && !loggedIn) {
+    try {
+      await store.dispatch('app/init');
+    } catch (e) {
+      // TODO: check this
+    } finally {
+      await store.dispatch('app/setLoading', false);
     }
+  }
+  next();
+  await store.dispatch('app/setSidebarState', false);
+  if (popup) {
+    await store.dispatch('popup/openPopup', popup);
   } else {
+    await store.dispatch('popup/closePopup');
+  }
+};
+
+export const pageGuard = (to, from, next) => {
+  const loggedIn = store.getters['user/loggedIn'];
+  if (loggedIn) {
     next();
+  } else {
+    next({
+      path: '/login',
+      query: {
+        redirect: to.fullPath
+      }
+    });
   }
 };
 
 export const authGuard = (to, from, next) => {
-  if (isLoggedIn()) {
+  const loggedIn = store.getters['user/loggedIn'];
+  if (loggedIn) {
     next({
       path: '/'
     });
@@ -29,17 +48,36 @@ export const authGuard = (to, from, next) => {
 };
 
 export const tokenGuard = ({ query }, { name }, next) => {
+  const user = store.getters['user/user'];
   // TODO: need to check user isConfirmed and
   if (query.token && !name) {
     next();
-  } else {
+  } else if (user) {
     next({
       path: '/'
+    });
+  } else {
+    next({
+      path: '/login'
     });
   }
 };
 
-function isLoggedIn() {
-  const token = ls.get(process.env.VUE_APP_LOCALSTORAGE_KEY + '.token');
-  return store.getters['user/loggedId'] || token;
-}
+export const adminGuard = (to, from, next) => {
+  const loggedIn = store.getters['user/loggedIn'];
+  const isAdmin = store.getters['user/isAdmin'];
+  if (loggedIn && isAdmin) {
+    next();
+  } else if (loggedIn) {
+    next({
+      path: '/'
+    });
+  } else {
+    next({
+      path: '/login',
+      query: {
+        redirect: to.fullPath
+      }
+    });
+  }
+};

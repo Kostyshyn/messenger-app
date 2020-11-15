@@ -21,8 +21,12 @@ export default {
     }
   },
   getters: {
-    loggedId: state => !!(state.token && state.user),
+    loggedIn: state => !!(state.token && state.user),
     user: state => state.user,
-    token: state => state.token
+    token: state => state.token,
+    isAdmin: ({ user }, getters, rootState, rootGetters) => {
+      const settings = rootGetters['app/settings'];
+      return user && user.role === settings.PRIVATE_ACCESS_ADMIN;
+    }
   }
 };

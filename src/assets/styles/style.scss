@@ -44,6 +44,9 @@ div {
 
 .main-wrapper {
   padding: 15px;
+  &.navigation {
+    padding-top: 65px;
+  }
 }
 
 .page-enter-active, .page-leave-active {

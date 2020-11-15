@@ -4,11 +4,10 @@
     <div class="main-page test-page">
       <h1>Test page</h1>
       <div class="dropdown-lists">
-        <Dropdown :show="showDropdown1" @close="showDropdown1 = false">
+        <Dropdown alwaysOn :show="showDropdown1" @close="showDropdown1 = false">
           <template #trigger>
             <Button
               color="transparent"
-              disabled
               round
               ripple
               @click="showDropdown1 = !showDropdown1"
@@ -17,7 +16,17 @@
             </Button>
           </template>
           <template #body>
-            Dropdown content
+            <List>
+              <ListItem
+                v-for="(item, index) in list"
+                :key="index"
+                @click.native="$emit('action')"
+              >
+                <div class="item-label">
+                  {{ item.label }}
+                </div>
+              </ListItem>
+            </List>
           </template>
         </Dropdown>
         <Dropdown backdrop :show="showDropdown2" @close="showDropdown2 = false">
@@ -61,6 +70,9 @@
         </li>
         <li>
           <Button color="transparent" exact to="/" ripple>Button 5</Button>
+        </li>
+        <li>
+          <Button color="transparent" exact to="/login" ripple>Login</Button>
         </li>
         <li>
           <Button color="error" disabled ripple>Button 6</Button>
@@ -107,7 +119,7 @@ export default {
   computed: {
     ...mapGetters({
       device: 'app/device',
-      loggedIn: 'user/loggedId'
+      loggedIn: 'user/loggedIn'
     })
   },
   methods: {

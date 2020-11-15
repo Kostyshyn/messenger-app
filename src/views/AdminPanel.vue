@@ -1,12 +1,12 @@
 <template>
   <Wrapper>
     <template #navigation>
-      <Navigation v-if="loggedIn">
-        <UserSidebar />
+      <Navigation v-if="loggedIn" invert>
+        <AdminSidebar />
       </Navigation>
     </template>
     <template #page>
-      <h1>Main page</h1>
+      <router-view />
     </template>
   </Wrapper>
 </template>
@@ -16,22 +16,20 @@
 import { mapGetters, mapActions } from 'vuex';
 import Wrapper from '@/components/General/Wrapper.vue';
 import Navigation from '@/components/General/Navigation.vue';
-import UserSidebar from '@/components/General/UserSidebar.vue';
+import AdminSidebar from '@/components/General/AdminSidebar.vue';
 
 export default {
-  name: 'Main',
+  name: 'AdminPanel',
   components: {
     Wrapper,
     Navigation,
-    UserSidebar
+    AdminSidebar
   },
   data() {
     return {};
   },
   computed: {
     ...mapGetters({
-      user: 'user/user',
-      device: 'app/device',
       loggedIn: 'user/loggedIn'
     })
   },
