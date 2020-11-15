@@ -24,7 +24,7 @@
         {{ cell[col.key] | moment('H:mm, D.MM.YY') }}
       </template>
       <template #options>
-        <UsersTableOptions />
+        <TableOptions />
       </template>
     </Table>
   </div>
@@ -36,7 +36,7 @@ import Table from '@/components/General/Helpers/Table/Table.vue';
 import SearchField from '@/components/General/Form/SearchField.vue';
 import UserImage from '@/components/General/User/UserImage.vue';
 import Chip from '@/components/General/Helpers/Chip.vue';
-import UsersTableOptions from '@/components/General/Admin/UsersTableOptions.vue';
+import TableOptions from '@/components/General/Admin/TableOptions.vue';
 import { mapGetters } from 'vuex';
 import debounce from '@/utils/debounce';
 import imagePath from '@/utils/imagePath';
@@ -49,7 +49,7 @@ export default {
     SearchField,
     UserImage,
     Chip,
-    UsersTableOptions
+    TableOptions
   },
   props: {
     users: {
@@ -141,7 +141,6 @@ export default {
       }
       return {};
     },
-    toggleOptions() {},
     searchUsers() {
       this.$emit('searchUsers', this.keyword);
     }
@@ -158,8 +157,6 @@ export default {
 </script>
 <style scoped lang="scss">
 .users-table-wrapper {
-  // test
-  min-height: 1000px;
   .users-table {
     .search-users {
       padding: 15px 15px 0 15px;
@@ -188,7 +185,7 @@ export default {
         .cell-content {
           display: flex;
           align-items: center;
-          justify-content: center;
+          padding: 0 15px;
           width: 100%;
         }
       }

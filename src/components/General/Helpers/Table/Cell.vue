@@ -96,7 +96,7 @@ export default {
       top: 0;
     }
     .cell-content {
-      padding: 14px 12px 12px 12px;
+      padding: 14px 12px 12px 15px;
       font-size: 14px;
       font-weight: 600;
       color: $dark-grey-font-color;

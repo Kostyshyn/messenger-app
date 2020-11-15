@@ -11,7 +11,7 @@
 import DropdownList from '@/components/General/Helpers/DropdownList';
 
 export default {
-  name: 'UsersTableOptions',
+  name: 'TableOptions',
   components: {
     DropdownList
   },
