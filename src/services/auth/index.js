@@ -1,6 +1,9 @@
+import config from '@/config';
+const { AUTH_MODULE } = config.API;
+
 export const login = async function({ api, store, ls }, payload) {
   try {
-    const res = await api.post('/login', payload);
+    const res = await api.post(`${AUTH_MODULE}/login`, payload);
     ls.set(process.env.VUE_APP_LOCALSTORAGE_KEY + '.token', res.token);
     store.dispatch('user/setToken', res.token);
     store.dispatch('user/setUser', res.user);
@@ -12,7 +15,7 @@ export const login = async function({ api, store, ls }, payload) {
 
 export const register = async function({ api, store, ls }, payload) {
   try {
-    const res = await api.post('/register', payload);
+    const res = await api.post(`${AUTH_MODULE}/register`, payload);
     ls.set(process.env.VUE_APP_LOCALSTORAGE_KEY + '.token', res.token);
     store.dispatch('user/setToken', res.token);
     store.dispatch('user/setUser', res.user);
@@ -24,7 +27,7 @@ export const register = async function({ api, store, ls }, payload) {
 
 export const confirm = async function({ api, store, ls }, token) {
   try {
-    const res = await api.get('/confirm', {
+    const res = await api.get(`${AUTH_MODULE}/confirm`, {
       params: { token }
     });
     ls.set(process.env.VUE_APP_LOCALSTORAGE_KEY + '.token', res.token);
@@ -38,7 +41,7 @@ export const confirm = async function({ api, store, ls }, token) {
 
 export const resendConfirm = async function({ api }) {
   try {
-    return await api.get('/resend-confirm');
+    return await api.get(`${AUTH_MODULE}/resend-confirm`);
   } catch (err) {
     return Promise.reject(err.data);
   }
@@ -46,7 +49,7 @@ export const resendConfirm = async function({ api }) {
 
 export const resetPassword = async function({ api }, payload) {
   try {
-    return await api.post('/reset-password', payload);
+    return await api.post(`${AUTH_MODULE}/reset-password`, payload);
   } catch (err) {
     return Promise.reject(err.data);
   }
@@ -54,7 +57,7 @@ export const resetPassword = async function({ api }, payload) {
 
 export const changePassword = async function({ api, store, ls }, payload) {
   try {
-    const res = await api.post('/change-password', payload);
+    const res = await api.post(`${AUTH_MODULE}/change-password`, payload);
     ls.set(process.env.VUE_APP_LOCALSTORAGE_KEY + '.token', res.token);
     store.dispatch('user/setToken', res.token);
     store.dispatch('user/setUser', res.user);

@@ -215,14 +215,24 @@ export default {
   .close-btn {
     cursor: pointer;
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 0;
+    right: 0;
+    width: 55px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: $white-font-color;
+    transition: 0.3s ease-in-out;
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.7);
+    }
   }
+
   @media (max-width: $sm) {
     .close-btn {
-      top: 16px;
-      right: 15px;
+      /*top: 16px;*/
+      /*right: 15px;*/
     }
   }
 }
@@ -239,7 +249,7 @@ export default {
         height: 100%;
         position: absolute;
         top: 0;
-        transition-duration: 0.3s;
+        transition: 0.3s ease-in-out;
         width: 80px;
         &[disabled] {
           visibility: hidden;
@@ -250,10 +260,18 @@ export default {
           opacity: 1;
         }
         &--prev {
-          left: 0;
+          left: -80px;
         }
         &--next {
-          right: 0;
+          right: -80px;
+        }
+        @media (max-width: $md) {
+          &--prev {
+            left: 0;
+          }
+          &--next {
+            right: 0;
+          }
         }
       }
     }

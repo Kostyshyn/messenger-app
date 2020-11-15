@@ -2,7 +2,7 @@
   <div class="search-field">
     <Field
       noErrors
-      placeholder="Search"
+      :placeholder="placeholder"
       ref="field"
       :value="value"
       :disabled="disabled"
@@ -53,6 +53,10 @@ export default {
     loading: {
       type: Boolean,
       default: false
+    },
+    placeholder: {
+      type: String,
+      default: 'Search'
     },
     disabled: {
       type: Boolean,

@@ -146,7 +146,7 @@ export default {
   mounted() {
     const { baseUrl } = this;
     this.$refs.croppieRef.bind({
-      url: `${baseUrl}/${config.GLOBAL.DEF_IMG}`
+      url: `${baseUrl}/${config.GLOBAL.DEF_IMAGE}`
     });
     this.$refs.fileInput.click();
   },

@@ -1,20 +1,23 @@
 <template>
-  <div class="navigation-wrap">
+  <div class="navigation-wrap" :class="{ invert }">
     <div class="navigation">
-      <UserSidebar />
+      <slot />
     </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import UserSidebar from '@/components/General/UserSidebar.vue';
 import { mapGetters } from 'vuex';
 
 export default {
   name: 'Navigation',
-  components: {
-    UserSidebar
+  components: {},
+  props: {
+    invert: {
+      type: Boolean,
+      default: false
+    }
   },
   computed: {
     ...mapGetters({
@@ -56,6 +59,9 @@ export default {
         }
       }
     }
+  }
+  &.invert {
+    background-color: $primary-color;
   }
 }
 </style>

@@ -1,21 +1,29 @@
 <template>
-  <div class="main-wrapper navigation">
-    <Navigation v-if="loggedIn" />
-    <div class="main-page">
+  <Wrapper>
+    <template #navigation>
+      <Navigation v-if="loggedIn">
+        <UserSidebar />
+      </Navigation>
+    </template>
+    <template #page>
       <h1>Main page</h1>
-    </div>
-  </div>
+    </template>
+  </Wrapper>
 </template>
 
 <script>
 // @ is an alias to /src
 import { mapGetters, mapActions } from 'vuex';
+import Wrapper from '@/components/General/Wrapper.vue';
 import Navigation from '@/components/General/Navigation.vue';
+import UserSidebar from '@/components/General/UserSidebar.vue';
 
 export default {
   name: 'Main',
   components: {
-    Navigation
+    Wrapper,
+    Navigation,
+    UserSidebar
   },
   data() {
     return {};
