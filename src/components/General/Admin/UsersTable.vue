@@ -24,9 +24,7 @@
         {{ cell[col.key] | moment('H:mm, D.MM.YY') }}
       </template>
       <template #options>
-        <Button color="transparent" round ripple @click="toggleOptions">
-          <DotsVertical />
-        </Button>
+        <UsersTableOptions />
       </template>
     </Table>
   </div>
@@ -38,8 +36,7 @@ import Table from '@/components/General/Helpers/Table/Table.vue';
 import SearchField from '@/components/General/Form/SearchField.vue';
 import UserImage from '@/components/General/User/UserImage.vue';
 import Chip from '@/components/General/Helpers/Chip.vue';
-import Button from '@/components/General/Helpers/Button.vue';
-import DotsVertical from 'vue-material-design-icons/DotsVertical.vue';
+import UsersTableOptions from '@/components/General/Admin/UsersTableOptions.vue';
 import { mapGetters } from 'vuex';
 import debounce from '@/utils/debounce';
 import imagePath from '@/utils/imagePath';
@@ -52,8 +49,7 @@ export default {
     SearchField,
     UserImage,
     Chip,
-    Button,
-    DotsVertical
+    UsersTableOptions
   },
   props: {
     users: {
@@ -162,6 +158,8 @@ export default {
 </script>
 <style scoped lang="scss">
 .users-table-wrapper {
+  // test
+  min-height: 1000px;
   .users-table {
     .search-users {
       padding: 15px 15px 0 15px;
@@ -203,9 +201,6 @@ export default {
         align-items: center;
         justify-content: center;
         padding: 0 5px;
-        .button {
-          color: $dark-grey-font-color;
-        }
       }
     }
   }
