@@ -1,5 +1,8 @@
 <template>
-  <div class="table-cell" :class="[{ header, resetStyles, sort }]">
+  <div
+    class="table-cell"
+    :class="[colType, { header, fixedHeader, sort, activeSort }]"
+  >
     <div class="cell-content">
       <slot />
     </div>
@@ -26,11 +29,19 @@ export default {
       type: Boolean,
       default: false
     },
-    resetStyles: {
+    type: {
+      type: String,
+      default: 'text'
+    },
+    sort: {
       type: Boolean,
       default: false
     },
-    sort: {
+    fixedHeader: {
+      type: Boolean,
+      default: false
+    },
+    activeSort: {
       type: Boolean,
       default: false
     },
@@ -41,6 +52,11 @@ export default {
       type: Array,
       default: () => []
     }
+  },
+  computed: {
+    colType() {
+      return this.header ? '' : `col-type-${this.type}`;
+    }
   }
 };
 </script>
@@ -48,30 +64,43 @@ export default {
 .table-cell {
   display: flex;
   border-bottom: 1px solid $grey-color;
-  min-width: 38px;
+  min-width: 41px;
   min-height: 47px;
   box-sizing: border-box;
+  background-color: $white-background-color;
   &:last-child {
     border-bottom: none;
   }
-  .cell-content {
-    padding: 15px;
-    font-size: 16px;
-    line-height: 16px;
-  }
-  &.resetStyles {
+  &.col-type-index,
+  &.col-type-text {
     .cell-content {
-      padding: 0;
-      width: 100%;
+      padding: 15px;
+      font-size: 16px;
+      line-height: 16px;
+      box-sizing: border-box;
+    }
+  }
+  &.col-type-text {
+    .cell-content {
+      color: $black-font-color;
+      min-width: 100px;
+      max-width: 200px;
+      @include truncate-text;
     }
   }
   &.header {
-    min-height: 40px;
+    min-height: 41px;
+    &.fixedHeader {
+      z-index: 1;
+      position: sticky;
+      top: 0;
+    }
     .cell-content {
-      padding: 12px;
+      padding: 14px 12px 12px 12px;
       font-size: 14px;
       font-weight: 600;
       color: $dark-grey-font-color;
+      @include truncate-text;
     }
   }
   &.sort {
@@ -90,6 +119,20 @@ export default {
       /deep/ .material-design-icon {
         display: flex;
         color: $dark-grey-font-color;
+      }
+    }
+  }
+  &.activeSort {
+    &.header {
+      .cell-content {
+        color: $primary-font-color;
+      }
+    }
+    &.sort {
+      .cell-sort {
+        /deep/ .material-design-icon {
+          color: $primary-font-color;
+        }
       }
     }
   }

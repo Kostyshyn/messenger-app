@@ -1,26 +1,41 @@
 <template>
-  <div class="table" :class="[className]">
-    <Column v-if="index">
-      <Cell header>#</Cell>
-      <Cell v-for="(cell, i) in data" :key="i">{{ i + 1 }}</Cell>
-    </Column>
-    <Column v-for="(col, i) in columns" :key="i">
-      <Cell
-        header
-        :sort="col.sort"
-        :sortValue="sortValue(col)"
-        :sortValues="sortValues"
-        @click.native="clickCell(col)"
-      >
-        {{ col.label }}
-      </Cell>
-      <Cell v-for="(cell, i) in data" :resetStyles="col.resetStyles" :key="i">
-        <slot :name="col.key" :col="col" :cell="cell" :index="i" />
-        <template v-if="!$scopedSlots[col.key]">
-          {{ cell[col.key] }}
-        </template>
-      </Cell>
-    </Column>
+  <div
+    class="table-wrapper"
+    :class="[className]"
+    :style="tableStyle"
+    ref="tableWrapper"
+  >
+    <div class="table-header" :style="tableSlotsStyle">
+      <slot name="header" />
+    </div>
+    <div class="table">
+      <Column v-if="index" className="index">
+        <Cell header :fixedHeader="fixedHeader">#</Cell>
+        <Cell v-for="(cell, i) in data" type="index" :key="i">{{ i + 1 }}</Cell>
+      </Column>
+      <Column v-for="(col, i) in columns" :className="col.key" :key="i">
+        <Cell
+          header
+          :fixedHeader="fixedHeader"
+          :sort="col.sort"
+          :activeSort="activeSort(col)"
+          :sortValue="sortValue(col)"
+          :sortValues="sortValues"
+          @click.native="clickCell(col)"
+        >
+          {{ col.label || '' }}
+        </Cell>
+        <Cell v-for="(cell, i) in data" :type="col.type" :key="i">
+          <slot :name="col.key" :col="col" :cell="cell" :index="i" />
+          <template v-if="!$scopedSlots[col.key]">
+            {{ cell[col.key] }}
+          </template>
+        </Cell>
+      </Column>
+    </div>
+    <div class="table-footer" :style="tableSlotsStyle">
+      <slot name="footer" />
+    </div>
   </div>
 </template>
 
@@ -39,11 +54,19 @@ export default {
     Cell
   },
   props: {
+    width: {
+      type: String,
+      default: 'auto'
+    },
     className: {
       type: String,
       default: ''
     },
     index: {
+      type: Boolean,
+      default: false
+    },
+    fixedHeader: {
       type: Boolean,
       default: false
     },
@@ -62,10 +85,26 @@ export default {
         key: '',
         value: ''
       },
-      sortValues: SORT_VALUES
+      sortValues: SORT_VALUES,
+      tableWidth: 0
     };
   },
+  computed: {
+    tableStyle() {
+      const { width } = this;
+      return { width };
+    },
+    tableSlotsStyle() {
+      const { tableWidth } = this;
+      return {
+        'max-width': Math.floor(tableWidth) + 'px'
+      };
+    }
+  },
   methods: {
+    activeSort(col) {
+      return this.currentSort.key === col.key;
+    },
     sortValue(col) {
       const { currentSort } = this;
       if (currentSort.key === col.key) {
@@ -90,16 +129,36 @@ export default {
     },
     switchSort(value) {
       return SORT_VALUES.filter(v => v !== value)[0];
+    },
+    setSlotsWidth() {
+      const { tableWrapper } = this.$refs;
+      if (tableWrapper) {
+        const { clientWidth } = tableWrapper;
+        this.tableWidth = clientWidth - 1;
+      }
     }
   },
-  mounted() {}
+  mounted() {
+    this.setSlotsWidth();
+  }
 };
 </script>
 <style scoped lang="scss">
-.table {
-  display: flex;
-  width: fit-content;
+.table-wrapper {
+  overflow: auto;
   box-shadow: $block-shadow;
-  background-color: $white-background-color;
+  max-width: 100%;
+  max-height: 100%;
+  display: grid;
+  .table-header,
+  .table-footer {
+    width: 100%;
+    position: sticky;
+    left: 0;
+  }
+  .table {
+    display: flex;
+    background-color: $white-background-color;
+  }
 }
 </style>

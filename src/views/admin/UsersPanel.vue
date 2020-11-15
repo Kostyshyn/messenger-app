@@ -1,7 +1,11 @@
 <template>
   <div>
     <h1>Users</h1>
-    <UsersTable :users="users" @sortUsers="sortUsers" />
+    <UsersTable
+      :users="users"
+      @sortUsers="sortUsers"
+      @searchUsers="keyword = $event"
+    />
   </div>
 </template>
 
@@ -24,13 +28,13 @@ export default {
       page: 1,
       limit: 10,
       sort: {},
-      keywords: ''
+      keyword: ''
     };
   },
   computed: {
     query() {
-      const { page, limit, sort, keywords } = this;
-      return { page, limit, sort, keywords };
+      const { page, limit, sort, keyword } = this;
+      return { page, limit, sort, keyword };
     }
   },
   methods: {

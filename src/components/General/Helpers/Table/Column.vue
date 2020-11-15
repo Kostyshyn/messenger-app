@@ -1,5 +1,5 @@
 <template>
-  <div class="table-column">
+  <div class="table-column" :class="[className]">
     <slot />
   </div>
 </template>
@@ -9,6 +9,19 @@
 export default {
   name: 'Column',
   components: {},
-  props: {}
+  props: {
+    className: {
+      type: String,
+      default: ''
+    }
+  }
 };
 </script>
+<style scoped lang="scss">
+.table-column {
+  flex-grow: 1;
+  &.index {
+    max-width: fit-content;
+  }
+}
+</style>
