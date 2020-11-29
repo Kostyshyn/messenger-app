@@ -6,6 +6,8 @@ export const Api = axios.create({
   baseURL: `${process.env.VUE_APP_API_BASE_URL}/api`
 });
 
+Api.defaults.headers.common['x-api-key'] = process.env.VUE_APP_API_KEY;
+
 // import modules
 
 import * as auth from './auth';

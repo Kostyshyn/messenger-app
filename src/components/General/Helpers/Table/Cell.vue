@@ -84,7 +84,7 @@ export default {
     .cell-content {
       color: $black-font-color;
       min-width: 100px;
-      max-width: 200px;
+      max-width: 250px;
       @include truncate-text;
     }
   }

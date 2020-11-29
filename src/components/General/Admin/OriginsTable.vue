@@ -6,7 +6,6 @@
       :data="origins.data"
       :columns="columns"
       className="origins-table"
-      width="fit-content"
       @sort="$emit('sortOrigins', $event)"
     >
       <template #header>
@@ -58,11 +57,6 @@ export default {
         {
           label: 'API key',
           key: 'api_key',
-          sort: true
-        },
-        {
-          label: 'API password',
-          key: 'api_password',
           sort: true
         },
         {
