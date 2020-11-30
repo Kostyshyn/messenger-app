@@ -1,13 +1,17 @@
 <template>
   <div>
     <h1>Origins</h1>
-    <OriginsTable :origins="origins" @searchOrigins="keyword = $event" />
+    <OriginsTable
+      :origins="origins"
+      @sortOrigins="sortOrigins"
+      @searchOrigins="keyword = $event"
+    />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import OriginsTable from '@/components/General/Admin/OriginsTable.vue';
+import OriginsTable from '@/components/General/Admin/Tables/OriginsTable.vue';
 import api from '@/services/api';
 
 export default {

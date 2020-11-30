@@ -89,12 +89,13 @@ export default {
       if (method && this[method]) {
         this[method]();
       }
+      this.toggle(false);
     },
     openApplication() {
       this.$router.push('/');
     },
     openSettings() {
-      this.openPopup('settings');
+      this.openPopup({ type: 'settings' });
     },
     logout() {
       this.toggle(false);

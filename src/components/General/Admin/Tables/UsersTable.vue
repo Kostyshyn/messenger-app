@@ -21,10 +21,10 @@
         <Chip v-bind="role(cell)" />
       </template>
       <template #last_seen="{ col, cell }">
-        {{ cell[col.key] | moment('H:mm, D.MM.YY') }}
+        {{ cell[col.key] | moment('D.MM.YY, H:mm') }}
       </template>
-      <template #options>
-        <TableOptions />
+      <template #options="{ cell }">
+        <TableOptions :options="options" @action="action($event, cell)" />
       </template>
     </Table>
   </div>
@@ -36,7 +36,7 @@ import Table from '@/components/General/Helpers/Table/Table.vue';
 import SearchField from '@/components/General/Form/SearchField.vue';
 import UserImage from '@/components/General/User/UserImage.vue';
 import Chip from '@/components/General/Helpers/Chip.vue';
-import TableOptions from '@/components/General/Admin/TableOptions.vue';
+import TableOptions from '@/components/General/Admin/Tables/TableOptions.vue';
 import { mapGetters } from 'vuex';
 import debounce from '@/utils/debounce';
 import imagePath from '@/utils/imagePath';
@@ -111,7 +111,19 @@ export default {
           label: 'Admin',
           color: 'success'
         }
-      }
+      },
+      options: [
+        {
+          label: 'Edit',
+          type: 'edit',
+          icon: 'edit'
+        },
+        {
+          label: 'Delete',
+          type: 'delete',
+          icon: 'delete'
+        }
+      ]
     };
   },
   computed: {
@@ -143,6 +155,9 @@ export default {
     },
     searchUsers() {
       this.$emit('searchUsers', this.keyword);
+    },
+    action({ type }, user) {
+      console.log('action', type, user);
     }
   },
   watch: {

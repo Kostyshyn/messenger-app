@@ -1,5 +1,46 @@
-import ContactList from '@/components/Popups/Contacts/ContactList';
-import Settings from '@/components/Popups/Settings/Settings';
+// users sidebar
+import ContactList from '@/components/Popups/Contacts/ContactList.vue';
+import Settings from '@/components/Popups/Settings/Settings.vue';
+// admin area
+import Origin from '@/components/General/Admin/Popups/Origin.vue';
+
+// Default options
+
+// {
+//   close: true
+//   backdrop: true
+//   keepOpen: true
+// }
+
+const USERS_POPUPS = {
+  contacts: {
+    name: 'contacts',
+    component: ContactList,
+    requiresAuth: true,
+    options: {
+      close: false
+    }
+  },
+  settings: {
+    name: 'settings',
+    component: Settings,
+    requiresAuth: true,
+    options: {
+      backdrop: false
+    }
+  }
+};
+
+const ADMIN_POPUPS = {
+  origin: {
+    name: 'origin',
+    component: Origin,
+    requiresAuth: true,
+    options: {
+      keepOpen: false
+    }
+  }
+};
 
 export default {
   namespaced: true,
@@ -13,26 +54,12 @@ export default {
       data: {}
     },
     popups: {
-      contacts: {
-        name: 'contacts',
-        component: ContactList,
-        requiresAuth: true,
-        options: {
-          close: false
-        }
-      },
-      settings: {
-        name: 'settings',
-        component: Settings,
-        requiresAuth: true,
-        options: {
-          backdrop: false
-        }
-      }
+      ...USERS_POPUPS,
+      ...ADMIN_POPUPS
     }
   },
   actions: {
-    openPopup({ state, commit, dispatch }, type) {
+    openPopup({ state, commit, dispatch }, { type, data = {} }) {
       const popup = state.popups[type];
       if (popup && popup.component) {
         dispatch('app/setSidebarState', false, {
@@ -40,7 +67,8 @@ export default {
         });
         commit('SET_POPUP', {
           ...popup,
-          open: true
+          open: true,
+          data
         });
       }
     },

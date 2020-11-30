@@ -16,7 +16,7 @@
         <ListItem
           v-for="(item, index) in items"
           :key="index"
-          @click.native="$emit('action')"
+          @click.native="$emit('action', item)"
         >
           <div v-if="item.icon" class="item-icon">
             <Icon :name="item.icon" />

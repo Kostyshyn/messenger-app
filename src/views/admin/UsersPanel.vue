@@ -11,7 +11,7 @@
 
 <script>
 // @ is an alias to /src
-import UsersTable from '@/components/General/Admin/UsersTable.vue';
+import UsersTable from '@/components/General/Admin/Tables/UsersTable.vue';
 import api from '@/services/api';
 
 export default {

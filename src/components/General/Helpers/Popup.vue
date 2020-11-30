@@ -57,6 +57,7 @@ export default {
       options: {
         close: true,
         backdrop: true,
+        keepOpen: true,
         ...this.popup.options
       }
     };
@@ -99,6 +100,9 @@ export default {
       }
     },
     setQuery(query) {
+      if (!this.options.keepOpen) {
+        return;
+      }
       const { query: currentQuery } = this.$route;
       if (!this._.isEqual(query, currentQuery)) {
         this.$router.push({ query });

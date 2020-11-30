@@ -28,7 +28,10 @@
         <Cell v-for="(cell, i) in data" :type="col.type" :key="i">
           <slot :name="col.key" :col="col" :cell="cell" :index="i" />
           <template v-if="!$scopedSlots[col.key]">
-            {{ cell[col.key] }}
+            <slot name="cell" :col="col" :cell="cell" :index="i" />
+            <template v-if="!$scopedSlots.cell">
+              {{ cell[col.key] }}
+            </template>
           </template>
         </Cell>
       </Column>

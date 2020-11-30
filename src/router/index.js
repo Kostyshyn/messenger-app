@@ -45,7 +45,6 @@ const routes = [
   //
   {
     path: '/admin-panel',
-    name: 'AdminPanel',
     component: AdminPanel,
     beforeEnter: adminGuard,
     children: [

@@ -35,6 +35,9 @@ export default {
   cursor: pointer;
   &.link {
     text-decoration: none;
+    &.router-link-exact-active {
+      background-color: $light-grey-color;
+    }
   }
   &:hover {
     background-color: $light-grey-color;
