@@ -51,7 +51,8 @@ export default {
       component: null,
       requiresAuth: false,
       options: {},
-      data: {}
+      data: {},
+      callback: null
     },
     popups: {
       ...USERS_POPUPS,
@@ -59,7 +60,10 @@ export default {
     }
   },
   actions: {
-    openPopup({ state, commit, dispatch }, { type, data = {} }) {
+    openPopup(
+      { state, commit, dispatch },
+      { type, data = {}, callback = () => {} }
+    ) {
       const popup = state.popups[type];
       if (popup && popup.component) {
         dispatch('app/setSidebarState', false, {
@@ -68,7 +72,8 @@ export default {
         commit('SET_POPUP', {
           ...popup,
           open: true,
-          data
+          data,
+          callback
         });
       }
     },
@@ -87,7 +92,8 @@ export default {
         component: null,
         requiresAuth: false,
         options: {},
-        data: {}
+        data: {},
+        callback: null
       };
     }
   },

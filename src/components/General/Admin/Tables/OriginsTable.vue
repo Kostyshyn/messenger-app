@@ -14,11 +14,7 @@
             <SearchField placeholder="Search origins" v-model="keyword" />
           </div>
           <div class="origins-table-header-buttons">
-            <Button
-              color="primary"
-              ripple
-              @click="openPopup({ type: 'origin' })"
-            >
+            <Button color="primary" ripple @click="createOrigin">
               <Plus />
               Create
             </Button>
@@ -32,6 +28,11 @@
         <template v-else>
           {{ cell[col.key] }}
         </template>
+      </template>
+      <template #name="{ col, cell }">
+        <span :class="{ default: cell.isDefault }">
+          {{ cell[col.key] }}
+        </span>
       </template>
       <template #options="{ cell }">
         <TableOptions :options="options" @action="action($event, cell)" />
@@ -48,6 +49,7 @@ import TableOptions from '@/components/General/Admin/Tables/TableOptions.vue';
 import Button from '@/components/General/Helpers/Button.vue';
 import Plus from 'vue-material-design-icons/Plus.vue';
 import { mapActions, mapGetters } from 'vuex';
+import api from '@/services/api';
 import debounce from '@/utils/debounce';
 
 export default {
@@ -75,7 +77,7 @@ export default {
         },
         {
           label: 'Origin',
-          key: 'origin',
+          key: 'origin_url',
           sort: true
         },
         {
@@ -110,12 +112,12 @@ export default {
       options: [
         {
           label: 'Edit',
-          type: 'edit',
+          type: 'editOrigin',
           icon: 'edit'
         },
         {
           label: 'Delete',
-          type: 'delete',
+          type: 'deleteOrigin',
           icon: 'delete'
         }
       ]
@@ -132,11 +134,36 @@ export default {
       this.$emit('searchOrigins', this.keyword);
     },
     action({ type }, origin) {
-      if (type === 'edit') {
-        this.openPopup({
-          type: 'origin',
-          data: { originData: origin }
-        });
+      if (type && this[type]) {
+        this[type](origin);
+      }
+    },
+    createOrigin() {
+      this.openPopup({
+        type: 'origin',
+        callback: () => {
+          this.$emit('updateOrigins');
+        }
+      });
+    },
+    editOrigin(origin) {
+      this.openPopup({
+        type: 'origin',
+        data: { ...origin }
+      });
+    },
+    async deleteOrigin({ _id }) {
+      const confirm = window.confirm('Are you sure you want to delete this?');
+      if (confirm) {
+        try {
+          await api.deleteOrigin(_id);
+          this.$emit('updateOrigins');
+        } catch ({ errors }) {
+          if (errors && errors.isDefault) {
+            const [message] = errors.isDefault;
+            alert(message);
+          }
+        }
       }
     }
   },
@@ -169,6 +196,11 @@ export default {
         /deep/ .button {
           padding: 0 15px 0 5px;
         }
+      }
+    }
+    /deep/ .col-type-text {
+      .default {
+        font-weight: 600;
       }
     }
     /deep/ .options {

@@ -32,3 +32,20 @@ export const getOriginsData = async function({ api }, params) {
     return Promise.reject(err.data);
   }
 };
+
+export const createOrigin = async function({ api }, payload) {
+  try {
+    const res = await api.post(`${ADMIN_MODULE}/origins`, payload);
+    return res.origin;
+  } catch (err) {
+    return Promise.reject(err.data);
+  }
+};
+
+export const deleteOrigin = async function({ api }, id) {
+  try {
+    return await api.delete(`${ADMIN_MODULE}/origins/${id}`);
+  } catch (err) {
+    return Promise.reject(err.data);
+  }
+};

@@ -10,12 +10,13 @@
       />
       <Field
         name="origin"
-        placeholder="Type origin"
+        placeholder="Type origin URL"
         autocomplete="off"
-        v-model="origin.origin"
-        :errors="errors['origin']"
+        v-model="origin.origin_url"
+        :errors="errors['origin_url']"
       />
       <Field
+        v-if="isEdit"
         name="api_key"
         readonly
         v-model="origin.api_key"
@@ -23,11 +24,8 @@
       />
     </div>
     <div class="origin-popup-footer">
-      <Button className="close" color="transparent" ripple>
-        Add
-      </Button>
-      <Button className="close" color="transparent" ripple @click="close">
-        Close
+      <Button className="close" color="primary" ripple @click="save">
+        Save
       </Button>
     </div>
   </div>
@@ -38,6 +36,7 @@
 import Field from '@/components/General/Form/Field.vue';
 import Button from '@/components/General/Helpers/Button.vue';
 import { mapActions } from 'vuex';
+import api from '@/services/api';
 
 export default {
   name: 'Origin',
@@ -45,31 +44,56 @@ export default {
     Field,
     Button
   },
-  props: {},
+  props: {
+    popupData: {
+      type: Object,
+      default: () => {}
+    },
+    callback: {
+      type: Function
+    }
+  },
   data() {
     return {
       title: 'Origin',
       origin: {
         name: '',
-        origin: '',
+        origin_url: '',
         api_key: ''
       },
       errors: {},
       requestProcessing: false
     };
   },
-  computed: {},
+  computed: {
+    isEdit() {
+      return !!Object.keys(this.popupData).length;
+    }
+  },
   methods: {
     ...mapActions({
       close: 'popup/closePopup'
-    })
+    }),
+    async save() {
+      try {
+        const { name, origin_url } = this.origin;
+        await api.createOrigin({
+          name,
+          origin_url
+        });
+        this.callback();
+        this.$emit('close');
+      } catch (err) {
+        this.errors = err.errors;
+      }
+    }
   },
   watch: {},
   mounted() {},
   created() {
-    const { originData } = this.$attrs;
-    if (originData) {
-      this.origin = { ...originData };
+    const { isEdit, popupData } = this;
+    if (isEdit) {
+      this.origin = { ...popupData };
     }
   }
 };
@@ -86,8 +110,8 @@ export default {
     margin-top: auto;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    padding: 0 15px 5px 15px;
+    justify-content: center;
+    padding: 0 15px 15px 15px;
   }
   @media (max-width: $sm) {
     height: calc(100% - 53px);

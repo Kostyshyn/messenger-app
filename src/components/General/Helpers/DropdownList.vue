@@ -16,7 +16,7 @@
         <ListItem
           v-for="(item, index) in items"
           :key="index"
-          @click.native="$emit('action', item)"
+          @click.native="itemClick(item)"
         >
           <div v-if="item.icon" class="item-icon">
             <Icon :name="item.icon" />
@@ -57,6 +57,12 @@ export default {
     show: {
       type: Boolean,
       default: false
+    }
+  },
+  methods: {
+    itemClick(item) {
+      this.$emit('action', item);
+      this.$emit('toggle', false);
     }
   }
 };

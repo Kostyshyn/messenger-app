@@ -5,6 +5,7 @@
       :origins="origins"
       @sortOrigins="sortOrigins"
       @searchOrigins="keyword = $event"
+      @updateOrigins="getOrigins"
     />
   </div>
 </template>

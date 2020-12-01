@@ -10,7 +10,12 @@
           <Icon name="clear" />
         </div>
       </div>
-      <component :is="popup.component" v-bind="popup.data" />
+      <component
+        :is="popup.component"
+        :popupData="popup.data"
+        :callback="popup.callback"
+        @close="close"
+      />
     </div>
     <Overlay @click.native="handleBackdropClick" />
   </div>
