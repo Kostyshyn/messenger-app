@@ -45,10 +45,10 @@ export default {
       try {
         this.requestProcessing = true;
         this.users = await api.getUsersData(params);
-        this.requestProcessing = false;
       } catch (err) {
-        this.requestProcessing = false;
         console.log(err);
+      } finally {
+        this.requestProcessing = false;
       }
     },
     sortUsers({ key, value }) {

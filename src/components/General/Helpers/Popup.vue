@@ -11,6 +11,7 @@
         </div>
       </div>
       <component
+        ref="popupComponent"
         :is="popup.component"
         :popupData="popup.data"
         :callback="popup.callback"
@@ -57,7 +58,7 @@ export default {
   data() {
     return {
       show: false,
-      nestedData: {},
+      title: '',
       backAction: null,
       options: {
         close: true,
@@ -75,8 +76,8 @@ export default {
     showPopup() {
       return this.popup.component && this.show;
     },
-    title() {
-      return this.nestedData.title;
+    nestedData() {
+      return this.popup.component.data();
     },
     popupStyle() {
       return {
@@ -116,11 +117,14 @@ export default {
   },
   watch: {},
   mounted() {
+    const { popupComponent } = this.$refs;
+    if (popupComponent) {
+      this.title = popupComponent.title || '';
+    }
     const { name } = this.popup;
     this.setQuery({
       popup: name
     });
-    this.nestedData = this.popup.component.data();
     const { backAction } = this.popup.component.methods;
     if (backAction && typeof backAction === 'function') {
       this.backAction = backAction;

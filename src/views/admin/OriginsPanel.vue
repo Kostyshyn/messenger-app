@@ -46,10 +46,10 @@ export default {
       try {
         this.requestProcessing = true;
         this.origins = await api.getOriginsData(params);
-        this.requestProcessing = false;
       } catch (err) {
-        this.requestProcessing = false;
         console.log(err);
+      } finally {
+        this.requestProcessing = false;
       }
     },
     sortOrigins({ key, value }) {

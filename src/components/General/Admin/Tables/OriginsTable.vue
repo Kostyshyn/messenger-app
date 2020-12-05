@@ -149,7 +149,10 @@ export default {
     editOrigin(origin) {
       this.openPopup({
         type: 'origin',
-        data: { ...origin }
+        data: { ...origin },
+        callback: () => {
+          this.$emit('updateOrigins');
+        }
       });
     },
     async deleteOrigin({ _id }) {

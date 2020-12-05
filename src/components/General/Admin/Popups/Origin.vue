@@ -55,7 +55,7 @@ export default {
   },
   data() {
     return {
-      title: 'Origin',
+      title: '',
       origin: {
         name: '',
         origin_url: '',
@@ -75,16 +75,29 @@ export default {
       close: 'popup/closePopup'
     }),
     async save() {
+      if (this.requestProcessing) {
+        return;
+      }
       try {
-        const { name, origin_url } = this.origin;
-        await api.createOrigin({
-          name,
-          origin_url
-        });
+        this.requestProcessing = true;
+        const { name, origin_url, _id } = this.origin;
+        if (this.isEdit) {
+          await api.updateOrigin({
+            payload: { name, origin_url },
+            id: _id
+          });
+        } else {
+          await api.createOrigin({
+            name,
+            origin_url
+          });
+        }
         this.callback();
         this.$emit('close');
       } catch (err) {
         this.errors = err.errors;
+      } finally {
+        this.requestProcessing = false;
       }
     }
   },
@@ -94,6 +107,9 @@ export default {
     const { isEdit, popupData } = this;
     if (isEdit) {
       this.origin = { ...popupData };
+      this.title = 'Edit origin';
+    } else {
+      this.title = 'Create origin';
     }
   }
 };

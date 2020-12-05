@@ -42,6 +42,15 @@ export const createOrigin = async function({ api }, payload) {
   }
 };
 
+export const updateOrigin = async function({ api }, { payload, id }) {
+  try {
+    const res = await api.put(`${ADMIN_MODULE}/origins/${id}`, payload);
+    return res.origin;
+  } catch (err) {
+    return Promise.reject(err.data);
+  }
+};
+
 export const deleteOrigin = async function({ api }, id) {
   try {
     return await api.delete(`${ADMIN_MODULE}/origins/${id}`);
