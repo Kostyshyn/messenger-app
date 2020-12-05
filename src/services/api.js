@@ -2,8 +2,10 @@ import axios from 'axios';
 import ls from 'local-storage';
 import qs from 'qs';
 
+const { VUE_APP_API_BASE_URL, VUE_APP_API_VERSION } = process.env;
+
 export const Api = axios.create({
-  baseURL: `${process.env.VUE_APP_API_BASE_URL}/api`
+  baseURL: `${VUE_APP_API_BASE_URL}/v${VUE_APP_API_VERSION}`
 });
 
 Api.defaults.headers.common['x-api-key'] = process.env.VUE_APP_API_KEY;
