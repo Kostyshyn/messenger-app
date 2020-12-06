@@ -74,3 +74,18 @@ div {
   opacity: 0;
   transform: translateY(-20px);
 }
+
+// Text colors
+
+.text-success {
+  color: $green-color;
+}
+.text-primary {
+  color: $primary-color;
+}
+.text-warning {
+  color: $orange-color;
+}
+.text-error {
+  color: $red-color;
+}

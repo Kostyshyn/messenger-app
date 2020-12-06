@@ -6,6 +6,7 @@
       :data="requests.data"
       :columns="columns"
       className="requests-table"
+      width="fit-content"
       @sort="$emit('sortRequests', $event)"
     >
       <template #header>
@@ -23,8 +24,26 @@
           {{ cell[col.key] }}
         </template>
       </template>
+      <template #url="{ col, cell }">
+        <router-link :to="requestUrl(cell)" class="request-link">
+          {{ cell[col.key] }}
+        </router-link>
+      </template>
+      <template #method="{ cell }">
+        <Chip flat v-bind="methodStyle(cell)" />
+      </template>
+      <template #statusCode="{ col, cell }">
+        <span class="status-code" :class="statusCodeClass(cell)">
+          {{ cell[col.key] }}
+        </span>
+      </template>
+      <template #responseTime="{ col, cell }">
+        <span class="status-code" :class="responseTimeClass(cell)">
+          {{ cell[col.key] }} ms
+        </span>
+      </template>
       <template #origin="{ col, cell }">
-        <span :class="{ default: cell[col.key].isDefault }">
+        <span :class="{ bold: cell[col.key].isDefault }">
           {{ cell[col.key].name }}
         </span>
       </template>
@@ -39,15 +58,18 @@
 // @ is an alias to /src
 import Table from '@/components/General/Helpers/Table/Table.vue';
 import SearchField from '@/components/General/Form/SearchField.vue';
+import Chip from '@/components/General/Helpers/Chip.vue';
 import TableOptions from '@/components/General/Admin/Tables/TableOptions.vue';
 import { mapActions, mapGetters } from 'vuex';
 import debounce from '@/utils/debounce';
+import { percentage } from '@/utils/math';
 
 export default {
   name: 'RequestsTable',
   components: {
     Table,
     SearchField,
+    Chip,
     TableOptions
   },
   props: {
@@ -67,6 +89,7 @@ export default {
         {
           label: 'Method',
           key: 'method',
+          type: 'method',
           sort: true
         },
         {
@@ -97,7 +120,25 @@ export default {
       ],
       keyword: '',
       delay: 200,
-      options: []
+      options: [],
+      methodsHash: {
+        GET: {
+          label: 'GET',
+          color: 'success'
+        },
+        POST: {
+          label: 'POST',
+          color: 'warning'
+        },
+        PUT: {
+          label: 'PUT',
+          color: 'primary'
+        },
+        DELETE: {
+          label: 'DELETE',
+          color: 'error'
+        }
+      }
     };
   },
   computed: {
@@ -114,6 +155,46 @@ export default {
       if (type && this[type]) {
         this[type](request);
       }
+    },
+    requestUrl({ _id }) {
+      return `/admin-panel/requests/${_id}`;
+    },
+    methodStyle({ method }) {
+      const { methodsHash } = this;
+      if (methodsHash[method]) {
+        return methodsHash[method];
+      }
+      return {};
+    },
+    statusCodeClass({ statusCode }) {
+      const color =
+        statusCode >= 500
+          ? 'text-error'
+          : statusCode >= 400
+          ? 'text-warning'
+          : statusCode >= 300
+          ? 'text-primary'
+          : statusCode >= 200
+          ? 'text-success'
+          : 0;
+      return [color];
+    },
+    responseTimeClass({ url, method, responseTime }) {
+      const { meta } = this.requests;
+      const requestMeta = meta.find(({ _id }) => {
+        return _id.url === url && _id.method === method;
+      });
+      if (requestMeta) {
+        const per = percentage(responseTime, requestMeta['responseTime']);
+        const color =
+          per >= 200
+            ? 'text-error'
+            : per >= 110
+            ? 'text-warning'
+            : 'text-success';
+        return [color];
+      }
+      return [];
     }
   },
   watch: {
@@ -142,8 +223,28 @@ export default {
       }
     }
     /deep/ .col-type-text {
-      .default {
+      .bold {
         font-weight: 600;
+      }
+      .request-link {
+        font-size: 16px;
+        font-weight: 400;
+        color: $light-primary-color;
+        text-decoration: none;
+        transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+        &:hover {
+          color: $primary-color;
+        }
+      }
+    }
+    /deep/ .method {
+      .col-type-method {
+        .cell-content {
+          display: flex;
+          align-items: center;
+          padding: 0 15px;
+          width: 100%;
+        }
       }
     }
     /deep/ .options {

@@ -29,7 +29,9 @@ export default {
       page: 1,
       limit: 50,
       sort: {},
-      keyword: ''
+      keyword: '',
+      intervalDelay: 5000,
+      intervalId: null
     };
   },
   computed: {
@@ -52,6 +54,11 @@ export default {
         this.requestProcessing = false;
       }
     },
+    startPoll() {
+      this.intervalId = setInterval(() => {
+        this.getRequests(this.query);
+      }, this.intervalDelay);
+    },
     sortRequests({ key, value }) {
       this.sort = { [key]: value };
     }
@@ -64,6 +71,12 @@ export default {
         this.getRequests(data);
       }
     }
+  },
+  created() {
+    // this.startPoll();
+  },
+  beforeDestroy() {
+    // clearInterval(this.intervalId);
   }
 };
 </script>

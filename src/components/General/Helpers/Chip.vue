@@ -1,5 +1,12 @@
 <template>
-  <div :class="['chip', className, color, { button, 'has-icon': $slots.icon }]">
+  <div
+    :class="[
+      'chip',
+      className,
+      color,
+      { button, flat, 'has-icon': $slots.icon }
+    ]"
+  >
     <div class="chip-label">{{ label }}</div>
     <slot name="icon" />
   </div>
@@ -7,7 +14,14 @@
 
 <script>
 // @ is an alias to /src
-const COLORS = ['success', 'secondary', 'primary', 'error', 'transparent'];
+const COLORS = [
+  'success',
+  'secondary',
+  'primary',
+  'warning',
+  'error',
+  'transparent'
+];
 
 export default {
   name: 'Chip',
@@ -31,6 +45,10 @@ export default {
     button: {
       type: Boolean,
       default: false
+    },
+    flat: {
+      type: Boolean,
+      default: false
     }
   }
 };
@@ -42,29 +60,33 @@ export default {
   width: fit-content;
   min-width: 24px;
   padding: 0 8px;
-  border-radius: 12px;
+  border-radius: 4px;
   box-sizing: border-box;
   box-shadow: $block-shadow;
+  color: $white-font-color;
   .chip-label {
     font-size: 14px;
     line-height: 24px;
     @include truncate-text;
   }
+  &.flat {
+    box-shadow: none;
+  }
   &.success {
     background-color: $green-color;
-    color: $white-font-color;
   }
   &.primary {
     background-color: $primary-color;
-    color: $white-font-color;
   }
   &.secondary {
     background-color: $grey-color;
     color: $black-font-color;
   }
+  &.warning {
+    background-color: $orange-color;
+  }
   &.error {
     background-color: $red-color;
-    color: $white-font-color;
   }
   &.primary,
   &.error {
@@ -78,6 +100,9 @@ export default {
       }
       &.primary {
         background-color: $light-primary-color;
+      }
+      &.warning {
+        background-color: $light-orange-color;
       }
       &.error {
         background-color: $light-red-color;

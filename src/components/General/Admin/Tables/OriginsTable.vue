@@ -85,8 +85,7 @@ export default {
         },
         {
           label: 'API key',
-          key: 'api_key',
-          sort: true
+          key: 'api_key'
         },
         {
           label: 'Total requests',
