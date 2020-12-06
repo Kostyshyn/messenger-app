@@ -21,6 +21,8 @@ export const getUsersData = async function({ api }, params) {
   }
 };
 
+// Origins
+
 export const getOriginsData = async function({ api }, params) {
   try {
     return await api.get(`${ADMIN_MODULE}/origins`, {
@@ -54,6 +56,20 @@ export const updateOrigin = async function({ api }, { payload, id }) {
 export const deleteOrigin = async function({ api }, id) {
   try {
     return await api.delete(`${ADMIN_MODULE}/origins/${id}`);
+  } catch (err) {
+    return Promise.reject(err.data);
+  }
+};
+
+// Requests
+
+export const getRequestsData = async function({ api }, params) {
+  try {
+    return await api.get(`${ADMIN_MODULE}/requests`, {
+      params: {
+        ...params
+      }
+    });
   } catch (err) {
     return Promise.reject(err.data);
   }

@@ -57,6 +57,11 @@ export default {
           icon: 'planet'
         },
         {
+          label: 'Requests',
+          link: '/admin-panel/requests',
+          icon: 'toc'
+        },
+        {
           label: 'Settings',
           icon: 'settings',
           action: 'openSettings'

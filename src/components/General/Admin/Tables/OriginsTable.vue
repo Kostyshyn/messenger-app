@@ -34,6 +34,9 @@
           {{ cell[col.key] }}
         </span>
       </template>
+      <template #totalRequests="{ col, cell }">
+        {{ getTotalRequests(cell) }}
+      </template>
       <template #options="{ cell }">
         <TableOptions :options="options" @action="action($event, cell)" />
       </template>
@@ -86,9 +89,8 @@ export default {
           sort: true
         },
         {
-          label: 'Last used',
-          key: 'last_used',
-          sort: true
+          label: 'Total requests',
+          key: 'totalRequests'
         },
         {
           label: 'Created at',
@@ -168,6 +170,14 @@ export default {
           }
         }
       }
+    },
+    getTotalRequests({ _id }) {
+      const { meta } = this.origins;
+      const originMeta = meta.find(o => o._id === _id);
+      if (originMeta) {
+        return originMeta.total;
+      }
+      return 0;
     }
   },
   watch: {
