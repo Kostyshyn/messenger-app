@@ -2,6 +2,7 @@
   <div
     class="table-cell"
     :class="[colType, { header, fixedHeader, sort, activeSort }]"
+    :style="cellStyle"
   >
     <div class="cell-content">
       <slot />
@@ -51,11 +52,24 @@ export default {
     sortValues: {
       type: Array,
       default: () => []
+    },
+    offsetFromHeader: {
+      type: Number,
+      default: 0
     }
   },
   computed: {
     colType() {
       return this.header ? '' : `col-type-${this.type}`;
+    },
+    cellStyle() {
+      const { header, fixedHeader, offsetFromHeader } = this;
+      if (header && fixedHeader) {
+        return {
+          top: `${offsetFromHeader}px`
+        };
+      }
+      return {};
     }
   }
 };
@@ -68,9 +82,6 @@ export default {
   min-height: 47px;
   box-sizing: border-box;
   background-color: $white-background-color;
-  &:last-child {
-    border-bottom: none;
-  }
   &.col-type-index,
   &.col-type-text {
     .cell-content {

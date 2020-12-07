@@ -5,6 +5,7 @@
       fixedHeader
       :data="origins.data"
       :columns="columns"
+      :requestProcessing="requestProcessing"
       className="origins-table"
       @sort="$emit('sortOrigins', $event)"
     >
@@ -68,6 +69,10 @@ export default {
     origins: {
       type: Object,
       default: () => {}
+    },
+    requestProcessing: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

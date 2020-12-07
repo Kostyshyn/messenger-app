@@ -3,6 +3,7 @@
     <h1>Origins</h1>
     <OriginsTable
       :origins="origins"
+      :requestProcessing="requestProcessing"
       @sortOrigins="sortOrigins"
       @searchOrigins="keyword = $event"
       @updateOrigins="getOrigins"

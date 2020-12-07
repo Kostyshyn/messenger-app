@@ -5,6 +5,7 @@
       fixedHeader
       :data="users.data"
       :columns="columns"
+      :requestProcessing="requestProcessing"
       className="users-table"
       width="fit-content"
       @sort="$emit('sortUsers', $event)"
@@ -18,7 +19,7 @@
         <UserImage :border="cell.online" :image="image(cell)" />
       </template>
       <template #role="{ cell }">
-        <Chip v-bind="role(cell)" />
+        <Chip flat v-bind="role(cell)" />
       </template>
       <template #last_seen="{ col, cell }">
         {{ cell[col.key] | moment('D.MM.YY, H:mm') }}
@@ -55,6 +56,10 @@ export default {
     users: {
       type: Object,
       default: () => {}
+    },
+    requestProcessing: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

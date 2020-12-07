@@ -3,6 +3,7 @@
     <h1>Users</h1>
     <UsersTable
       :users="users"
+      :requestProcessing="requestProcessing"
       @sortUsers="sortUsers"
       @searchUsers="keyword = $event"
     />

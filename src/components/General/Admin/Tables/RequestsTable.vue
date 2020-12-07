@@ -5,8 +5,8 @@
       fixedHeader
       :data="requests.data"
       :columns="columns"
+      :requestProcessing="requestProcessing"
       className="requests-table"
-      width="fit-content"
       @sort="$emit('sortRequests', $event)"
     >
       <template #header>
@@ -50,6 +50,9 @@
       <template #options="{ cell }">
         <TableOptions :options="options" @action="action($event, cell)" />
       </template>
+      <template #footer>
+        <TablePagination />
+      </template>
     </Table>
   </div>
 </template>
@@ -57,6 +60,7 @@
 <script>
 // @ is an alias to /src
 import Table from '@/components/General/Helpers/Table/Table.vue';
+import TablePagination from '@/components/General/Helpers/Table/TablePagination.vue';
 import SearchField from '@/components/General/Form/SearchField.vue';
 import Chip from '@/components/General/Helpers/Chip.vue';
 import TableOptions from '@/components/General/Admin/Tables/TableOptions.vue';
@@ -68,6 +72,7 @@ export default {
   name: 'RequestsTable',
   components: {
     Table,
+    TablePagination,
     SearchField,
     Chip,
     TableOptions
@@ -76,6 +81,10 @@ export default {
     requests: {
       type: Object,
       default: () => {}
+    },
+    requestProcessing: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

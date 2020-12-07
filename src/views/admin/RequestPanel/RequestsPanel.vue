@@ -3,6 +3,7 @@
     <h1>Requests</h1>
     <RequestsTable
       :requests="requests"
+      :requestProcessing="requestProcessing"
       @sortRequests="sortRequests"
       @searchRequests="keyword = $event"
       @updateRequests="getRequests"
