@@ -51,6 +51,10 @@
         <TableOptions :options="options" @action="action($event, cell)" />
       </template>
       <template #footer>
+        <!--<TablePagination-->
+        <!--  :requestProcessing="requestProcessing"-->
+        <!--  :pagination="requests"-->
+        <!--/>-->
         <TablePagination />
       </template>
     </Table>
