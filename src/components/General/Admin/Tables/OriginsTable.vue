@@ -41,6 +41,13 @@
       <template #options="{ cell }">
         <TableOptions :options="options" @action="action($event, cell)" />
       </template>
+      <template #footer>
+        <TablePagination
+          :requestProcessing="requestProcessing"
+          :pagination="origins"
+          @pageChange="$emit('pageChange', $event)"
+        />
+      </template>
     </Table>
   </div>
 </template>
@@ -48,6 +55,7 @@
 <script>
 // @ is an alias to /src
 import Table from '@/components/General/Helpers/Table/Table.vue';
+import TablePagination from '@/components/General/Helpers/Table/TablePagination.vue';
 import SearchField from '@/components/General/Form/SearchField.vue';
 import TableOptions from '@/components/General/Admin/Tables/TableOptions.vue';
 import Button from '@/components/General/Helpers/Button.vue';
@@ -60,6 +68,7 @@ export default {
   name: 'OriginsTable',
   components: {
     Table,
+    TablePagination,
     SearchField,
     TableOptions,
     Button,

@@ -27,6 +27,13 @@
       <template #options="{ cell }">
         <TableOptions :options="options" @action="action($event, cell)" />
       </template>
+      <template #footer>
+        <TablePagination
+          :requestProcessing="requestProcessing"
+          :pagination="users"
+          @pageChange="$emit('pageChange', $event)"
+        />
+      </template>
     </Table>
   </div>
 </template>
@@ -34,6 +41,7 @@
 <script>
 // @ is an alias to /src
 import Table from '@/components/General/Helpers/Table/Table.vue';
+import TablePagination from '@/components/General/Helpers/Table/TablePagination.vue';
 import SearchField from '@/components/General/Form/SearchField.vue';
 import UserImage from '@/components/General/User/UserImage.vue';
 import Chip from '@/components/General/Helpers/Chip.vue';
@@ -47,6 +55,7 @@ export default {
   name: 'UsersTable',
   components: {
     Table,
+    TablePagination,
     SearchField,
     UserImage,
     Chip,

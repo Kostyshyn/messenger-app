@@ -4,9 +4,10 @@
     <RequestsTable
       :requests="requests"
       :requestProcessing="requestProcessing"
-      @sortRequests="sortRequests"
-      @searchRequests="keyword = $event"
+      @sortRequests="sortItems"
+      @searchRequests="searchItems"
       @updateRequests="getRequests"
+      @pageChange="page = $event"
     />
   </div>
 </template>
@@ -15,32 +16,25 @@
 // @ is an alias to /src
 import RequestsTable from '@/components/General/Admin/Tables/RequestsTable.vue';
 import api from '@/services/api';
+import panel from '@/mixins/panel';
 
 export default {
   name: 'RequestsPanel',
   components: {
     RequestsTable
   },
+  mixins: [panel],
   data() {
     return {
       requests: {
         data: []
       },
       requestProcessing: false,
-      page: 1,
-      limit: 50,
-      sort: {},
-      keyword: '',
       intervalDelay: 5000,
       intervalId: null
     };
   },
-  computed: {
-    query() {
-      const { page, limit, sort, keyword } = this;
-      return { page, limit, sort, keyword };
-    }
-  },
+  computed: {},
   methods: {
     async getRequests(params = {}) {
       if (this.requestProcessing) {
@@ -59,19 +53,19 @@ export default {
       this.intervalId = setInterval(() => {
         this.getRequests(this.query);
       }, this.intervalDelay);
-    },
-    sortRequests({ key, value }) {
-      this.sort = { [key]: value };
     }
   },
   watch: {
     query: {
       deep: true,
-      immediate: true,
       handler(data) {
+        this.setQuery(data);
         this.getRequests(data);
       }
     }
+  },
+  mounted() {
+    this.getRequests(this.query);
   },
   created() {
     // this.startPoll();

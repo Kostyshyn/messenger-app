@@ -5,7 +5,8 @@
       :users="users"
       :requestProcessing="requestProcessing"
       @sortUsers="sortUsers"
-      @searchUsers="keyword = $event"
+      @searchUsers="searchUsers"
+      @pageChange="page = $event"
     />
   </div>
 </template>
@@ -52,7 +53,12 @@ export default {
         this.requestProcessing = false;
       }
     },
+    searchUsers(val) {
+      this.page = 1;
+      this.keyword = val;
+    },
     sortUsers({ key, value }) {
+      this.page = 1;
       this.sort = { [key]: value };
     }
   },

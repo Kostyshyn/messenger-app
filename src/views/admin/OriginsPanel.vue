@@ -4,9 +4,10 @@
     <OriginsTable
       :origins="origins"
       :requestProcessing="requestProcessing"
-      @sortOrigins="sortOrigins"
-      @searchOrigins="keyword = $event"
+      @sortOrigins="sortItems"
+      @searchOrigins="searchItems"
       @updateOrigins="getOrigins"
+      @pageChange="page = $event"
     />
   </div>
 </template>
@@ -15,30 +16,23 @@
 // @ is an alias to /src
 import OriginsTable from '@/components/General/Admin/Tables/OriginsTable.vue';
 import api from '@/services/api';
+import panel from '@/mixins/panel';
 
 export default {
   name: 'OriginsPanel',
   components: {
     OriginsTable
   },
+  mixins: [panel],
   data() {
     return {
       origins: {
         data: []
       },
-      requestProcessing: false,
-      page: 1,
-      limit: 10,
-      sort: {},
-      keyword: ''
+      requestProcessing: false
     };
   },
-  computed: {
-    query() {
-      const { page, limit, sort, keyword } = this;
-      return { page, limit, sort, keyword };
-    }
-  },
+  computed: {},
   methods: {
     async getOrigins(params = {}) {
       if (this.requestProcessing) {
@@ -52,19 +46,19 @@ export default {
       } finally {
         this.requestProcessing = false;
       }
-    },
-    sortOrigins({ key, value }) {
-      this.sort = { [key]: value };
     }
   },
   watch: {
     query: {
       deep: true,
-      immediate: true,
       handler(data) {
+        this.setQuery(data);
         this.getOrigins(data);
       }
     }
+  },
+  mounted() {
+    this.getOrigins(this.query);
   }
 };
 </script>

@@ -2,13 +2,18 @@
   <div class="table-pagination-wrapper" :class="[className]">
     <div class="table-pagination-info">
       <span class="table-pagination-info-item">
-        Per page: {{ pagination.limit }}
+        Total: {{ pagination.total }}
       </span>
       <span class="table-pagination-info-item">
-        Total: {{ pagination.total }}
+        Per page: {{ pagination.limit }}
       </span>
     </div>
     <ul class="table-pagination">
+      <li class="table-pagination-btn" :class="{ disabled: currentPage === 1 }">
+        <Button color="transparent" round ripple @click="setPage(1)">
+          <ChevronDoubleLeft />
+        </Button>
+      </li>
       <li
         class="table-pagination-btn prev"
         :class="{ disabled: !pagination.prevPage }"
@@ -17,39 +22,8 @@
           <ChevronLeft />
         </Button>
       </li>
-      <li class="table-pagination-btn" :class="{ active: currentPage === 1 }">
-        <Button color="transparent" round ripple @click="setPage(1)">
-          1
-        </Button>
-      </li>
-      <li v-if="showPrevDelimiter" class="table-pagination-btn del disabled">
-        <DotsHorizontal />
-      </li>
-      <li
-        v-for="page in pages"
-        :key="page"
-        class="table-pagination-btn"
-        :class="{ active: currentPage === page }"
-      >
-        <Button color="transparent" round ripple @click="setPage(page)">
-          {{ page }}
-        </Button>
-      </li>
-      <li v-if="showNextDelimiter" class="table-pagination-btn del disabled">
-        <DotsHorizontal />
-      </li>
-      <li
-        class="table-pagination-btn"
-        :class="{ active: currentPage === pagination.totalPages }"
-      >
-        <Button
-          color="transparent"
-          round
-          ripple
-          @click="setPage(pagination.totalPages)"
-        >
-          {{ pagination.totalPages }}
-        </Button>
+      <li class="table-pagination-info-item pages">
+        {{ pagination.page }} of {{ pagination.totalPages }}
       </li>
       <li
         class="table-pagination-btn next"
@@ -59,6 +33,19 @@
           <ChevronRight />
         </Button>
       </li>
+      <li
+        class="table-pagination-btn"
+        :class="{ disabled: currentPage === pagination.totalPages }"
+      >
+        <Button
+          color="transparent"
+          round
+          ripple
+          @click="setPage(pagination.totalPages)"
+        >
+          <ChevronDoubleRight />
+        </Button>
+      </li>
     </ul>
   </div>
 </template>
@@ -66,19 +53,20 @@
 <script>
 // @ is an alias to /src
 import Button from '@/components/General/Helpers/Button.vue';
-import DotsHorizontal from 'vue-material-design-icons/DotsHorizontal.vue';
 import ChevronRight from 'vue-material-design-icons/ChevronRight.vue';
 import ChevronLeft from 'vue-material-design-icons/ChevronLeft.vue';
+import ChevronDoubleRight from 'vue-material-design-icons/ChevronDoubleRight.vue';
+import ChevronDoubleLeft from 'vue-material-design-icons/ChevronDoubleLeft.vue';
 import { mapGetters } from 'vuex';
-import { range } from '@/utils/math';
 
 export default {
   name: 'TablePagination',
   components: {
     Button,
-    DotsHorizontal,
     ChevronRight,
-    ChevronLeft
+    ChevronLeft,
+    ChevronDoubleRight,
+    ChevronDoubleLeft
   },
   props: {
     requestProcessing: {
@@ -88,27 +76,17 @@ export default {
     pagination: {
       type: Object,
       default: () => ({
-        // limit: 10,
-        // nextPage: false,
-        // page: 1,
-        // prevPage: false,
-        // total: 0,
-        // totalPages: 0
         limit: 10,
-        nextPage: true,
-        page: 2,
-        prevPage: true,
-        total: 115,
-        totalPages: 7
+        nextPage: false,
+        page: 1,
+        prevPage: false,
+        total: 0,
+        totalPages: 1
       })
     },
     className: {
       type: String,
       default: ''
-    },
-    pagesThreshold: {
-      type: Number,
-      default: 5
     }
   },
   data() {
@@ -119,32 +97,7 @@ export default {
   computed: {
     ...mapGetters({
       device: 'app/device'
-    }),
-    pages() {
-      const { pagination, pagesThreshold, currentPage } = this;
-      if (currentPage < pagesThreshold) {
-        return range(2, pagesThreshold);
-      } else if (currentPage > pagination.totalPages - pagesThreshold) {
-        return range(
-          pagination.totalPages - pagesThreshold,
-          pagination.totalPages - 1
-        );
-      } else {
-        const visibleThreshold = Math.floor((pagesThreshold - 1) / 2);
-        return range(
-          currentPage - visibleThreshold,
-          currentPage + visibleThreshold
-        );
-      }
-    },
-    showPrevDelimiter() {
-      const { pagesThreshold, currentPage } = this;
-      return currentPage + 1 > pagesThreshold;
-    },
-    showNextDelimiter() {
-      const { pagination, pagesThreshold, currentPage } = this;
-      return pagination.totalPages - currentPage > pagesThreshold - 1;
-    }
+    })
   },
   methods: {
     setPage(page) {
@@ -170,6 +123,11 @@ export default {
       }
       this.$emit('pageChange', this.currentPage);
     }
+  },
+  watch: {
+    'pagination.page'(data) {
+      this.currentPage = data;
+    }
   }
 };
 </script>
@@ -184,13 +142,18 @@ export default {
   .table-pagination-info {
     display: flex;
     margin-right: 15px;
-    .table-pagination-info-item {
-      display: inline-block;
-      padding: 10px;
-      font-size: 14px;
-      color: $dark-grey-font-color;
-      max-width: 100%;
-      @include truncate-text;
+  }
+  .table-pagination-info-item {
+    display: inline-block;
+    padding: 10px;
+    font-size: 13px;
+    color: $dark-grey-font-color;
+    max-width: 100%;
+    @include truncate-text;
+    &.pages {
+      padding: 10px 5px;
+      display: flex;
+      align-items: center;
     }
   }
   .table-pagination {
@@ -198,29 +161,18 @@ export default {
     .table-pagination-btn {
       padding: 0 2px;
       list-style-type: none;
-      /deep/ .button,
-      &.del {
+      /deep/ .button {
         color: $dark-grey-font-color;
-      }
-      &.del {
-        display: flex;
-        align-items: center;
-        height: 36px;
-        padding: 0;
-        /deep/ .material-design-icon {
-          display: flex;
-        }
-      }
-      &.disabled {
-        &.del,
-        /deep/ .button {
-          opacity: 0.3;
-          pointer-events: none;
-        }
       }
       &.active {
         /deep/ .button {
           background-color: $light-grey-color;
+        }
+      }
+      &.disabled {
+        /deep/ .button {
+          opacity: 0.3;
+          pointer-events: none;
         }
       }
     }
@@ -232,9 +184,9 @@ export default {
       display: flex;
       flex-direction: column;
       max-width: 105px;
-      .table-pagination-info-item {
-        padding: 5px 10px 5px 0;
-      }
+    }
+    .table-pagination-info-item {
+      padding: 5px 10px 5px 0;
     }
   }
 }

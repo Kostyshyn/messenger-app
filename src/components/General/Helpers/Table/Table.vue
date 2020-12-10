@@ -128,10 +128,7 @@ export default {
       };
     },
     tableSlotsStyle() {
-      const { tableWidth } = this;
-      return {
-        'max-width': Math.floor(tableWidth) + 'px'
-      };
+      return {};
     },
     tableScrollStyle() {
       const {
