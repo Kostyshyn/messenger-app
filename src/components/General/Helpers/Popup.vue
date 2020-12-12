@@ -105,11 +105,12 @@ export default {
         this.close();
       }
     },
-    setQuery(query) {
+    setQuery({ popup, ...rest }, reset = false) {
       if (!this.options.keepOpen) {
         return;
       }
       const { query: currentQuery } = this.$route;
+      const query = reset ? { ...rest } : { ...currentQuery, popup };
       if (!this._.isEqual(query, currentQuery)) {
         this.$router.push({ query });
       }
@@ -139,7 +140,7 @@ export default {
     }
   },
   beforeDestroy() {
-    this.setQuery({});
+    this.setQuery({ ...this.$route.query }, true);
   }
 };
 </script>

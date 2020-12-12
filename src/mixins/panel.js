@@ -51,19 +51,34 @@ export default {
       this.limit = limit || 50;
       this.sort = sort || { createdAt: 'desc' }; // default sort type
       this.keyword = keyword || '';
+    },
+    queryWatcher(data, oldData) {
+      const { page, limit, sort, keyword } = qs.parse(data);
+      const {
+        page: oldPage,
+        limit: oldLimit,
+        sort: oldSort,
+        keyword: oldKeyword
+      } = qs.parse(oldData);
+      if (
+        oldData === undefined ||
+        (page !== oldPage &&
+          limit !== oldLimit &&
+          keyword !== oldKeyword &&
+          !this._.isEqual(sort, oldSort))
+      ) {
+        this.page = page ? parseInt(page) : this.page;
+        this.limit = limit ? parseInt(limit) : this.limit;
+        this.sort = sort || { createdAt: 'desc' }; // default sort type
+        this.keyword = keyword || '';
+      }
     }
   },
   watch: {
     '$route.query': {
       deep: true,
       immediate: true,
-      handler(data) {
-        const { page, limit, sort, keyword } = qs.parse(data);
-        this.page = page ? parseInt(page) : this.page;
-        this.limit = limit ? parseInt(limit) : this.limit;
-        this.sort = sort || { createdAt: 'desc' }; // default sort type
-        this.keyword = keyword || '';
-      }
+      handler: 'queryWatcher'
     }
   },
   mounted() {}
