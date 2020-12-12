@@ -16,7 +16,10 @@ export const globalGuard = async ({ query }, { name: nameFrom }, next) => {
   next();
   await store.dispatch('app/setSidebarState', false);
   if (popup) {
-    await store.dispatch('popup/openPopup', popup);
+    const { name } = store.getters['popup/popup'];
+    if (popup !== name) {
+      await store.dispatch('popup/openPopup', { type: popup });
+    }
   } else {
     await store.dispatch('popup/closePopup');
   }

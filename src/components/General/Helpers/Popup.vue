@@ -10,7 +10,13 @@
           <Icon name="clear" />
         </div>
       </div>
-      <component :is="popup.component" v-bind="popup.data" />
+      <component
+        ref="popupComponent"
+        :is="popup.component"
+        :popupData="popup.data"
+        :callback="popup.callback"
+        @close="close"
+      />
     </div>
     <Overlay @click.native="handleBackdropClick" />
   </div>
@@ -52,11 +58,12 @@ export default {
   data() {
     return {
       show: false,
-      nestedData: {},
+      title: '',
       backAction: null,
       options: {
         close: true,
         backdrop: true,
+        keepOpen: true,
         ...this.popup.options
       }
     };
@@ -69,8 +76,8 @@ export default {
     showPopup() {
       return this.popup.component && this.show;
     },
-    title() {
-      return this.nestedData.title;
+    nestedData() {
+      return this.popup.component.data();
     },
     popupStyle() {
       return {
@@ -99,6 +106,9 @@ export default {
       }
     },
     setQuery(query) {
+      if (!this.options.keepOpen) {
+        return;
+      }
       const { query: currentQuery } = this.$route;
       if (!this._.isEqual(query, currentQuery)) {
         this.$router.push({ query });
@@ -107,11 +117,14 @@ export default {
   },
   watch: {},
   mounted() {
+    const { popupComponent } = this.$refs;
+    if (popupComponent) {
+      this.title = popupComponent.title || '';
+    }
     const { name } = this.popup;
     this.setQuery({
       popup: name
     });
-    this.nestedData = this.popup.component.data();
     const { backAction } = this.popup.component.methods;
     if (backAction && typeof backAction === 'function') {
       this.backAction = backAction;

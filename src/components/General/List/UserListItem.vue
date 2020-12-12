@@ -92,6 +92,7 @@ export default {
       margin-bottom: 4px;
     }
     .item-text {
+      line-height: 18px;
       font-size: $list-text-item-font-sm;
     }
   }

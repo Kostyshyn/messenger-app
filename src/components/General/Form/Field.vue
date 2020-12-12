@@ -39,7 +39,7 @@
 
 <script>
 // @ is an alias to /src
-import ErrorsList from '@/components/General/Form/ErrorsList';
+import ErrorsList from '@/components/General/Form/ErrorsList.vue';
 const TYPES = ['text', 'email', 'password'];
 
 export default {

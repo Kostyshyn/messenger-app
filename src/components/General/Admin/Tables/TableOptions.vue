@@ -3,6 +3,7 @@
     :items="options"
     :show="showOptions"
     @toggle="showOptions = $event"
+    @action="$emit('action', $event)"
   />
 </template>
 
@@ -15,19 +16,14 @@ export default {
   components: {
     DropdownList
   },
-  props: {},
+  props: {
+    options: {
+      type: Array,
+      default: () => []
+    }
+  },
   data() {
     return {
-      options: [
-        {
-          label: 'Edit',
-          icon: 'edit'
-        },
-        {
-          label: 'Delete',
-          icon: 'delete'
-        }
-      ],
       showOptions: false
     };
   }

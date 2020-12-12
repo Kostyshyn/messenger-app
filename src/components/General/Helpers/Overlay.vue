@@ -51,7 +51,7 @@ export default {
   width: 100%;
   height: 100%;
   z-index: 9;
-  background: rgba(0, 0, 0, 0.5);
+  background: $black-color-transparent;
   left: 0;
   top: 0;
   &.blur {

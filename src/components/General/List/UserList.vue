@@ -5,11 +5,7 @@
       :user="user"
       className="user-list-item"
       :key="index"
-    >
-      <template slot="text">
-        {{ user.last_seen | moment('H:mm, D MMMM') }}
-      </template>
-    </UserListItem>
+    />
   </List>
 </template>
 

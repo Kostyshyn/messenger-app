@@ -111,10 +111,10 @@ export default {
       this.$router.push('/admin-panel');
     },
     openContacts() {
-      this.openPopup('contacts');
+      this.openPopup({ type: 'contacts' });
     },
     openSettings() {
-      this.openPopup('settings');
+      this.openPopup({ type: 'settings' });
     },
     logout() {
       this.toggle(false);

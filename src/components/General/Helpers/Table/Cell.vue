@@ -2,13 +2,14 @@
   <div
     class="table-cell"
     :class="[colType, { header, fixedHeader, sort, activeSort }]"
+    :style="cellStyle"
   >
     <div class="cell-content">
       <slot />
     </div>
-    <div v-if="header && sort" class="cell-sort">
-      <MenuDown v-if="sortValue === sortValues[0]" />
-      <MenuUp v-if="sortValue === sortValues[1]" />
+    <div v-if="header && sort && activeSort" class="cell-sort">
+      <MenuUp v-if="sortValue === sortValues[0]" />
+      <MenuDown v-if="sortValue === sortValues[1]" />
     </div>
   </div>
 </template>
@@ -51,11 +52,24 @@ export default {
     sortValues: {
       type: Array,
       default: () => []
+    },
+    offsetFromHeader: {
+      type: Number,
+      default: 0
     }
   },
   computed: {
     colType() {
       return this.header ? '' : `col-type-${this.type}`;
+    },
+    cellStyle() {
+      const { header, fixedHeader, offsetFromHeader } = this;
+      if (header && fixedHeader) {
+        return {
+          top: `${offsetFromHeader}px`
+        };
+      }
+      return {};
     }
   }
 };
@@ -68,9 +82,6 @@ export default {
   min-height: 47px;
   box-sizing: border-box;
   background-color: $white-background-color;
-  &:last-child {
-    border-bottom: none;
-  }
   &.col-type-index,
   &.col-type-text {
     .cell-content {
@@ -84,7 +95,7 @@ export default {
     .cell-content {
       color: $black-font-color;
       min-width: 100px;
-      max-width: 200px;
+      max-width: 250px;
       @include truncate-text;
     }
   }

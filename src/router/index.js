@@ -26,6 +26,8 @@ import AdminPanel from '@/views/AdminPanel.vue';
 import SummaryPanel from '@/views/admin/SummaryPanel.vue';
 import UsersPanel from '@/views/admin/UsersPanel.vue';
 import OriginsPanel from '@/views/admin/OriginsPanel.vue';
+import RequestsPanel from '@/views/admin/RequestPanel/RequestsPanel.vue';
+import RequestInfo from '@/views/admin/RequestPanel/RequestInfo.vue';
 
 Vue.use(VueRouter);
 
@@ -45,7 +47,6 @@ const routes = [
   //
   {
     path: '/admin-panel',
-    name: 'AdminPanel',
     component: AdminPanel,
     beforeEnter: adminGuard,
     children: [
@@ -63,6 +64,16 @@ const routes = [
         path: 'origins',
         name: 'OriginsPanel',
         component: OriginsPanel
+      },
+      {
+        path: 'requests',
+        name: 'RequestsPanel',
+        component: RequestsPanel
+      },
+      {
+        path: 'requests/:id',
+        name: 'RequestInfo',
+        component: RequestInfo
       }
     ]
   },

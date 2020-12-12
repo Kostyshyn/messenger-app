@@ -1,13 +1,14 @@
 <template>
   <div>
-    <h1>Users</h1>
-    <UsersTable
-      :users="users"
+    <h1>Requests</h1>
+    <RequestsTable
+      :requests="requests"
       :keyword="keyword"
       :sort="sort"
       :requestProcessing="requestProcessing"
-      @sortUsers="sortItems"
-      @searchUsers="searchItems"
+      @sortRequests="sortItems"
+      @searchRequests="searchItems"
+      @updateRequests="getRequests"
       @pageChange="page = $event"
     />
   </div>
@@ -15,40 +16,45 @@
 
 <script>
 // @ is an alias to /src
-import UsersTable from '@/components/General/Admin/Tables/UsersTable.vue';
+import RequestsTable from '@/components/General/Admin/Tables/RequestsTable.vue';
 import api from '@/services/api';
 import panel from '@/mixins/panel';
 
 export default {
-  name: 'UsersPanel',
+  name: 'RequestsPanel',
   components: {
-    UsersTable
+    RequestsTable
   },
   mixins: [panel],
   data() {
     return {
-      users: {
+      requests: {
         data: []
       },
       requestProcessing: false,
-      // override request options
-      limit: 10
+      intervalDelay: 5000,
+      intervalId: null
     };
   },
   computed: {},
   methods: {
-    async getUsers(params = {}) {
+    async getRequests(params = {}) {
       if (this.requestProcessing) {
         return;
       }
       try {
         this.requestProcessing = true;
-        this.users = await api.getUsersData(params);
+        this.requests = await api.getRequestsData(params);
       } catch (err) {
         console.log(err);
       } finally {
         this.requestProcessing = false;
       }
+    },
+    startPoll() {
+      this.intervalId = setInterval(() => {
+        this.getRequests(this.query);
+      }, this.intervalDelay);
     }
   },
   watch: {
@@ -57,10 +63,16 @@ export default {
       immediate: true,
       handler(data) {
         this.setQuery(data);
-        this.getUsers(data);
+        this.getRequests(data);
       }
     }
   },
-  created() {}
+  mounted() {},
+  created() {
+    // this.startPoll();
+  },
+  beforeDestroy() {
+    // clearInterval(this.intervalId);
+  }
 };
 </script>
