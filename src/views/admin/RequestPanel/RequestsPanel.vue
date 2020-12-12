@@ -3,6 +3,8 @@
     <h1>Requests</h1>
     <RequestsTable
       :requests="requests"
+      :keyword="keyword"
+      :sort="sort"
       :requestProcessing="requestProcessing"
       @sortRequests="sortItems"
       @searchRequests="searchItems"
@@ -58,15 +60,14 @@ export default {
   watch: {
     query: {
       deep: true,
+      immediate: true,
       handler(data) {
         this.setQuery(data);
         this.getRequests(data);
       }
     }
   },
-  mounted() {
-    this.getRequests(this.query);
-  },
+  mounted() {},
   created() {
     // this.startPoll();
   },

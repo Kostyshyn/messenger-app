@@ -25,7 +25,7 @@
             #
           </Cell>
           <Cell v-for="(cell, i) in data" type="index" :key="i">
-            {{ i + 1 }}
+            {{ indexMultiplier + i + 1 }}
           </Cell>
         </Column>
         <Column v-for="(col, i) in columns" :className="col.key" :key="i">
@@ -87,21 +87,44 @@ export default {
       type: Boolean,
       default: false
     },
+    indexMultiplier: {
+      type: Number,
+      default: 0
+    },
     fixedHeader: {
       type: Boolean,
       default: false
     },
     columns: {
       type: Array,
-      default: () => []
+      default() {
+        return [];
+      }
     },
     data: {
       type: Array,
-      default: () => []
+      default() {
+        return [];
+      }
     },
     requestProcessing: {
       type: Boolean,
       default: false
+    },
+    sort: {
+      type: Object,
+      validator(sortObj) {
+        const values = Object.values(sortObj);
+        if (values.length) {
+          const [value] = values;
+          return ['', ...SORT_VALUES].includes(value);
+        }
+        return true;
+      },
+      default: () => ({
+        key: '',
+        value: DEF_SORT_VALUE
+      })
     }
   },
   data() {
@@ -112,7 +135,7 @@ export default {
       },
       sortValues: SORT_VALUES,
       tableWidth: 0,
-      offsetBottom: 20,
+      offsetBottom: 19,
       maxHeight: 0,
       offsetFromHeader: 0,
       offsetFromFooter: 0
@@ -167,7 +190,6 @@ export default {
             value: switchSort(DEF_SORT_VALUE)
           };
         }
-        this.scrollToTop();
         this.$emit('sort', this.currentSort);
       }
       this.$emit('click', col);
@@ -207,8 +229,22 @@ export default {
     }
   },
   watch: {
-    requestProcessing() {
+    requestProcessing(data) {
       this.setSlotsWidth();
+      if (!data) {
+        this.scrollToTop();
+      }
+    },
+    sort: {
+      deep: true,
+      immediate: true,
+      handler(data) {
+        const entries = Object.entries(data);
+        if (entries.length) {
+          const [[key, value]] = entries;
+          this.currentSort = { key, value };
+        }
+      }
     }
   },
   mounted() {

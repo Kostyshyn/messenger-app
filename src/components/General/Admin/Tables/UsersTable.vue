@@ -5,24 +5,34 @@
       fixedHeader
       :data="users.data"
       :columns="columns"
+      :sort="sort"
       :requestProcessing="requestProcessing"
+      :indexMultiplier="indexMultiplier"
       className="users-table"
-      width="fit-content"
       @sort="$emit('sortUsers', $event)"
     >
       <template #header>
         <div class="search-users">
-          <SearchField placeholder="Search users" v-model="keyword" />
+          <SearchField
+            placeholder="Search users"
+            :value="keyword"
+            @input="debouncedSearchUsers"
+          />
         </div>
+      </template>
+      <template #cell="{ col, cell }">
+        <template v-if="col.type === 'date'">
+          {{ cell[col.key] | moment('D.MM.YY, H:mm') }}
+        </template>
+        <template v-else>
+          {{ cell[col.key] }}
+        </template>
       </template>
       <template #profile_image="{ cell }">
         <UserImage :border="cell.online" :image="image(cell)" />
       </template>
       <template #role="{ cell }">
         <Chip flat v-bind="role(cell)" />
-      </template>
-      <template #last_seen="{ col, cell }">
-        {{ cell[col.key] | moment('D.MM.YY, H:mm') }}
       </template>
       <template #options="{ cell }">
         <TableOptions :options="options" @action="action($event, cell)" />
@@ -62,9 +72,26 @@ export default {
     TableOptions
   },
   props: {
+    keyword: {
+      type: String,
+      default: ''
+    },
+    sort: {
+      type: Object,
+      default() {
+        return {};
+      }
+    },
     users: {
       type: Object,
-      default: () => {}
+      default: () => ({
+        limit: 10,
+        nextPage: false,
+        page: 1,
+        prevPage: false,
+        total: 0,
+        totalPages: 1
+      })
     },
     requestProcessing: {
       type: Boolean,
@@ -107,14 +134,20 @@ export default {
         {
           label: 'Last seen',
           key: 'last_seen',
-          sort: true
+          sort: true,
+          type: 'date'
+        },
+        {
+          label: 'Created at',
+          key: 'createdAt',
+          sort: true,
+          type: 'date'
         },
         {
           key: 'options',
           type: 'options'
         }
       ],
-      keyword: '',
       delay: 200,
       imageSizeSuffix: config.IMAGES.USER_LIST_IMAGE_SIZE,
       userRolesHash: {
@@ -137,7 +170,8 @@ export default {
           type: 'delete',
           icon: 'delete'
         }
-      ]
+      ],
+      debouncedSearchUsers: () => {}
     };
   },
   computed: {
@@ -145,7 +179,11 @@ export default {
       settings: 'app/settings',
       baseUrl: 'app/baseUrl',
       token: 'user/token'
-    })
+    }),
+    indexMultiplier() {
+      const { limit, page } = this.users;
+      return limit * (page - 1);
+    }
   },
   methods: {
     image(user) {
@@ -167,16 +205,11 @@ export default {
       }
       return {};
     },
-    searchUsers() {
-      this.$emit('searchUsers', this.keyword);
+    searchUsers(keyword) {
+      this.$emit('searchUsers', keyword);
     },
     action({ type }, user) {
       console.log('action', type, user);
-    }
-  },
-  watch: {
-    keyword() {
-      this.debouncedSearchUsers();
     }
   },
   created() {
@@ -217,6 +250,18 @@ export default {
           padding: 0 15px;
           width: 100%;
         }
+      }
+    }
+    /deep/ .col-type-date {
+      padding: 15px;
+      font-size: 16px;
+      line-height: 16px;
+      box-sizing: border-box;
+      .cell-content {
+        color: $black-font-color;
+        min-width: 100px;
+        max-width: 250px;
+        @include truncate-text;
       }
     }
     /deep/ .options {

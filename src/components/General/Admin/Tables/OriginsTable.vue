@@ -5,14 +5,20 @@
       fixedHeader
       :data="origins.data"
       :columns="columns"
+      :sort="sort"
       :requestProcessing="requestProcessing"
+      :indexMultiplier="indexMultiplier"
       className="origins-table"
       @sort="$emit('sortOrigins', $event)"
     >
       <template #header>
         <div class="origins-table-header">
           <div class="search-origins">
-            <SearchField placeholder="Search origins" v-model="keyword" />
+            <SearchField
+              placeholder="Search origins"
+              :value="keyword"
+              @input="debouncedSearchOrigins"
+            />
           </div>
           <div class="origins-table-header-buttons">
             <Button color="primary" ripple @click="createOrigin">
@@ -75,9 +81,26 @@ export default {
     Plus
   },
   props: {
+    keyword: {
+      type: String,
+      default: ''
+    },
+    sort: {
+      type: Object,
+      default() {
+        return {};
+      }
+    },
     origins: {
       type: Object,
-      default: () => {}
+      default: () => ({
+        limit: 10,
+        nextPage: false,
+        page: 1,
+        prevPage: false,
+        total: 0,
+        totalPages: 1
+      })
     },
     requestProcessing: {
       type: Boolean,
@@ -122,7 +145,6 @@ export default {
           type: 'options'
         }
       ],
-      keyword: '',
       delay: 200,
       options: [
         {
@@ -135,18 +157,23 @@ export default {
           type: 'deleteOrigin',
           icon: 'delete'
         }
-      ]
+      ],
+      debouncedSearchOrigins: () => {}
     };
   },
   computed: {
-    ...mapGetters({})
+    ...mapGetters({}),
+    indexMultiplier() {
+      const { limit, page } = this.origins;
+      return limit * (page - 1);
+    }
   },
   methods: {
     ...mapActions({
       openPopup: 'popup/openPopup'
     }),
-    searchOrigins() {
-      this.$emit('searchOrigins', this.keyword);
+    searchOrigins(keyword) {
+      this.$emit('searchOrigins', keyword);
     },
     action({ type }, origin) {
       if (type && this[type]) {
@@ -193,11 +220,7 @@ export default {
       return 0;
     }
   },
-  watch: {
-    keyword() {
-      this.debouncedSearchOrigins();
-    }
-  },
+  watch: {},
   created() {
     this.debouncedSearchOrigins = debounce(this.searchOrigins, this.delay);
   }

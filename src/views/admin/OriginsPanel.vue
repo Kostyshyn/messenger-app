@@ -3,10 +3,12 @@
     <h1>Origins</h1>
     <OriginsTable
       :origins="origins"
+      :keyword="keyword"
+      :sort="sort"
       :requestProcessing="requestProcessing"
       @sortOrigins="sortItems"
       @searchOrigins="searchItems"
-      @updateOrigins="getOrigins"
+      @updateOrigins="updateOrigins"
       @pageChange="page = $event"
     />
   </div>
@@ -29,7 +31,9 @@ export default {
       origins: {
         data: []
       },
-      requestProcessing: false
+      requestProcessing: false,
+      // override request options
+      limit: 10
     };
   },
   computed: {},
@@ -46,19 +50,21 @@ export default {
       } finally {
         this.requestProcessing = false;
       }
+    },
+    updateOrigins() {
+      this.resetItems({ limit: 10 });
     }
   },
   watch: {
     query: {
       deep: true,
+      immediate: true,
       handler(data) {
         this.setQuery(data);
         this.getOrigins(data);
       }
     }
   },
-  mounted() {
-    this.getOrigins(this.query);
-  }
+  mounted() {}
 };
 </script>

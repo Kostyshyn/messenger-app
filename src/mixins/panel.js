@@ -41,21 +41,30 @@ export default {
       return {
         page: page ? parseInt(page) : this.page,
         limit: limit ? parseInt(limit) : this.limit,
-        sort,
-        keyword
+        sort: sort || {},
+        keyword: keyword || ''
       };
     },
-    populateQuery() {
-      const query = this.getQuery();
-      this.setQuery(query).then(() => {
-        this.page = query.page;
-        this.limit = query.limit;
-        this.sort = query.sort;
-        this.keyword = query.keyword;
-      });
+    resetItems(params = {}) {
+      const { page, limit, sort, keyword } = params;
+      this.page = page || 1;
+      this.limit = limit || 50;
+      this.sort = sort || { createdAt: 'desc' }; // default sort type
+      this.keyword = keyword || '';
     }
   },
-  mounted() {
-    this.populateQuery();
-  }
+  watch: {
+    '$route.query': {
+      deep: true,
+      immediate: true,
+      handler(data) {
+        const { page, limit, sort, keyword } = qs.parse(data);
+        this.page = page ? parseInt(page) : this.page;
+        this.limit = limit ? parseInt(limit) : this.limit;
+        this.sort = sort || { createdAt: 'desc' }; // default sort type
+        this.keyword = keyword || '';
+      }
+    }
+  },
+  mounted() {}
 };

@@ -7,9 +7,9 @@
     <div class="cell-content">
       <slot />
     </div>
-    <div v-if="header && sort" class="cell-sort">
-      <MenuDown v-if="sortValue === sortValues[0]" />
-      <MenuUp v-if="sortValue === sortValues[1]" />
+    <div v-if="header && sort && activeSort" class="cell-sort">
+      <MenuUp v-if="sortValue === sortValues[0]" />
+      <MenuDown v-if="sortValue === sortValues[1]" />
     </div>
   </div>
 </template>

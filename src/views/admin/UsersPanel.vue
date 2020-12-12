@@ -3,9 +3,11 @@
     <h1>Users</h1>
     <UsersTable
       :users="users"
+      :keyword="keyword"
+      :sort="sort"
       :requestProcessing="requestProcessing"
-      @sortUsers="sortUsers"
-      @searchUsers="searchUsers"
+      @sortUsers="sortItems"
+      @searchUsers="searchItems"
       @pageChange="page = $event"
     />
   </div>
@@ -15,30 +17,25 @@
 // @ is an alias to /src
 import UsersTable from '@/components/General/Admin/Tables/UsersTable.vue';
 import api from '@/services/api';
+import panel from '@/mixins/panel';
 
 export default {
   name: 'UsersPanel',
   components: {
     UsersTable
   },
+  mixins: [panel],
   data() {
     return {
       users: {
         data: []
       },
       requestProcessing: false,
-      page: 1,
-      limit: 10,
-      sort: {},
-      keyword: ''
+      // override request options
+      limit: 10
     };
   },
-  computed: {
-    query() {
-      const { page, limit, sort, keyword } = this;
-      return { page, limit, sort, keyword };
-    }
-  },
+  computed: {},
   methods: {
     async getUsers(params = {}) {
       if (this.requestProcessing) {
@@ -52,14 +49,6 @@ export default {
       } finally {
         this.requestProcessing = false;
       }
-    },
-    searchUsers(val) {
-      this.page = 1;
-      this.keyword = val;
-    },
-    sortUsers({ key, value }) {
-      this.page = 1;
-      this.sort = { [key]: value };
     }
   },
   watch: {
@@ -67,6 +56,7 @@ export default {
       deep: true,
       immediate: true,
       handler(data) {
+        this.setQuery(data);
         this.getUsers(data);
       }
     }

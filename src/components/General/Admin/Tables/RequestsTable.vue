@@ -5,14 +5,20 @@
       fixedHeader
       :data="requests.data"
       :columns="columns"
+      :sort="sort"
       :requestProcessing="requestProcessing"
+      :indexMultiplier="indexMultiplier"
       className="requests-table"
       @sort="$emit('sortRequests', $event)"
     >
       <template #header>
         <div class="requests-table-header">
           <div class="search-requests">
-            <SearchField placeholder="Search requests" v-model="keyword" />
+            <SearchField
+              placeholder="Search requests"
+              :value="keyword"
+              @input="debouncedSearchRequests"
+            />
           </div>
         </div>
       </template>
@@ -82,9 +88,26 @@ export default {
     TableOptions
   },
   props: {
+    keyword: {
+      type: String,
+      default: ''
+    },
+    sort: {
+      type: Object,
+      default() {
+        return {};
+      }
+    },
     requests: {
       type: Object,
-      default: () => {}
+      default: () => ({
+        limit: 10,
+        nextPage: false,
+        page: 1,
+        prevPage: false,
+        total: 0,
+        totalPages: 1
+      })
     },
     requestProcessing: {
       type: Boolean,
@@ -131,7 +154,6 @@ export default {
           type: 'options'
         }
       ],
-      keyword: '',
       delay: 200,
       options: [],
       methodsHash: {
@@ -151,18 +173,23 @@ export default {
           label: 'DELETE',
           color: 'error'
         }
-      }
+      },
+      debouncedSearchRequests: () => {}
     };
   },
   computed: {
-    ...mapGetters({})
+    ...mapGetters({}),
+    indexMultiplier() {
+      const { limit, page } = this.requests;
+      return limit * (page - 1);
+    }
   },
   methods: {
     ...mapActions({
       openPopup: 'popup/openPopup'
     }),
-    searchRequests() {
-      this.$emit('searchRequests', this.keyword);
+    searchRequests(keyword) {
+      this.$emit('searchRequests', keyword);
     },
     action({ type }, request) {
       if (type && this[type]) {
@@ -210,11 +237,7 @@ export default {
       return [];
     }
   },
-  watch: {
-    keyword() {
-      this.debouncedSearchRequests();
-    }
-  },
+  watch: {},
   created() {
     this.debouncedSearchRequests = debounce(this.searchRequests, this.delay);
   }
