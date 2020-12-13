@@ -1,5 +1,11 @@
 <template>
-  <router-link v-if="to" :to="to" class="list-item link" :class="className">
+  <router-link
+    v-if="to"
+    :exact="exact"
+    :to="to"
+    class="list-item link"
+    :class="className"
+  >
     <slot />
   </router-link>
   <div v-else class="list-item" :class="className">
@@ -19,6 +25,10 @@ export default {
     to: {
       type: String,
       default: ''
+    },
+    exact: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -35,7 +45,7 @@ export default {
   cursor: pointer;
   &.link {
     text-decoration: none;
-    &.router-link-exact-active {
+    &.router-link-active {
       background-color: $light-grey-color;
     }
   }

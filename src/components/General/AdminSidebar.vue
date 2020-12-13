@@ -39,12 +39,14 @@ export default {
         {
           label: 'Application',
           link: '/',
-          icon: 'exit_to_app'
+          icon: 'exit_to_app',
+          exact: true
         },
         {
           label: 'Dashboard',
-          link: '/admin-panel/dashboard',
-          icon: 'assessment'
+          link: '/admin-panel',
+          icon: 'assessment',
+          exact: true
         },
         {
           label: 'Users',
