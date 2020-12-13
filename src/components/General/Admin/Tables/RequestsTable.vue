@@ -77,6 +77,7 @@ import TableOptions from '@/components/General/Admin/Tables/TableOptions.vue';
 import { mapActions, mapGetters } from 'vuex';
 import debounce from '@/utils/debounce';
 import { percentage } from '@/utils/math';
+import config from '@/config';
 
 export default {
   name: 'RequestsTable',
@@ -219,17 +220,25 @@ export default {
           : 0;
       return [color];
     },
-    responseTimeClass({ url, method, responseTime }) {
+    responseTimeClass({ url, method, statusCode, responseTime }) {
       const { meta } = this.requests;
       const requestMeta = meta.find(({ _id }) => {
-        return _id.url === url && _id.method === method;
+        return (
+          _id.url === url &&
+          _id.method === method &&
+          _id.statusCode === statusCode
+        );
       });
       if (requestMeta) {
         const per = percentage(responseTime, requestMeta['responseTime']);
+        const {
+          REQUESTS: { RESPONSE_TIME_LIMITS }
+        } = config.ADMIN;
+        // responseTime limits
         const color =
-          per >= 200
+          per >= RESPONSE_TIME_LIMITS.CRITICAL
             ? 'text-error'
-            : per >= 110
+            : per >= RESPONSE_TIME_LIMITS.WARNING
             ? 'text-warning'
             : 'text-success';
         return [color];

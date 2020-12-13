@@ -74,3 +74,11 @@ export const getRequestsData = async function({ api }, params) {
     return Promise.reject(err.data);
   }
 };
+
+export const getRequest = async function({ api }, id) {
+  try {
+    return await api.get(`${ADMIN_MODULE}/requests/${id}`);
+  } catch (err) {
+    return Promise.reject(err.data);
+  }
+};

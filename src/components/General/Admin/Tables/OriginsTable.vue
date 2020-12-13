@@ -129,14 +129,14 @@ export default {
           key: 'totalRequests'
         },
         {
-          label: 'Created at',
-          key: 'createdAt',
+          label: 'Updated at',
+          key: 'updatedAt',
           sort: true,
           type: 'date'
         },
         {
-          label: 'Updated at',
-          key: 'updatedAt',
+          label: 'Created at',
+          key: 'createdAt',
           sort: true,
           type: 'date'
         },

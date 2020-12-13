@@ -125,6 +125,10 @@ export default {
         key: '',
         value: DEF_SORT_VALUE
       })
+    },
+    fullPage: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -137,17 +141,37 @@ export default {
       tableWidth: 0,
       offsetBottom: 19,
       maxHeight: 0,
+      scrollHeight: 0,
       offsetFromHeader: 0,
       offsetFromFooter: 0
     };
   },
   computed: {
     tableStyle() {
-      const { width, maxHeight } = this;
+      const {
+        width,
+        maxHeight,
+        fullPage,
+        offsetFromHeader: top,
+        offsetFromFooter: bottom,
+        scrollHeight
+      } = this;
+      if (fullPage) {
+        return {
+          width,
+          maxHeight: `calc(100vh - ${maxHeight}px)`,
+          height: `calc(100vh - ${maxHeight}px)`
+        };
+      }
+      const maxHeightCalc = window.innerHeight - maxHeight;
+      const minHeightCalc = scrollHeight + top + bottom;
+      const minHeight =
+        minHeightCalc > maxHeightCalc ? maxHeightCalc : minHeightCalc;
       return {
         width,
         maxHeight: `calc(100vh - ${maxHeight}px)`,
-        height: `calc(100vh - ${maxHeight}px)`
+        minHeight: `${minHeight}px`,
+        height: 'auto'
       };
     },
     tableSlotsStyle() {
@@ -157,15 +181,41 @@ export default {
       const {
         offsetFromHeader: top,
         offsetFromFooter: bottom,
-        maxHeight
+        maxHeight,
+        fullPage,
+        scrollHeight
       } = this;
+      const fullPageDelta = maxHeight + top + bottom;
+      if (fullPage) {
+        return {
+          top: `${top}px`,
+          height: `calc(100vh - ${fullPageDelta}px)`
+        };
+      }
+      const maxHeightCalc = window.innerHeight - fullPageDelta;
+      const heightCalc =
+        scrollHeight >= maxHeightCalc
+          ? `calc(100vh - ${fullPageDelta}px)`
+          : 'auto';
       return {
         top: `${top}px`,
-        height: `calc(100vh - ${maxHeight + top + bottom}px)`
+        height: heightCalc
       };
     },
     overlayStyle() {
-      return this.tableScrollStyle;
+      const {
+        fullPage,
+        tableScrollStyle,
+        offsetFromHeader: top,
+        scrollHeight
+      } = this;
+      if (fullPage) {
+        return tableScrollStyle;
+      }
+      return {
+        top: `${top}px`,
+        height: `${scrollHeight}px`
+      };
     }
   },
   methods: {
@@ -203,6 +253,12 @@ export default {
         scrollTable.scrollTop = 0;
       }
     },
+    setScrollHeight() {
+      const { scrollTable } = this.$refs;
+      if (scrollTable) {
+        this.scrollHeight = scrollTable.offsetHeight;
+      }
+    },
     setMaxHeight() {
       const { tableWrapper } = this.$refs;
       if (tableWrapper) {
@@ -233,6 +289,9 @@ export default {
       this.setSlotsWidth();
       if (!data) {
         this.scrollToTop();
+        this.$nextTick(() => {
+          this.setScrollHeight();
+        });
       }
     },
     sort: {
@@ -250,6 +309,7 @@ export default {
   mounted() {
     this.setMaxHeight();
     this.setOffsets();
+    this.setScrollHeight();
     this.setSlotsWidth();
   }
 };
