@@ -138,6 +138,12 @@ export default {
           type: 'date'
         },
         {
+          label: 'Updated at',
+          key: 'updatedAt',
+          sort: true,
+          type: 'date'
+        },
+        {
           label: 'Created at',
           key: 'createdAt',
           sort: true,

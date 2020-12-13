@@ -1,16 +1,22 @@
 <template>
-  <h1>Request: {{ $route.params.id }}</h1>
+  <div>
+    <h1>Request: {{ request.url }}</h1>
+  </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import { mapGetters, mapActions } from 'vuex';
+import api from '@/services/api';
 
 export default {
   name: 'RequestInfo',
   components: {},
   data() {
-    return {};
+    return {
+      request: {},
+      requestProcessing: false
+    };
   },
   computed: {
     ...mapGetters({
@@ -18,7 +24,27 @@ export default {
     })
   },
   methods: {
-    ...mapActions({})
+    ...mapActions({}),
+    async getRequest(id) {
+      if (this.requestProcessing) {
+        return;
+      }
+      try {
+        this.requestProcessing = true;
+        const { requestLog } = await api.getRequest(id);
+        this.request = requestLog;
+      } catch (err) {
+        console.log(err);
+      } finally {
+        this.requestProcessing = false;
+      }
+    }
+  },
+  watch: {
+    '$route.params.id': {
+      immediate: true,
+      handler: 'getRequest'
+    }
   },
   created() {}
 };
