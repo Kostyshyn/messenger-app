@@ -1,6 +1,14 @@
 <template>
   <div>
     <h1>Request: {{ request.url }}</h1>
+    <ul>
+      <li>
+        Original url <b>{{ request.originalUrl }}</b>
+      </li>
+      <li>
+        IP address <b>{{ request.ip }}</b>
+      </li>
+    </ul>
   </div>
 </template>
 

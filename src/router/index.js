@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import qs from 'qs';
 import {
   globalGuard,
   pageGuard,
@@ -115,7 +116,18 @@ const routes = [
 
 const router = new VueRouter({
   mode: 'history',
-  routes
+  routes,
+  // set custom query resolver
+  parseQuery(query) {
+    return qs.parse(query);
+  },
+  stringifyQuery(query) {
+    const q = qs.stringify(query, {
+      arrayFormat: 'brackets',
+      encode: false
+    });
+    return q ? '?' + q : '';
+  }
 });
 
 router.beforeEach(globalGuard);

@@ -1,5 +1,3 @@
-import qs from 'qs';
-
 export default {
   data() {
     return {
@@ -28,19 +26,16 @@ export default {
       if (this._.isEqual(query, this.getQuery())) {
         return;
       }
-      const q = qs.stringify(query, {
-        arrayFormat: 'brackets',
-        encode: true
-      });
       await this.$router.push({
-        path: `${this.$route.path}?${q}`
+        path: this.$route.path,
+        query
       });
     },
     getQuery() {
-      const { page, limit, sort, keyword } = qs.parse(this.$route.query);
+      const { page, limit, sort, keyword } = this.$route.query;
       return {
-        page: page ? parseInt(page) : this.page,
-        limit: limit ? parseInt(limit) : this.limit,
+        page: page ? parseInt(String(page)) : this.page,
+        limit: limit ? parseInt(String(limit)) : this.limit,
         sort: sort || {},
         keyword: keyword || ''
       };
@@ -53,13 +48,13 @@ export default {
       this.keyword = keyword || '';
     },
     queryWatcher(data, oldData) {
-      const { page, limit, sort, keyword } = qs.parse(data);
+      const { page, limit, sort, keyword } = data;
       const {
         page: oldPage,
         limit: oldLimit,
         sort: oldSort,
         keyword: oldKeyword
-      } = qs.parse(oldData);
+      } = oldData || {};
       if (
         oldData === undefined ||
         (page !== oldPage &&
