@@ -1,6 +1,7 @@
 <template>
   <ListItem
     :to="item.link"
+    :exact="item.exact"
     :className="className"
     @click.native="$emit('action')"
   >
