@@ -9,74 +9,30 @@
         IP address <b>{{ request.ip }}</b>
       </li>
     </ul>
-    <div class="request-origins-table-wrapper">
-      <Table
-        index
-        width="fit-content"
-        :fullPage="false"
-        :data="requestOrigins"
-        :columns="requestOriginsColumns"
-        className="request-origins-table"
-      >
-        <template #cell="{ col, cell }">
-          <template v-if="col.type === 'time'">
-            {{ cell[col.key] | roundMs }} ms
-          </template>
-          <template v-else>
-            {{ cell[col.key] }}
-          </template>
-        </template>
-        <template #origin="{ col, cell }">
-          <span :class="{ default: cell.isDefault }">
-            {{ cell[col.key] }}
-          </span>
-        </template>
-      </Table>
-    </div>
+    <RequestChart :chartData="dayChartData" />
+    <RequestOriginsTable :origins="requestOrigins" />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import Table from '@/components/General/Helpers/Table/Table.vue';
 import { mapGetters, mapActions } from 'vuex';
 import api from '@/services/api';
+import RequestOriginsTable from '@/components/General/Admin/Panels/RequestInfo/RequestOriginsTable.vue';
+import RequestChart from '@/components/General/Admin/Panels/RequestInfo/RequestChart.js';
+import { range } from '@/utils/math';
 
 export default {
   name: 'RequestInfo',
   components: {
-    Table
+    RequestOriginsTable,
+    RequestChart
   },
   data() {
     return {
       request: {},
       meta: {},
-      requestProcessing: false,
-      requestOriginsColumns: [
-        {
-          label: 'Origin',
-          key: 'origin'
-        },
-        {
-          label: 'Response time (avg.)',
-          key: 'avg',
-          type: 'time'
-        },
-        {
-          label: 'Min',
-          key: 'min',
-          type: 'time'
-        },
-        {
-          label: 'Max',
-          key: 'max',
-          type: 'time'
-        },
-        {
-          label: 'Total',
-          key: 'total'
-        }
-      ]
+      requestProcessing: false
     };
   },
   computed: {
@@ -95,6 +51,38 @@ export default {
         });
       }
       return [];
+    },
+    dayChartData() {
+      const { perDay } = this.meta;
+      const defDayNums = range(0, 6);
+      const labels = defDayNums.map(n => {
+        return this.$moment()
+          .day(n)
+          .format('dddd');
+      });
+      const data = [];
+      if (perDay) {
+        const dayNums = perDay.map(s => s._id);
+        const requests = perDay.map(s => s.total);
+        for (const i of defDayNums) {
+          const index = dayNums.indexOf(i);
+          if (index !== -1) {
+            data.push(requests[index]);
+          } else {
+            data.push(0);
+          }
+        }
+      }
+      return {
+        labels,
+        datasets: [
+          {
+            label: 'Data One',
+            backgroundColor: 'rgb(220, 220, 220)',
+            data
+          }
+        ]
+      };
     }
   },
   methods: {
@@ -115,11 +103,6 @@ export default {
       }
     }
   },
-  filters: {
-    roundMs(value) {
-      return Math.round(value);
-    }
-  },
   watch: {
     '$route.params.id': {
       immediate: true,
@@ -129,22 +112,4 @@ export default {
   created() {}
 };
 </script>
-<style scoped lang="scss">
-.request-info-wrapper {
-  .request-origins-table-wrapper {
-    padding: 20px 0;
-    /deep/ .col-type-time {
-      padding: 15px;
-      font-size: 16px;
-      line-height: 16px;
-      box-sizing: border-box;
-      .cell-content {
-        color: $black-font-color;
-        min-width: 100px;
-        max-width: 250px;
-        @include truncate-text;
-      }
-    }
-  }
-}
-</style>
+<style scoped lang="scss"></style>
