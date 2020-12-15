@@ -243,8 +243,9 @@ export default {
       const { tableWrapper } = this.$refs;
       if (tableWrapper) {
         const { top } = tableWrapper.getBoundingClientRect();
+        const { scrollY } = window;
         const { offsetBottom } = this;
-        this.maxHeight = top + offsetBottom;
+        this.maxHeight = top + scrollY + offsetBottom;
       }
     },
     setOffsets() {
