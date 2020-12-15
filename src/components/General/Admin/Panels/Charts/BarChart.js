@@ -3,6 +3,7 @@ const { Bar, mixins } = VueCharts;
 const { reactiveProp } = mixins;
 
 export default {
+  name: 'BarChart',
   extends: Bar,
   mixins: [reactiveProp],
   props: {

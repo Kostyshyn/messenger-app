@@ -31,7 +31,7 @@ import Table from '@/components/General/Helpers/Table/Table.vue';
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
-  name: 'RequestInfo',
+  name: 'RequestOriginsTable',
   components: {
     Table
   },
@@ -66,7 +66,7 @@ export default {
           type: 'time'
         },
         {
-          label: 'Total',
+          label: 'Requests',
           key: 'total'
         }
       ]

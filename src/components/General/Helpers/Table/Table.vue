@@ -1,7 +1,7 @@
 <template>
   <div
     class="table-wrapper"
-    :class="[className]"
+    :class="[className, { fullPage }]"
     :style="tableStyle"
     ref="tableWrapper"
   >
@@ -148,14 +148,7 @@ export default {
   },
   computed: {
     tableStyle() {
-      const {
-        width,
-        maxHeight,
-        fullPage,
-        offsetFromHeader: top,
-        offsetFromFooter: bottom,
-        scrollHeight
-      } = this;
+      const { width, maxHeight, fullPage } = this;
       if (fullPage) {
         return {
           width,
@@ -163,14 +156,8 @@ export default {
           height: `calc(100vh - ${maxHeight}px)`
         };
       }
-      const maxHeightCalc = window.innerHeight - maxHeight;
-      const minHeightCalc = scrollHeight + top + bottom;
-      const minHeight =
-        minHeightCalc > maxHeightCalc ? maxHeightCalc : minHeightCalc;
       return {
         width,
-        maxHeight: `calc(100vh - ${maxHeight}px)`,
-        minHeight: `${minHeight}px`,
         height: 'auto'
       };
     },
@@ -182,8 +169,7 @@ export default {
         offsetFromHeader: top,
         offsetFromFooter: bottom,
         maxHeight,
-        fullPage,
-        scrollHeight
+        fullPage
       } = this;
       const fullPageDelta = maxHeight + top + bottom;
       if (fullPage) {
@@ -192,14 +178,8 @@ export default {
           height: `calc(100vh - ${fullPageDelta}px)`
         };
       }
-      const maxHeightCalc = window.innerHeight - fullPageDelta;
-      const heightCalc =
-        scrollHeight >= maxHeightCalc
-          ? `calc(100vh - ${fullPageDelta}px)`
-          : 'auto';
       return {
-        top: `${top}px`,
-        height: heightCalc
+        height: 'auto'
       };
     },
     overlayStyle() {
@@ -330,14 +310,6 @@ export default {
     background-color: $pure-white-background-color;
     z-index: 1;
   }
-  .table-header {
-    position: sticky;
-    top: 0;
-  }
-  .table-footer {
-    position: absolute;
-    bottom: 0;
-  }
   .scroll-table {
     overflow: auto;
     &.requestProcessing {
@@ -346,6 +318,16 @@ export default {
     .table {
       display: flex;
       background-color: $white-background-color;
+    }
+  }
+  &.fullPage {
+    .table-header {
+      position: sticky;
+      top: 0;
+    }
+    .table-footer {
+      position: absolute;
+      bottom: 0;
     }
   }
   .table-overlay {
