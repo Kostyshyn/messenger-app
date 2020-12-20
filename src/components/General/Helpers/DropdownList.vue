@@ -76,7 +76,7 @@ export default {
 .item-icon {
   display: flex;
   font-size: 20px;
-  height: 28px;
+  height: 26px;
   width: 24px;
   align-items: center;
   justify-content: center;

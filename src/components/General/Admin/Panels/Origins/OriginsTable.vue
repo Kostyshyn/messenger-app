@@ -63,7 +63,7 @@
 import Table from '@/components/General/Helpers/Table/Table.vue';
 import TablePagination from '@/components/General/Helpers/Table/TablePagination.vue';
 import SearchField from '@/components/General/Form/SearchField.vue';
-import TableOptions from '@/components/General/Admin/Tables/TableOptions.vue';
+import TableOptions from '@/components/General/Admin/TableHelpers/TableOptions.vue';
 import Button from '@/components/General/Helpers/Button.vue';
 import Plus from 'vue-material-design-icons/Plus.vue';
 import { mapActions, mapGetters } from 'vuex';

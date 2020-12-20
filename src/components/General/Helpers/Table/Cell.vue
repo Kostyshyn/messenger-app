@@ -8,22 +8,22 @@
       <slot />
     </div>
     <div v-if="header && sort && activeSort" class="cell-sort">
-      <MenuUp v-if="sortValue === sortValues[0]" />
-      <MenuDown v-if="sortValue === sortValues[1]" />
+      <ArrowUp v-if="sortValue === sortValues[0]" />
+      <ArrowDown v-if="sortValue === sortValues[1]" />
     </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import MenuUp from 'vue-material-design-icons/MenuUp.vue';
-import MenuDown from 'vue-material-design-icons/MenuDown.vue';
+import ArrowUp from 'vue-material-design-icons/ArrowUp.vue';
+import ArrowDown from 'vue-material-design-icons/ArrowDown.vue';
 
 export default {
   name: 'Cell',
   components: {
-    MenuUp,
-    MenuDown
+    ArrowUp,
+    ArrowDown
   },
   props: {
     header: {
@@ -128,6 +128,7 @@ export default {
       height: 100%;
       margin-right: 5px;
       /deep/ .material-design-icon {
+        width: 18px;
         display: flex;
         color: $dark-grey-font-color;
       }

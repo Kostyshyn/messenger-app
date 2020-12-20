@@ -9,9 +9,9 @@
         IP address <b>{{ request.ip }}</b>
       </li>
     </ul>
-    <BarChart :chartData="dayChartData" />
-    <BarChart :chartData="hourChartData" />
-    <RequestOriginsTable :origins="requestOrigins" />
+    <DayChart :chartData="meta.perDay" />
+    <HourChart :chartData="meta.perHour" />
+    <OriginsTable :origins="requestOrigins" />
   </div>
 </template>
 
@@ -19,20 +19,26 @@
 // @ is an alias to /src
 import { mapGetters, mapActions } from 'vuex';
 import api from '@/services/api';
-import RequestOriginsTable from '@/components/General/Admin/Panels/RequestInfo/RequestOriginsTable.vue';
-import BarChart from '@/components/General/Admin/Panels/Charts/BarChart.js';
+import DayChart from '@/components/General/Admin/RequestInfo/DayChart.vue';
+import HourChart from '@/components/General/Admin/RequestInfo/HourChart';
+import OriginsTable from '@/components/General/Admin/RequestInfo/OriginsTable.vue';
 import { range } from '@/utils/math';
 
 export default {
   name: 'RequestInfo',
   components: {
-    RequestOriginsTable,
-    BarChart
+    DayChart,
+    HourChart,
+    OriginsTable
   },
   data() {
     return {
       request: {},
-      meta: {},
+      meta: {
+        perDay: [],
+        perHour: [],
+        perOrigin: []
+      },
       requestProcessing: false
     };
   },
@@ -52,40 +58,6 @@ export default {
         });
       }
       return [];
-    },
-    dayChartData() {
-      const { perDay } = this.meta;
-      const defDayNums = range(0, 6);
-      const labels = defDayNums.map(n => {
-        return this.$moment()
-          .day(n)
-          .format('dddd');
-      });
-      const data = [];
-      if (perDay) {
-        const dayNums = perDay.map(s => s._id);
-        const requests = perDay.map(s => s.total);
-        for (const i of defDayNums) {
-          const index = dayNums.indexOf(i);
-          if (index !== -1) {
-            data.push(requests[index]);
-          } else {
-            data.push(0);
-          }
-        }
-      }
-      return {
-        labels,
-        datasets: [
-          {
-            label: 'Requests per day',
-            backgroundColor: 'rgba(99, 225, 118, 0.5)',
-            borderColor: 'rgb(99, 225, 118)',
-            borderWidth: 1,
-            data
-          }
-        ]
-      };
     },
     hourChartData() {
       const { perHour } = this.meta;

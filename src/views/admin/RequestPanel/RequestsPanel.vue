@@ -16,9 +16,9 @@
 
 <script>
 // @ is an alias to /src
-import RequestsTable from '@/components/General/Admin/Tables/RequestsTable.vue';
+import RequestsTable from '@/components/General/Admin/Panels/Requests/RequestsTable.vue';
 import api from '@/services/api';
-import panel from '@/mixins/panel';
+import panel from '@/components/General/Admin/Panels/mixins/panel';
 
 export default {
   name: 'RequestsPanel',

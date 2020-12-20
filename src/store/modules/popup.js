@@ -2,7 +2,7 @@
 import ContactList from '@/components/Popups/Contacts/ContactList.vue';
 import Settings from '@/components/Popups/Settings/Settings.vue';
 // admin area
-import Origin from '@/components/General/Admin/Popups/Origin.vue';
+import OriginPopup from '@/components/General/Admin/Panels/Origins/OriginPopup.vue';
 
 // Default options
 
@@ -34,7 +34,7 @@ const USERS_POPUPS = {
 const ADMIN_POPUPS = {
   origin: {
     name: 'origin',
-    component: Origin,
+    component: OriginPopup,
     requiresAuth: true,
     options: {
       keepOpen: false

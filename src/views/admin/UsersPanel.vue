@@ -15,9 +15,9 @@
 
 <script>
 // @ is an alias to /src
-import UsersTable from '@/components/General/Admin/Tables/UsersTable.vue';
+import UsersTable from '@/components/General/Admin/Panels/Users/UsersTable.vue';
 import api from '@/services/api';
-import panel from '@/mixins/panel';
+import panel from '@/components/General/Admin/Panels/mixins/panel';
 
 export default {
   name: 'UsersPanel',

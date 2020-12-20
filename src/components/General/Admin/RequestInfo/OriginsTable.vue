@@ -31,7 +31,7 @@ import Table from '@/components/General/Helpers/Table/Table.vue';
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
-  name: 'RequestOriginsTable',
+  name: 'OriginsTable',
   components: {
     Table
   },

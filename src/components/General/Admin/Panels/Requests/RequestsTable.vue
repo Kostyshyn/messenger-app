@@ -73,7 +73,7 @@ import Table from '@/components/General/Helpers/Table/Table.vue';
 import TablePagination from '@/components/General/Helpers/Table/TablePagination.vue';
 import SearchField from '@/components/General/Form/SearchField.vue';
 import Chip from '@/components/General/Helpers/Chip.vue';
-import TableOptions from '@/components/General/Admin/Tables/TableOptions.vue';
+import TableOptions from '@/components/General/Admin/TableHelpers/TableOptions.vue';
 import { mapActions, mapGetters } from 'vuex';
 import debounce from '@/utils/debounce';
 import { percentage } from '@/utils/math';

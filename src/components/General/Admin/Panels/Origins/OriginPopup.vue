@@ -39,7 +39,7 @@ import { mapActions } from 'vuex';
 import api from '@/services/api';
 
 export default {
-  name: 'Origin',
+  name: 'OriginPopup',
   components: {
     Field,
     Button

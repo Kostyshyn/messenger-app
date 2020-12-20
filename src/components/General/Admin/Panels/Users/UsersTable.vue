@@ -55,7 +55,7 @@ import TablePagination from '@/components/General/Helpers/Table/TablePagination.
 import SearchField from '@/components/General/Form/SearchField.vue';
 import UserImage from '@/components/General/User/UserImage.vue';
 import Chip from '@/components/General/Helpers/Chip.vue';
-import TableOptions from '@/components/General/Admin/Tables/TableOptions.vue';
+import TableOptions from '@/components/General/Admin/TableHelpers/TableOptions.vue';
 import { mapGetters } from 'vuex';
 import debounce from '@/utils/debounce';
 import imagePath from '@/utils/imagePath';

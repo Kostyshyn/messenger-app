@@ -16,9 +16,9 @@
 
 <script>
 // @ is an alias to /src
-import OriginsTable from '@/components/General/Admin/Tables/OriginsTable.vue';
+import OriginsTable from '@/components/General/Admin/Panels/Origins/OriginsTable.vue';
 import api from '@/services/api';
-import panel from '@/mixins/panel';
+import panel from '@/components/General/Admin/Panels/mixins/panel';
 
 export default {
   name: 'OriginsPanel',
