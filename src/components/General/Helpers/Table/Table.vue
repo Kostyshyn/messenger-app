@@ -1,7 +1,7 @@
 <template>
   <div
     class="table-wrapper"
-    :class="[className, { fullPage }]"
+    :class="[className, { fullPage, hasHeader, hasFooter }]"
     :style="tableStyle"
     ref="tableWrapper"
   >
@@ -196,6 +196,12 @@ export default {
         top: `${top}px`,
         height: `${scrollHeight}px`
       };
+    },
+    hasHeader() {
+      return !!this.$slots.header;
+    },
+    hasFooter() {
+      return !!this.$slots.footer;
     }
   },
   methods: {

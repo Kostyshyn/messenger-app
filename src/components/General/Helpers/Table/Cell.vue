@@ -82,6 +82,9 @@ export default {
   min-height: 47px;
   box-sizing: border-box;
   background-color: $white-background-color;
+  &:last-child {
+    border-bottom: none;
+  }
   &.col-type-index,
   &.col-type-text {
     .cell-content {
@@ -146,6 +149,13 @@ export default {
           color: $primary-font-color;
         }
       }
+    }
+  }
+}
+.hasFooter {
+  .table-cell {
+    &:last-child {
+      border-bottom: 1px solid $grey-color;
     }
   }
 }
