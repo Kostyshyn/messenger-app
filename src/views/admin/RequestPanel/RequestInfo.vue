@@ -1,17 +1,22 @@
 <template>
   <div class="request-info-wrapper">
-    <h1>Request: {{ request.url }}</h1>
-    <ul>
-      <li>
-        Original url <b>{{ request.originalUrl }}</b>
-      </li>
-      <li>
-        IP address <b>{{ request.ip }}</b>
-      </li>
-    </ul>
-    <DayChart :chartData="meta.perDay" />
-    <HourChart :chartData="meta.perHour" />
-    <OriginsTable :origins="requestOrigins" />
+    <template v-if="!requestProcessing">
+      <h1>
+        Request: {{ request.url }}
+        <MethodChip :method="request.method" />
+      </h1>
+      <ul>
+        <li>
+          Original url <b>{{ request.originalUrl }}</b>
+        </li>
+        <li>
+          IP address <b>{{ request.ip }}</b>
+        </li>
+      </ul>
+      <DayChart :chartData="meta.perDay" />
+      <HourChart :chartData="meta.perHour" />
+      <OriginsTable :origins="requestOrigins" />
+    </template>
   </div>
 </template>
 
@@ -19,14 +24,15 @@
 // @ is an alias to /src
 import { mapGetters, mapActions } from 'vuex';
 import api from '@/services/api';
+import MethodChip from '@/components/General/Admin/Panels/Requests/MethodChip.vue';
 import DayChart from '@/components/General/Admin/RequestInfo/DayChart.vue';
 import HourChart from '@/components/General/Admin/RequestInfo/HourChart';
 import OriginsTable from '@/components/General/Admin/RequestInfo/OriginsTable.vue';
-import { range } from '@/utils/math';
 
 export default {
   name: 'RequestInfo',
   components: {
+    MethodChip,
     DayChart,
     HourChart,
     OriginsTable
@@ -58,42 +64,6 @@ export default {
         });
       }
       return [];
-    },
-    hourChartData() {
-      const { perHour } = this.meta;
-      // const defHourNums = range(0, 23);
-      const defHourNums = [...range(6, 23), ...range(0, 5)];
-      const labels = defHourNums.map(n => {
-        return this.$moment()
-          .hour(n)
-          .startOf('hour')
-          .format('HH:mm');
-      });
-      const data = [];
-      if (perHour) {
-        const dayNums = perHour.map(s => s._id);
-        const requests = perHour.map(s => s.total);
-        for (const i of defHourNums) {
-          const index = dayNums.indexOf(i);
-          if (index !== -1) {
-            data.push(requests[index]);
-          } else {
-            data.push(0);
-          }
-        }
-      }
-      return {
-        labels,
-        datasets: [
-          {
-            label: 'Requests per hour',
-            backgroundColor: 'rgba(255, 207, 64, 0.5)',
-            borderColor: 'rgb(255, 207, 64)',
-            borderWidth: 1,
-            data
-          }
-        ]
-      };
     }
   },
   methods: {

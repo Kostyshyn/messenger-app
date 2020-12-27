@@ -36,7 +36,7 @@
         </router-link>
       </template>
       <template #method="{ cell }">
-        <Chip flat v-bind="methodStyle(cell)" />
+        <MethodChip :method="cell.method" />
       </template>
       <template #statusCode="{ col, cell }">
         <span class="status-code" :class="statusCodeClass(cell)">
@@ -72,7 +72,7 @@
 import Table from '@/components/General/Helpers/Table/Table.vue';
 import TablePagination from '@/components/General/Helpers/Table/TablePagination.vue';
 import SearchField from '@/components/General/Form/SearchField.vue';
-import Chip from '@/components/General/Helpers/Chip.vue';
+import MethodChip from '@/components/General/Admin/Panels/Requests/MethodChip.vue';
 import TableOptions from '@/components/General/Admin/TableHelpers/TableOptions.vue';
 import { mapActions, mapGetters } from 'vuex';
 import debounce from '@/utils/debounce';
@@ -85,7 +85,7 @@ export default {
     Table,
     TablePagination,
     SearchField,
-    Chip,
+    MethodChip,
     TableOptions
   },
   props: {
@@ -157,24 +157,6 @@ export default {
       ],
       delay: 200,
       options: [],
-      methodsHash: {
-        GET: {
-          label: 'GET',
-          color: 'success'
-        },
-        POST: {
-          label: 'POST',
-          color: 'warning'
-        },
-        PUT: {
-          label: 'PUT',
-          color: 'primary'
-        },
-        DELETE: {
-          label: 'DELETE',
-          color: 'error'
-        }
-      },
       debouncedSearchRequests: () => {}
     };
   },
@@ -199,13 +181,6 @@ export default {
     },
     requestUrl({ _id }) {
       return `/admin-panel/requests/${_id}`;
-    },
-    methodStyle({ method }) {
-      const { methodsHash } = this;
-      if (methodsHash[method]) {
-        return methodsHash[method];
-      }
-      return {};
     },
     statusCodeClass({ statusCode }) {
       const color =
